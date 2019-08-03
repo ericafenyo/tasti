@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "An API created with Express, Node, and Mysql.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericafenyo/tasti.git"
+  },
+  "author": "Eric Afenyo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ericafenyo/tasti/issues"
+  }
+}
