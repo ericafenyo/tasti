@@ -1,11 +1,11 @@
 # Taski
 Tasti is a recipe app that allows users to create, browse, and share recipes with their network.
 
-## Prerequisites
+### Prerequisites
 * Node
 * Mysql
   
-## Getting Started
+### Getting Started
 > These instructions will get you a copy of the project up and running on your local machine.
 
 1. Download a copy of the project:
