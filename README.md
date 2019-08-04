@@ -10,33 +10,33 @@ Tasti is a recipe app that allows users to create, browse, and share recipes wit
 
 1. Download a copy of the project:
 
-```
+```bash
 $ git clone https://github.com/ericafenyo/tasti.git
 ```
 
 2. Start the API server (Backend)
-```
+```bash
 # Change directory to server
-  $ cd server
+$ cd server
 
 # Install dependencies
-  $ npm install
+$ npm install
 
-  # start the server
-  $ npm run start
+# start the server
+$ npm run start
 
 ```
 
 Starting the client-server (Frontend)
-```
+```bash
 # Change directory to app
-  $ cd server
+$ cd server
 
 # Install dependencies
-  $ npm install
+$ npm install
 
-  # Start the server
-  $ npm run serve
+# Start the server
+$ npm run serve
 
 ```
 
