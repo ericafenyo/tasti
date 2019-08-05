@@ -1,4 +1,4 @@
-# Taski
+# Tasti
 Tasti is a recipe app that allows users to create, browse, and share recipes with their network.
 
 ### Prerequisites
