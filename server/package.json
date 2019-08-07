@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "An API created with Express, Node, and Mysql.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ericafenyo/tasti.git"
@@ -12,5 +14,16 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ericafenyo/tasti/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1"
   }
 }
