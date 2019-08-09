@@ -3,7 +3,7 @@
     <form class="form" @submit.prevent="submit">
       <label for="input-name" class="sign-up">
         Full name
-        <input type="text" v-model="fullName"/>
+        <input type="text" v-model="fullName" />
       </label>
       <label for="input-name" class="sign-up">
         Email Address
@@ -13,14 +13,12 @@
         Password
         <input type="password" v-model="password" />
       </label>
-
       <button type="submit">Create Account</button>
     </form>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "Register",
   data: () => ({
@@ -31,7 +29,7 @@ export default {
 
   methods: {
     submit(event) {
-      console.log(this.$data);
+      this.$emit("submit", this.$data);
     }
   }
 };

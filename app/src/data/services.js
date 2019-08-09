@@ -71,14 +71,12 @@ const request = (path, params = {}, type = Type.GET) => {
 };
 
 const registerUser = (user) => {
-
 	const params = {
 		data: user
 	};
 
-  const response = request('/register', params, Type.POST);
-  response.then((params) => {
-    console.log(params);
-    
-  });
+	const response = request('/register', params, Type.POST);
+	response.then((params) => {
+		console.log(params);
+	});
 };

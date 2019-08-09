@@ -1,6 +1,6 @@
 <template>
-  <div class="ui-input">
-    <label for="input-text" class="ui-input-label">
+<div>
+  <button class="ui-input">
       <input
         @input="handleInput"
         v-model="value"
@@ -8,7 +8,6 @@
         id="input-text"
         class="ui-input-input"
       />
-    </label>
   </div>
 </template>
 
@@ -18,7 +17,9 @@ export default {
     value: ""
   }),
 
-  components: {},
+  components: {
+
+  },
 
   methods: {
     handleInput: function(event) {
