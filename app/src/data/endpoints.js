@@ -37,7 +37,7 @@ import axios from 'axios';
 // The API server URL that will be used for the HTTP request.
 const BASE_URL = 'http://localhost:2700/';
 
-const Type = { GET: 'get', POST: 'post', DELETE: 'delete', PUT: 'put' };
+const instance = axios.create({ baseURL: BASE_URL });
 
 /**
  * Performs an HTTP request using the [axios api]{@link https://github.com/axios/axios}
@@ -45,38 +45,11 @@ const Type = { GET: 'get', POST: 'post', DELETE: 'delete', PUT: 'put' };
  * @param {object} params Optional: The URL parameters to be sent with the request.
  * @param {Type} params Optional: The URL parameters to be sent with the request.
  */
-const request = (path, params = {}, type = Type.GET) => {
-	// axios config options for making network requests
-	const config = {
-		baseURL: BASE_URL,
-		params: { ...params }
-	};
-	// Perform a GET request with the provided path and config options
-	switch (type) {
-		case Type.GET:
-			return axios.get(path, config);
-
-		case Type.POST:
-			return axios.post(path, config);
-
-		case Type.DELETE:
-			return axios.delete(path, config);
-
-		case Type.PUT:
-			return axios.put(path, config);
-
-		default:
-			return axios.get(path, config);
+export const registerUser = (user) => {
+	try {
+		const response = instance.post('/users/register', user);
+		console.log(response);
+	} catch (error) {
+		console.log('Error', error);
 	}
-};
-
-const registerUser = (user) => {
-	const params = {
-		data: user
-	};
-
-	const response = request('/register', params, Type.POST);
-	response.then((params) => {
-		console.log(params);
-	});
 };
