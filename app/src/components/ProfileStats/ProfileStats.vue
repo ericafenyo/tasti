@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import 
 import Avatar from "../Avatar/Avatar.vue";
+
 export default {
   components: {
     Avatar

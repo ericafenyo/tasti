@@ -6,11 +6,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Register from "./view/UserProfile/UserProfile.vue";
+import UserProfile from "./view/UserProfile/UserProfile.vue";
 
 @Component({
   components: {
-    Register
+    UserProfile
   }
 })
 export default class App extends Vue {}

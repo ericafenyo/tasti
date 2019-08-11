@@ -3,9 +3,9 @@
     <ProfileStats :stats="stats" />
     <Tabs :tabs="tabs" class="mx-2 my-2" @active="active" />
     <div class="cookbooks">
-      <div class="container">
+      <div class="container px-3">
         <div class="row">
-          <div class="col-xs-12" v-for="cookbook in cookbooks" :key="cookbook.id">
+          <div class="col-xs-12 col-md-6 col-lg-4" v-for="cookbook in cookbooks" :key="cookbook.id">
             <div class="cookbook">
               <div class="cookbook-thumbnail">
                 <img :src="cookbook.image" alt="thumbnail" />
