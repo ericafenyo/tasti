@@ -40,7 +40,7 @@ app.get('/', (request, response) => {
 	response.json({ message: 'Root route' });
 });
 
-// Delegate all routes to `users` to the users router.
+// Delegate all HTTP requests to the `/users` route to the users router.
 app.use('/users', users);
 
 module.exports = app;
