@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Register @submit="handleSubmit" />
+    <Register/>
   </div>
 </template>
 
@@ -18,3 +18,5 @@ export default {
   }
 };
 </script>
+
+
