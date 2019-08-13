@@ -12,13 +12,30 @@
 </template>
 
 <script>
-export default {
-  
-}
+export default {};
 </script>
 
-<style lang="scss" scoped>
-.cookbook {
 
+<style lang="scss" scoped>
+
+.cookbook {
+  background: $white;
+  &-thumbnail {
+    position: relative;
+    height: 0;
+    padding-top: 66.66%;
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &-label {
+
+  }
 }
 </style>

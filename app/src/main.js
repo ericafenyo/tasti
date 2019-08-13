@@ -1,7 +1,8 @@
 import Vue from 'vue';
-import App from './App.vue';
 import VeeValidate from 'vee-validate';
-import './css/index.module.css';
+
+// import './scss/index.module.scss';
+import App from './App.vue';
 
 import store from './store';
 
