@@ -16,6 +16,8 @@
       </div>
     </div>
 
+    <div class="icon-edit">IconEdit</div>
+
     <div class="recipes" v-for="(recipe, index) in recipes" :key="index">
       <Cookbook cookbook="cookbooks[index]" />
     </div>
@@ -23,7 +25,12 @@
 </template>
 
 <script>
+import IconEdit from "../asserts/icons/icon-edit.vue";
 export default {
+  components: {
+    IconEdit
+  },
+
   data() {
     return {
       cookbooks: [
@@ -51,10 +58,18 @@ export default {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .profile {
   display: flex;
+  background: $white;
+}
+
+.icon-edit {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
 }
 </style>
 
