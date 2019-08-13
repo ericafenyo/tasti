@@ -1,7 +1,11 @@
 <template>
   <div class="profile">
-    <div class="avatar-wrapper">
-      <img src alt="avatar" />
+    <div class="avatar">
+      <img
+        class="image-fluid"
+        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1100&q=80"
+        alt="avatar"
+      />
     </div>
     <div class="profile-info">
       <h2>Nick Evans</h2>
@@ -12,18 +16,17 @@
       </div>
     </div>
 
-    <div class="recipes" v-for="(recipe, index) in recipes" key="index">
-        <Recipe recipe = recipes[index]/>
+    <div class="recipes" v-for="(recipe, index) in recipes" :key="index">
+      <Cookbook cookbook="cookbooks[index]" />
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
-      recipes: [
+      cookbooks: [
         {
           name: "some name",
           image: ""
@@ -41,6 +44,19 @@ export default {
   }
 };
 </script>
+
+
+<style lang="scss" scoped>
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.profile {
+  display: flex;
+}
+</style>
 
 
 
