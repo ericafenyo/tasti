@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import IconEdit from "../asserts/icons/icon-edit.vue";
+import IconEdit from "../assets/icons/edit.svg";
 export default {
   components: {
     IconEdit
