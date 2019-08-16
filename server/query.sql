@@ -15,3 +15,28 @@ CREATE TABLE `user`(
   `phone` INT,
   `image` BLOB
 );
+
+CREATE TABLE `recipe`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `user_id` INT NOT NULL,
+   FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+CREATE TABLE `ingredient`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `recipe_id` INT NOT NULL,
+   FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+);
+
+CREATE TABLE `info`(
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `recipe_id` INT NOT NULL,
+   FOREIGN KEY (recipe_id) REFERENCES recipe(id)
+);
+
+
+
+
