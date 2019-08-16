@@ -27,6 +27,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const users = require('./routes/users');
+const recipes = require('./routes/recipes');
 
 const app = express();
 
@@ -43,4 +44,6 @@ app.get('/', (request, response) => {
 // Delegate all HTTP requests to the `/users` route to the users router.
 app.use('/users', users);
 
+// Delegate all HTTP requests to the `/recipes` route to the recipes router.
+app.use('/recipes', recipes);
 module.exports = app;
