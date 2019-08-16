@@ -1,5 +1,7 @@
 /* == FONT STYLES == */
 
+@import './variables';
+
 @mixin header-1 {
   font-size: 40px;
   font-weight: 600;
@@ -27,31 +29,14 @@
   color: #030f09;
 }
 
-@mixin header-5 {
+.header-5 {
   font-size: 16px;
+  font-family: inherit;
   font-weight: bold;
   color: #030f09;
 }
 
-@mixin lead {
-  font-size: 16px;
-  color: $hunter-green;
-}
-
-@mixin subtle {
+.caption {
   font-size: 14px;
-  color: $brown-grey-two;
-}
-
-@mixin center-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@mixin card {
-  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08),
-    0 1px 3px 1px rgba(60, 64, 67, 0.16);
-  border-radius: 2px;
-  overflow: hidden;
+  color: #606060;
 }

@@ -41,6 +41,8 @@ export default {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5em;
+  width: 100%;
+  font-family: $font;
   &-label {
     display: block;
     text-transform: uppercase;
