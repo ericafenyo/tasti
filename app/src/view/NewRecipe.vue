@@ -60,8 +60,8 @@
 </template>
 
 <script>
-import IconAdd from "../asserts/icons/add.svg";
-import IconEdit from "../asserts/icons/edit.svg";
+import IconAdd from "../assets/icons/add.svg";
+import IconEdit from "../assets/icons/edit.svg";
 import Input from "../components/Input";
 export default {
   components: {
