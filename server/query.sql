@@ -1,6 +1,8 @@
 -- Create the Database.
 CREATE DATABASE tasti;
 
+-- https://www.taste.com.au/recipes/moroccan-chicken-rice-one-pot/f28c5feb-4e84-4f22-8c6b-75d342efaa32?r=recipes/onepotchickenrecipes&c=lm2cxsph/One%20pot%20chicken%20recipes
+
 -- Use the newly created database.
 USE tasti;
 
