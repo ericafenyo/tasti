@@ -97,7 +97,7 @@ router.post('/:userId', (request, response) => {
 	db.query('INSERT INTO recipe SET ?', recipe, (error) => {
 		if (error) {
 			console.log(error);
-			return response.send(error);
+			return response.status(400).send({error : error});
 		}
 
 		response.json(recipe);
