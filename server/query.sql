@@ -21,6 +21,7 @@ CREATE TABLE `user`(
 CREATE TABLE `recipe`(
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
+  `image_path` VARCHAR(255) NOT NULL,
   `user_id` INT NOT NULL,
    FOREIGN KEY (user_id) REFERENCES user(id)
 );
