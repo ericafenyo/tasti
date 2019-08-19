@@ -1,87 +1,123 @@
 <template>
-  <div class="new-recipe">
-    <div class="new-recipe-name">
-      <div class="input-add-square">
-        <icon-add />
+  <form>
+    <div class="new-recipe">
+      <div class="new-recipe-name">
+        <v-upload @on-change="onFileChanged" />
+        <v-input
+          @on-input="onInputChanged"
+          label="Recipe Name"
+          type="text"
+          placeholder="Write Down Recipe Name"
+        />
       </div>
-      <v-input label="Recipe Name" type="text" placeholder="Write Down Recipe Name" />
+
+      <div class="input-add-card">
+        <div class="input-add-card-header">
+          <span>Gallery</span>
+          <icon-edit />
+        </div>
+        <div class="input-add-card-item">
+          <icon-add />
+          <span class="input-add-card-item-instruction">Upload Images</span>
+        </div>
+      </div>
+
+      <div class="input-add-card">
+        <div class="input-add-card-header">
+          <span>Ingredients</span>
+          <icon-edit />
+        </div>
+        <div class="input-add-card-item">
+          <icon-add />
+          <span class="input-add-card-item-instruction">Add Ingredient</span>
+        </div>
+      </div>
+
+      <div class="input-add-card">
+        <div class="input-add-card-header">
+          <span>How to Cook</span>
+          <icon-edit />
+        </div>
+        <div class="input-add-card-item">
+          <icon-add />
+          <span class="input-add-card-item-instruction">Add Directions</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="actions-header">Save to</div>
+        <div class="actions-save">
+          <select name id>
+            <option name="western">Western</option>
+            <option name="italian">Italian</option>
+            <option name="sweet">Sweet</option>
+          </select>
+
+          <button @click.prevent="onSubmit" class="button button-outline">Save Recipe</button>
+        </div>
+
+        <div>
+          <button class="button button-primary">Post to feed</button>
+        </div>
+      </div>
     </div>
-
-    <div class="input-add-card">
-      <div class="input-add-card-header">
-        <span>Gallery</span>
-        <icon-edit />
-      </div>
-      <div class="input-add-card-item">
-        <icon-add />
-        <span class="input-add-card-item-instruction">Upload Images</span>
-      </div>
-    </div>
-
-    <div class="input-add-card">
-      <div class="input-add-card-header">
-        <span>Ingredients</span>
-        <icon-edit />
-      </div>
-      <div class="input-add-card-item">
-        <icon-add />
-        <span class="input-add-card-item-instruction">Add Ingredient</span>
-      </div>
-    </div>
-
-    <div class="input-add-card">
-      <div class="input-add-card-header">
-        <span>How to Cook</span>
-        <icon-edit />
-      </div>
-      <div class="input-add-card-item">
-        <icon-add />
-        <span class="input-add-card-item-instruction">Add Directions</span>
-      </div>
-    </div>
-
-    <div class="actions">
-      <div class="actions-header">Save to</div>
-      <div class="actions-save">
-        <select name id>
-          <option name="western">Western</option>
-          <option name="italian">Italian</option>
-          <option name="sweet">Sweet</option>
-        </select>
-
-        <button class="button button-outline">Save Recipe</button>
-      </div>
-
-      <div>
-        <button class="button button-primary">Post to feed</button>
-      </div>
-    </div>
-  </div>
+  </form>
 </template>
 
 <script>
 import IconAdd from "../assets/icons/add.svg";
 import IconEdit from "../assets/icons/edit.svg";
 import Input from "../components/Input";
+import Upload from "../components/Upload";
+import { createRecipe } from "../data/endpoints";
+
 export default {
+  data() {
+    return {
+      name: "",
+      image: null
+    };
+  },
   components: {
     "icon-add": IconAdd,
     "icon-edit": IconEdit,
-    "v-input": Input
+    "v-input": Input,
+    "v-upload": Upload
+  },
+
+  methods: {
+    onFileChanged(file) {
+      this.image = file;
+    },
+
+    onInputChanged({ value }) {
+      this.name = value;
+    },
+
+    onSubmit() {
+      const formData = new FormData();
+      formData.append("name", this.name);
+      formData.set("image", this.image);
+
+      createRecipe(1, formData);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.input-add-square {
-  @include center-content;
-  margin-right: 15px;
-
+.recipe-thumbnail {
   width: 62px;
   height: 62px;
   flex-shrink: 0;
-  border: 1px dashed $brown-grey;
-  border-radius: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 16px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .new-recipe {
