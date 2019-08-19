@@ -52,17 +52,14 @@ export default {
   }
   &-element {
     height: 40px;
-    border-radius: 4px;
-    border: solid 1px $light-periwinkle;
-    background-color: $pale-grey;
-    padding: 12px;
+    border: none;
+    border-bottom: solid 1px $brown-grey-two;
+    background-color: $white;
     font-size: 16px;
     color: $charcoal;
 
     &:focus {
       outline: none;
-      box-shadow: 0 1px 1px -1px rgba(9, 30, 66, 0.25),
-        0 0 0 1px rgba(9, 30, 66, 0.08);
     }
   }
 
