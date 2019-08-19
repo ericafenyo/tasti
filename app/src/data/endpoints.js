@@ -53,3 +53,15 @@ export const registerUser = (user) => {
 		console.log('Error', error);
 	}
 };
+
+export const createRecipe = (userId, recipe) => {
+	const headers = { 'Content-Type': 'multipart/form-data' };
+
+	try {
+		console.log(recipe);
+		const response = instance.post(`recipes/${userId}`, recipe, { headers });
+		console.log(response);
+	} catch (error) {
+		console.log('Error', error);
+	}
+};
