@@ -35,6 +35,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.static('images'));
 app.use(cors());
 
 app.get('/', (request, response) => {

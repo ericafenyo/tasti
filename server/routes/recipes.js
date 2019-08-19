@@ -23,15 +23,50 @@
  */
 
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const sha256 = require('sha256');
+const randomize = require('randomatic');
 
 const db = require('../config');
 const router = express.Router();
 
+// Multer storage configurations.
+const storageOptions = multer.diskStorage({
+	/**
+	 * A function used to determine within which folder the uploaded files should be stored.
+	 * Note: This function is automatically executed.
+	 * @param {*} request an Express request object.
+	 * @param {*} file a `Multer file` object.
+	 * @param {*} callback A function to receive an error and the file destination.
+	 * 
+	 */
+	destination: function(request, file, callback) {
+		// because there is no error, we pass null as the first argument.
+		callback(null, 'images/');
+	},
+
+	/**
+	 * A function used to determine what the file should be named inside the folder.
+	 * Note: This function is automatically executed.
+	 * 
+	 * @param {*} request an Express request object.
+	 * @param {*} file a `Multer file` object.
+	 * @param {*} callback 
+	 */
+	filename: function(request, file, callback) {
+		let fileName;
+
+		fileName = `${randomize('Aa0', 16)}${path.extname(file.originalname)}`;
+		callback(null, fileName);
+	}
+});
+
+const upload = multer({ storage: storageOptions });
+
 /* == GET RECIPES == */
 
 // Get a list of all recipes
-
 router.get('/', (request, response) => {
 	db.query('SELECT * FROM recipe', (error, users) => {
 		if (error) {
@@ -55,6 +90,7 @@ router.get('/:userId', (request, response) => {
 		response.json(recipes);
 	});
 });
+
 
 // Get all ingredients belonging to a particular recipe.
 router.get('/:recipeId/ingredients', (request, response) => {
@@ -87,17 +123,19 @@ router.get('/:recipeId/info', (request, response) => {
 /* == POST RECIPES == */
 
 // Add a recipe to the database.
-router.post('/:userId', (request, response) => {
+router.post('/:userId', upload.single('image'), (request, response) => {
 	const data = request.body;
 	const userId = request.params.userId;
-
+	const imagePath = request.file.filename;
 	// Create a new object and append the user id.
-	const recipe = { ...data, user_id: userId };
-
+	const recipe = { ...data, image_path: imagePath, user_id: userId };
+	
+	console.log(request);
+	
 	db.query('INSERT INTO recipe SET ?', recipe, (error) => {
 		if (error) {
 			console.log(error);
-			return response.status(400).send({error : error});
+			return response.status(400).send({ error: error });
 		}
 
 		response.json(recipe);
