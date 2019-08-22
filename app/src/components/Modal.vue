@@ -1,16 +1,34 @@
 <template>
   <div class="modal">
-    <div class="modal-content"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">{{title}}</span>
+        <div class="close">
+          <icon-close />
+        </div>
+      </div>
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import IconClose from "../assets/icons/close.svg";
+export default {
+  components: {
+    "icon-close": IconClose
+  },
+
+  props: {
+    title: ""
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .modal {
   position: fixed;
+
   z-index: 1;
   background: rgba($black, 0.5);
   top: 0;
@@ -18,11 +36,21 @@ export default {};
   width: 100%;
   height: 100%;
 
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-title {
+    @include header-4;
+    color: $hunter-green;
+  }
+
   &-content {
-    padding: 24px 0;
+    padding: 16px 16px;
     position: fixed;
     bottom: 0;
-    height: 100px;
+    min-height: 100px;
     width: 100%;
     background: #ffffff;
     margin: auto;
