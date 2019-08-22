@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 
 import './scss/normalize.css';
-import 'bootstrap/dist/css/bootstrap-grid.css';
+import 'flexboxgrid/dist/flexboxgrid.min.css';
 import App from './App.vue';
 
 import store from './store';
