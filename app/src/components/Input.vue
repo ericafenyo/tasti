@@ -9,6 +9,7 @@
       :type="type"
       :name="name"
       @input.prevent="onInput"
+      :value="value"
     />
     <div class="ui-input-error">{{errors.first(name)}}</div>
   </div>
@@ -20,7 +21,7 @@ export default {
     value: ""
   }),
 
-  props: ["type", "label", "placeholder", "name", "validate"],
+  props: ["type", "label", "placeholder", "name", "validate", "value"],
 
   components: {
     name: "Input"
@@ -44,9 +45,7 @@ export default {
   width: 100%;
   font-family: $font;
   &-label {
-    display: block;
-    text-transform: uppercase;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 8px;
     color: $brown-grey-two;
   }
