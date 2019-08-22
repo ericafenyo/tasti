@@ -35,7 +35,7 @@
     <div class="cookbooks">
       <div class="container">
         <div class="row">
-          <div class="col-6" v-for="cookbook in cookbooks" :key="cookbook.id">
+          <div class="col-xs-12" v-for="cookbook in cookbooks" :key="cookbook.id">
             <div class="cookbook">
               <div class="cookbook-thumbnail">
                 <img :src="cookbook.image" alt="thumbnail" />
