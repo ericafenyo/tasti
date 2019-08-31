@@ -27,6 +27,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const users = require('./routes/users');
+const recipes = require('./routes/recipes');
 
 const app = express();
 
@@ -34,13 +35,16 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.static('images'));
 app.use(cors());
 
 app.get('/', (request, response) => {
 	response.json({ message: 'Root route' });
 });
 
-// Delegate all routes to `users` to the users router.
+// Delegate all HTTP requests to the `/users` route to the users router.
 app.use('/users', users);
 
+// Delegate all HTTP requests to the `/recipes` route to the recipes router.
+app.use('/recipes', recipes);
 module.exports = app;
