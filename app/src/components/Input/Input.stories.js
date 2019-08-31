@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/vue';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
 import Input from './Input';
 import Button from '../Button/Button';
