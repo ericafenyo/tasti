@@ -20,17 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * @file Create a server using a specific Port.
  */
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const app = require('./app');
-/*
- * Use an environment variable for the port if it exists
- * else use 2700 as a fallback.
- */
-const PORT = process.env.PORT || '2700';
+const users = require('./routes/users');
+const recipes = require('./routes/recipes');
 
-app.listen(PORT, ()=>{
-  console.log(`API Server running on http://localhost:${PORT}/`);
-})
+const app = express();
+
+// Responsible for parsing the request body
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(express.static('images'));
+app.use(cors());
+
+app.get('/', (request, response) => {
+	response.json({ message: 'Root route' });
+});
+
+// Delegate all HTTP requests to the `/users` route to the users router.
+app.use('/users', users);
+
+// Delegate all HTTP requests to the `/recipes` route to the recipes router.
+app.use('/recipes', recipes);
+module.exports = app;
