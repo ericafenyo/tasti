@@ -3,15 +3,15 @@ import Vue from 'vue';
 import { extend, ValidationProvider } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import en from 'vee-validate/dist/locale/en';
+import '../src/scss/index.scss';
 
 // loop over all rules
 for (let rule in rules) {
-  extend(rule, {
-    ...rules[rule], // add the rule
-    message: en.messages[rule] // add its message
-  });
+	extend(rule, {
+		...rules[rule], // add the rule
+		message: en.messages[rule] // add its message
+	});
 }
-
 
 // Register Component globally
 Vue.component('ValidationProvider', ValidationProvider);
