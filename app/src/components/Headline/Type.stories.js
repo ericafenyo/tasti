@@ -10,7 +10,7 @@ stories.add('Headline', () => ({
 	components: { Headline },
 	render: (h) => (
 		<div class="container">
-			<Headline text="I was born by the river." level={1} />
+			<Headline text="We help coaches and athletes win with video." level={1} />
 		</div>
 	)
 }));
