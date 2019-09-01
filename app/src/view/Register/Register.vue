@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <h1 class="title">Creae an account</h1>
+    <Headline level="2" class="mb-3" />
     <form class="form" @submit.prevent="submit" novalidate="true">
       <Input
         label="Full name"
@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import Input from "../components/Input";
+import Input from "../../components/Input/Input";
+import Headline from "../../components/Headline/Headline";
 
 export default {
   name: "Register",
@@ -47,7 +48,8 @@ export default {
   }),
 
   components: {
-    Input
+    Input,
+    Headline
   },
 
   methods: {
@@ -66,7 +68,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/variables";
 .register {
   padding: 1em;
 
