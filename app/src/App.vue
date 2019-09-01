@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <UserProfile />
+    <Register />
   </div>
 </template>
 
 <script>
-import Register from "./view/Register";
-import UserProfile from "./view/UserProfile";
+import Register from "./view/Register/Register";
 
 export default {
   components: {
-    UserProfile
+    Register
   },
   methods: {
     handleSubmit(user) {
