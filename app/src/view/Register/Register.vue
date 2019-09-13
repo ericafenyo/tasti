@@ -30,6 +30,13 @@
           />
 
           <div class="form-group">
+            <div class="privacy-agreement my-3">
+              <input type="checkbox" />
+              <span>
+                Accept
+                <a href="#">Terms and Conditions</a>
+              </span>
+            </div>
             <div class="emailing-agreement my-3">
               <Checkbox>
                 Accept
@@ -81,8 +88,6 @@ export default {
 
     onInput(value) {
       this.$data[name] = value;
-      console.log(value);
-      // console.log(fields);
     }
   }
 };
