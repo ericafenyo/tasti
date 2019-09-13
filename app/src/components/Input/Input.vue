@@ -116,6 +116,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_mixins.scss";
+
 .input {
   display: flex;
   flex-direction: column;
@@ -127,16 +129,19 @@ export default {
     color: $brown-grey-two;
   }
   &-element {
-    height: 40px;
+    height: 42px;
     border: none;
     border-bottom: solid 1px $brown-grey-two;
     background-color: $white;
     font-size: 16px;
     color: $charcoal;
+    border: solid 1px #edf0f2;
+    background-color: #ffffff;
+    padding: 0 0.75em;
+    border-radius: 4px;
 
     &:focus {
       outline: none;
-      border-width: 2px;
     }
   }
 

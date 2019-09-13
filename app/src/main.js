@@ -6,16 +6,17 @@ import * as rules from 'vee-validate/dist/rules';
 import en from 'vee-validate/dist/locale/en';
 
 // Styles
-import '../src/scss/index.scss';
+// import '../src/scss/index.scss';
 import './scss/normalize.css';
-import 'flexboxgrid/dist/flexboxgrid.min.css';
+import 'bootstrap/dist/css/bootstrap-grid.min.css';
+// import 'flexboxgrid/dist/flexboxgrid.min.css';
 
 // APP
 import App from './App.vue';
 
 import store from './store';
 
-// loop over all rules
+//loop over all rules
 for (let rule in rules) {
 	extend(rule, {
 		...rules[rule], // add the rule
@@ -23,7 +24,7 @@ for (let rule in rules) {
 	});
 }
 
-// Register Component globally
+// // Register Component globally
 Vue.component('ValidationProvider', ValidationProvider);
 
 Vue.config.productionTip = false;
