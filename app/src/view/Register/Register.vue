@@ -2,7 +2,7 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create Account" level="2" class="mb-4" />
+        <Headline text="Create Account" level="3" class="mb-4" />
         <form class="form" @submit.prevent="submit" novalidate="true">
           <Input
             label="Full name"
@@ -30,13 +30,6 @@
           />
 
           <div class="form-group">
-            <div class="privacy-agreement my-3">
-              <input type="checkbox" />
-              <span>
-                Accept
-                <a href="#">Terms and Conditions</a>
-              </span>
-            </div>
             <div class="emailing-agreement my-3">
               <Checkbox>
                 Accept
@@ -86,15 +79,17 @@ export default {
       }
     },
 
-    onInput({ name, value }, fields) {
+    onInput(value) {
       this.$data[name] = value;
+      console.log(value);
+      // console.log(fields);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_mixins.scss";
+@import "@/scss/_resources.scss";
 
 .register {
   .register-wrapper {
@@ -102,11 +97,11 @@ export default {
     margin: 0 auto;
     background-color: #f9fafb;
     padding: 2em 0;
-  }
+    height: 100vh;
 
-  @media screen and (max-width: 578px) {
-    .register-wrapper {
-      height: 100vh;
+    @include phablet {
+      margin-top: 48px;
+      height: unset;
     }
   }
 

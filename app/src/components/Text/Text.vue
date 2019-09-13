@@ -6,10 +6,10 @@
 export default {
   props: {
     text: {
-      type: Number,
+      type: String,
       default: "Text"
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="input">
     <label :for="name" class="input-label">{{label}}</label>
-    <ValidationProvider :name="name" :rules="validate" v-slot="props" slim>
+    <ValidationProvider ref="inputValidator" :name="name" :rules="validate" v-slot="{errors}" slim>
       <input
         :id="name"
         :placeholder="placeholder"
@@ -9,9 +9,9 @@
         :class="computeClasses"
         :type="type"
         :name="name"
-        @input.prevent="onInput"
         v-model="model"
       />
+      <p  :class="{'input-help-message' : (true)}">{{errors[0]}}</p>
     </ValidationProvider>
   </div>
 </template>
@@ -24,68 +24,65 @@ export default {
   props: {
     label: {
       type: String,
-      require: false,
       default: () => "Label"
     },
 
     type: {
       type: String,
-      require: false,
       default: () => "text"
     },
 
     size: {
       type: String,
-      require: false,
       default: () => ""
     },
     icon: {
       type: String,
-      require: false,
       default: () => ""
     },
     state: {
       type: String,
-      require: false,
       default: () => ""
     },
     name: {
       type: String,
-      require: false,
       default: () => ""
     },
 
     placeholder: {
       type: String,
-      require: false,
       default: () => "Enter a your text"
     },
 
     value: {
       type: String,
-      require: false,
       default: () => ""
     },
     disabled: {
       type: Boolean,
-      require: false,
       default: () => false
     },
 
     required: {
       type: Boolean,
-      require: false,
       default: () => false
+    },
+
+    helperText: {
+      type: String,
+      default: () => ""
     }
   },
-  components: {
-    name: "Input"
+
+  watch: {
+    model(value) {
+      const {} = this.$refs;
+      this.$emit("on-input", value);
+    }
   },
 
   computed: {
     computeClasses() {
-      console.log(this.$props);
-
       return `input-${this.$props.state}`;
     },
 
@@ -107,11 +104,7 @@ export default {
     }
   },
 
-  methods: {
-    onInput: function({ target }) {
-      this.$emit("on-input", target);
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -143,6 +136,12 @@ export default {
     &:focus {
       outline: none;
     }
+  }
+
+  &-help-message {
+    font-size: 12px;
+    margin-top: 8px;
+    color: $color-primary;
   }
 
   &-error {
