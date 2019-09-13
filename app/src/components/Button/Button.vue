@@ -1,6 +1,6 @@
 <template>
   <button class="button" :class="computeClass" :disabled="disabled" @click="$emit('on-click')">
-    <i v-if="true" class="material-icons button-icon">add</i>
+    <i v-if="icon" class="material-icons button-icon">{{icon}}</i>
     <span class="button-text" v-if="true">{{text}}</span>
   </button>
 </template>
@@ -27,7 +27,7 @@ export default {
     icon: {
       type: String,
       require: false,
-      default: () => "add"
+      default: () => ""
     },
     disabled: {
       type: Boolean,
@@ -38,6 +38,8 @@ export default {
 
   computed: {
     computeClass() {
+      console.log(this.$props);
+
       return `button-${this.$props.type} button-${this.$props.size} ${this.$props.icon} `;
     }
   },
@@ -46,19 +48,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_mixins.scss";
+
 .button {
-  padding: 0 6px;
-  height: 40px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0 1em;
+  min-height: 40px;
+  font-family: sans-serif;
   border-radius: 4px;
-  border: 2px solid transparent;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 1.5;
-  text-align: center;
+  border: 1px solid transparent;
   cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 12px;
+  transition: background-color 0.2s linear, color 0.2s linear;
 
   &-primary {
     background-color: $green;

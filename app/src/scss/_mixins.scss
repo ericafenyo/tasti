@@ -1,61 +1,53 @@
-/* == FONT STYLES == */
+/* == IMPORTS == */
+@import './variables';
 
+
+/* == FONT STYLES == */
 @mixin header-1 {
-	font-size: 40px;
-	font-weight: 600;
-	letter-spacing: -0.5px;
-	color: #030f09;
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #030f09;
 }
 
 @mixin header-2 {
-	font-size: 32px;
-	font-weight: bold;
-	line-height: 1;
-	color: #030f09;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1;
+  color: #030f09;
 }
 
 @mixin header-3 {
-	font-size: 24px;
-	font-weight: bold;
-	line-height: 1.33;
-	color: #030f09;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.33;
+  color: #030f09;
 }
 
-@mixin header-4 {
-	font-size: 20px;
-	font-weight: bold;
-	color: #030f09;
-}
-
-@mixin header-5 {
-	font-size: 16px;
-	font-weight: bold;
-	color: #030f09;
-}
 
 @mixin lead {
-	font-size: 16px;
-	color: $hunter-green;
+  font-size: 16px;
+  color: $hunter-green;
 }
 
 @mixin subtle {
-	font-size: 14px;
-	color: $brown-grey-two;
+  font-size: 14px;
+  color: $brown-grey-two;
 }
 
 @mixin center-content {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin card {
-	box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
-	border-radius: 2px;
-	overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08), 0 1px 3px 1px rgba(60, 64, 67, 0.16);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 @mixin body {
-	font-size: 14px;
-	color: $hunter-green;
+  font-size: 14px;
+  color: $hunter-green;
 }
