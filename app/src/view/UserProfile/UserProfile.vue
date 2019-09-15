@@ -1,19 +1,7 @@
 <template>
-  <div class="profile">    <ProfileStats :stats="stats" />
-    <div class="tabs-wrapper">
-      <div class="tabs">
-        <div class="tab tab-active">
-          <div>Recipes</div>
-        </div>
-        <div class="tab">
-          <div>Saved</div>
-        </div>
-        <div class="tab">
-          <div>Following</div>
-        </div>
-      </div>
-      <div class="tab-indicator" />
-    </div>
+  <div class="profile">
+    <ProfileStats :stats="stats" />
+    <Tabs :tabs="tabs" class="mx-2 my-2" @active="active" />
     <div class="cookbooks">
       <div class="container">
         <div class="row">
@@ -32,13 +20,21 @@
 </template>
 
 <script>
-import IconEdit from "../assets/icons/edit.svg";
-import ProfileStats from "@/components/ProfileStats/ProfileStats";
+import IconEdit from "@/assets/icons/edit.svg";
+import { ProfileStats } from "@tasti/core";
+import Tabs from "@tasti/tabs";
 
 export default {
   components: {
     IconEdit,
-    ProfileStats
+    ProfileStats,
+    Tabs
+  },
+
+  methods: {
+    active(value) {
+      console.log(value);
+    }
   },
 
   data() {
@@ -77,7 +73,9 @@ export default {
           value: 248,
           text: "Following"
         }
-      ]
+      ],
+
+      tabs: ["Cookbooks", "Collection"]
     };
   }
 };
