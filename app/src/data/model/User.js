@@ -37,18 +37,17 @@ class User {
    * @return an object with the loading, the success and the error state.
    */
 	async signUp(userInfo, callback) {
-    try {
-      const result = await registerUser(userInfo);
-      console.log( "result", result)
-    } catch (error) {
-      console.log( "Error", error)
-    }
-		
-	
+		try {
+			const result = await registerUser(userInfo);
+			callback(result);
+			console.log('result', result);
+		} catch (error) {
+			console.log('Error', error);
+		}
 	}
 
 	login(user) {
-		console.log(this);
+		console.log(user);
 	}
 }
 

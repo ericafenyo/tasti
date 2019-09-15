@@ -12,15 +12,12 @@
   </div>
 </template>
 
-<script>
+<script >
 import IconClose from "../assets/icons/close.svg";
+
 export default {
   components: {
-    "icon-close": IconClose
-  },
-
-  props: {
-    title: ""
+    IconClose
   }
 };
 </script>

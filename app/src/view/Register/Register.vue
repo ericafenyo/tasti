@@ -2,7 +2,7 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create Account" level="3" class="mb-4" />
+        <Headline text="Create Account" :level=3 class="mb-4" />
         <ValidationObserver v-slot="{ invalid, passes }" slim>
           <form @submit.prevent class="form" novalidate="true">
             <Input
@@ -39,7 +39,13 @@
                 </Checkbox>
               </div>
             </div>
-            <Button :disabled="invalid" text="Create Account" class="mb-3" type="primary" @on-click="onSubmit"/>
+            <Button
+              :disabled="invalid"
+              text="Create Account"
+              class="mb-3"
+              type="primary"
+              @on-click="onSubmit"
+            />
             <div class="account-notice">
               <span class="text">Already have an account?</span>
               <a class="action-sign-in" href="#">Sign in</a>
@@ -52,11 +58,10 @@
 </template>
 
 <script>
-import Input from "../../components/Input/Input";
-import Text from "../../components/Text/Text";
-import Headline from "../../components/Headline/Headline";
+import Input from "@/components/Input/Input";
+import Headline from "@/components/Headline/Headline";
 import Button from "@/components/Button/Button";
-import Checkbox from "../../components/Checkbox";
+import Checkbox from "@/components/Checkbox";
 
 export default {
   data: () => ({
@@ -69,12 +74,11 @@ export default {
     Input,
     Headline,
     Button,
-    Text,
     Checkbox
   },
 
   methods: {
-    onSubmit(event) {
+    onSubmit() {
       const { name, email, password } = this.$data;
       // If the form data is not null, dispatch an action
       // to create a new user account.

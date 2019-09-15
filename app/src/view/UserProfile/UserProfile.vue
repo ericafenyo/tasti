@@ -20,13 +20,11 @@
 </template>
 
 <script>
-import IconEdit from "@/assets/icons/edit.svg";
 import { ProfileStats } from "@tasti/core";
 import Tabs from "@tasti/tabs";
 
 export default {
   components: {
-    IconEdit,
     ProfileStats,
     Tabs
   },

@@ -21,7 +21,7 @@ const store = new Vuex.Store({
 	actions: {
 		createUser({ commit }, userInfo) {
 			user.signUp(userInfo);
-			commit('CREATE_USER', payload);
+			commit('CREATE_USER', userInfo);
 		}
 	}
 });
