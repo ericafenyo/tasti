@@ -19,7 +19,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
  */
 
 const express = require('express');
@@ -56,7 +55,7 @@ router.post('/register', (request, response) => {
 
 	// The user's password is hashed before being stored in the database.
 	const user = encryptPassword(data);
-
+	
 	db.query('INSERT INTO user SET ?', user, (error) => {
 		if (error) {
 			console.log(error);

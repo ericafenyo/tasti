@@ -1,19 +1,16 @@
 import Vue from 'vue';
 
 // Vee-validate
-import { extend, ValidationProvider } from 'vee-validate';
+import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import en from 'vee-validate/dist/locale/en';
 
 // Styles
-// import '../src/scss/index.scss';
+import '../src/scss/index.scss';
 import './scss/normalize.css';
 import 'bootstrap/dist/css/bootstrap-grid.min.css';
-// import 'flexboxgrid/dist/flexboxgrid.min.css';
 
-// APP
 import App from './App.vue';
-
 import store from './store';
 
 //loop over all rules
@@ -24,8 +21,14 @@ for (let rule in rules) {
 	});
 }
 
+// Custom  vee-validate rule
+extend('checkbox', {
+	validate: (value) => value
+});
+
 // // Register Component globally
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.config.productionTip = false;
 

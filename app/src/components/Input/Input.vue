@@ -3,15 +3,32 @@
     <label :for="name" class="input-label">{{label}}</label>
     <ValidationProvider ref="inputValidator" :name="name" :rules="validate" v-slot="{errors}" slim>
       <input
+        mode="eager"
         :id="name"
+        ref="inputRef"
         :placeholder="placeholder"
         class="input-element"
-        :class="computeClasses"
+        :class="computeClasses(errors)"
         :type="type"
         :name="name"
         v-model="model"
       />
-      <p  :class="{'input-help-message' : (true)}">{{errors[0]}}</p>
+      <div v-show="errors[0]" class="input-help">
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          width="16px"
+          height="16px"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+          />
+          <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+        <span :class="{'input-help-message' : (true)}">{{errors[0]}}</span>
+      </div>
     </ValidationProvider>
   </div>
 </template>
@@ -71,40 +88,30 @@ export default {
     helperText: {
       type: String,
       default: () => ""
+    },
+
+    validate: {
+      type: String,
+      default: () => ""
     }
   },
 
   watch: {
     model(value) {
-      const {} = this.$refs;
-      this.$emit("on-input", value);
+      this.$emit("on-input", value, this.name);
     }
   },
 
-  computed: {
-    computeClasses() {
-      return `input-${this.$props.state}`;
-    },
+  computed: {},
 
-    validate() {
-      let rules = "";
-      if (this.required) {
-        rules += "required";
-      }
-      if (/password/.test(this.type)) {
-        rules += " min:6";
-      } else if (/email/.test(this.type)) {
-        rules += " email";
-      }
-
-      return rules
-        .trim()
-        .split(" ")
-        .join("|");
+  methods: {
+    computeClasses(errors) {
+      const { state } = this.$props;
+      return (
+        (state ? `input-${state}` : "") + (errors[0] ? " input-error" : "")
+      );
     }
-  },
-
-  methods: {}
+  }
 };
 </script>
 
@@ -132,20 +139,35 @@ export default {
     background-color: #ffffff;
     padding: 0 0.75em;
     border-radius: 4px;
+    width: 100%;
 
     &:focus {
       outline: none;
     }
   }
 
-  &-help-message {
-    font-size: 12px;
+  &-help {
+    display: flex;
+    align-items: center;
     margin-top: 8px;
-    color: $color-primary;
+    &-message {
+      font-size: 12px;
+      margin: 0 8px;
+      color: $color-primary;
+    }
   }
 
   &-error {
-    border-color: $red;
+    border-color: red;
+    & + .input-help {
+      svg {
+        color: red;
+      }
+
+      .input-help-message {
+        color: red;
+      }
+    }
   }
 }
 </style>
