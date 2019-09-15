@@ -36,6 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_resources.scss";
 .avatar {
   font-family: Helvetica, Arial, sans-serif;
   width: 48px;

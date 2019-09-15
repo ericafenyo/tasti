@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { registerUser } from '../data/endpoints';
+import { user } from '../data/model/User';
 
 Vue.use(Vuex);
 
@@ -17,10 +17,11 @@ const store = new Vuex.Store({
 		}
 	},
 
+
 	actions: {
-		createUser({ commit }, user) {
-			registerUser(user);
-			commit('CREATE_USER', user);
+		createUser({ commit }, userInfo) {
+			user.signUp(userInfo);
+			commit('CREATE_USER', payload);
 		}
 	}
 });

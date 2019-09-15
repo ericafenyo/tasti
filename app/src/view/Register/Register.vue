@@ -3,53 +3,49 @@
     <div class="register-wrapper">
       <div class="container">
         <Headline text="Create Account" level="3" class="mb-4" />
-        <form class="form" @submit.prevent="submit" novalidate="true">
-          <Input
-            label="Full name"
-            type="text"
-            name="name"
-            placeholder="What's your full name?"
-            @on-input="onInput"
-            validate="required|min:3"
-          />
-          <Input
-            label="Email Address"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            @on-input="onInput"
-            validate="required|email"
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="Enter 8 or more characters"
-            @on-input="onInput"
-            validate="required|min:8"
-          />
+        <ValidationObserver v-slot="{ invalid, passes }" slim>
+          <form @submit.prevent class="form" novalidate="true">
+            <Input
+              label="Full name"
+              type="text"
+              name="name"
+              :required="true"
+              placeholder="What's your full name?"
+              @on-input="onInput"
+              validate="required"
+            />
+            <Input
+              label="Email Address"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              @on-input="onInput"
+              validate="required|email"
+            />
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="Enter 8 or more characters"
+              @on-input="onInput"
+              validate="required|min:8"
+            />
 
-          <div class="form-group">
-            <div class="privacy-agreement my-3">
-              <input type="checkbox" />
-              <span>
-                Accept
-                <a href="#">Terms and Conditions</a>
-              </span>
+            <div class="form-group">
+              <div class="privacy-agreement my-3">
+                <Checkbox>
+                  Accept
+                  <a href="#">Terms and Conditions</a>
+                </Checkbox>
+              </div>
             </div>
-            <div class="emailing-agreement my-3">
-              <Checkbox>
-                Accept
-                <a href="#">Terms and Conditions</a>
-              </Checkbox>
+            <Button :disabled="invalid" text="Create Account" class="mb-3" type="primary" @on-click="onSubmit"/>
+            <div class="account-notice">
+              <span class="text">Already have an account?</span>
+              <a class="action-sign-in" href="#">Sign in</a>
             </div>
-          </div>
-          <Button text="Create Account" class="mb-3" type="primary" />
-          <div class="account-notice">
-            <span class="text">Already have an account?</span>
-            <a class="action-sign-in" href="#">Sign in</a>
-          </div>
-        </form>
+          </form>
+        </ValidationObserver>
       </div>
     </div>
   </div>
@@ -63,7 +59,6 @@ import Button from "@/components/Button/Button";
 import Checkbox from "../../components/Checkbox";
 
 export default {
-  name: "Register",
   data: () => ({
     name: "",
     email: "",
@@ -79,14 +74,19 @@ export default {
   },
 
   methods: {
-    submit(event) {
+    onSubmit(event) {
       const { name, email, password } = this.$data;
+      // If the form data is not null, dispatch an action
+      // to create a new user account.
+      console.log(name, email, password);
       if (name && email && password) {
+        console.log(name, email, password);
+
         this.$store.dispatch("createUser", this.$data);
       }
     },
 
-    onInput(value) {
+    onInput(value, name) {
       this.$data[name] = value;
     }
   }

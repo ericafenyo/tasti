@@ -28,8 +28,6 @@
  * 2: Import them into your JavaScript file using
  * `import { '<function names separated with a comma>' } from '<path>;`
  * 3: Invoke the function of your choice and pass the required parameters.
- *
- * @example
  */
 
 import axios from 'axios';
@@ -38,6 +36,7 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:2700/';
 
 const instance = axios.create({ baseURL: BASE_URL });
+import Result from './Result';
 
 /**
  * Performs an HTTP request using the [axios api]{@link https://github.com/axios/axios}
@@ -48,9 +47,11 @@ const instance = axios.create({ baseURL: BASE_URL });
 export const registerUser = (user) => {
 	try {
 		const response = instance.post('/users/register', user);
-		console.log(response);
+		return response;
 	} catch (error) {
-		console.log('Error', error);
+		console.log('Error during user registration', error);
+		return "Error"
+		// return new Result.Builder().setError(true).build();
 	}
 };
 
