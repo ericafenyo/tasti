@@ -1,5 +1,7 @@
-/* == FONT STYLES == */
+/* == IMPORTS == */
+@import './variables';
 
+/* == FONT STYLES == */
 @mixin header-1 {
 	font-size: 40px;
 	font-weight: 600;
@@ -18,18 +20,6 @@
 	font-size: 24px;
 	font-weight: bold;
 	line-height: 1.33;
-	color: #030f09;
-}
-
-@mixin header-4 {
-	font-size: 20px;
-	font-weight: bold;
-	color: #030f09;
-}
-
-@mixin header-5 {
-	font-size: 16px;
-	font-weight: bold;
 	color: #030f09;
 }
 
@@ -58,4 +48,30 @@
 @mixin body {
 	font-size: 14px;
 	color: $hunter-green;
+}
+
+/** == BREAK POINTS == **/
+
+@mixin phablet() {
+	@media (min-width: #{$phablet-width})  {
+		@content;
+	}
+}
+
+@mixin tablet() {
+	@media (min-width: #{$tablet-width}) {
+		@content;
+	}
+}
+
+@mixin laptop() {
+	@media (min-width: #{$laptop-width}) {
+		@content;
+	}
+}
+
+@mixin desktop() {
+	@media (min-width: #{$desktop-width}) {
+		@content;
+	}
 }

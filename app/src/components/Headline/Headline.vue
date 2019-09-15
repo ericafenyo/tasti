@@ -1,7 +1,5 @@
 <template>
-  <div>
     <BaseHeadline :level="level" class="headline" :class="`headline-${level}`">{{text}}</BaseHeadline>
-  </div>
 </template>
 
 <script>
@@ -32,17 +30,16 @@ export default {
 .headline {
   &-1 {
     font-size: 2.5rem;
-    font-weight: 300;
+    font-weight: 500;
     letter-spacing: -0.025em;
-    color: rgba(19, 41, 63, 0.65);
+    color: #333333;
     line-height: 1;
   }
   &-2 {
     line-height: 1.06667;
     letter-spacing: -0.025em;
     font-size: 1.875rem;
-    color: rgba(19, 41, 63, 0.65);
-    font-weight: 300;
+    color: #333333;
     line-height: 1.06667;
   }
 

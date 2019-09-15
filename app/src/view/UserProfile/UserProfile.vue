@@ -1,37 +1,7 @@
 <template>
   <div class="profile">
-    <div class="user">
-      <div class="user-avatar">
-        <img
-          class="image-fluid"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1100&q=80"
-          alt="avatar"
-        />
-      </div>
-      <div class="user-info">
-        <h5 class="user-info-name">Nick Evans</h5>
-        <p class="caption">Potato Master</p>
-        <div class="user-info-popularity">
-          <span class="caption">584 followers • 23k likes</span>
-        </div>
-      </div>
-    </div>
-    <div class="divider" />
-
-    <div class="tabs-wrapper">
-      <div class="tabs">
-        <div class="tab tab-active">
-          <div>Recipes</div>
-        </div>
-        <div class="tab">
-          <div>Saved</div>
-        </div>
-        <div class="tab">
-          <div>Following</div>
-        </div>
-      </div>
-      <div class="tab-indicator" />
-    </div>
+    <ProfileStats :stats="stats" />
+    <Tabs :tabs="tabs" class="mx-2 my-2" @active="active" />
     <div class="cookbooks">
       <div class="container">
         <div class="row">
@@ -50,10 +20,21 @@
 </template>
 
 <script>
-import IconEdit from "../assets/icons/edit.svg";
+import IconEdit from "@/assets/icons/edit.svg";
+import { ProfileStats } from "@tasti/core";
+import Tabs from "@tasti/tabs";
+
 export default {
   components: {
-    IconEdit
+    IconEdit,
+    ProfileStats,
+    Tabs
+  },
+
+  methods: {
+    active(value) {
+      console.log(value);
+    }
   },
 
   data() {
@@ -77,54 +58,49 @@ export default {
           image:
             "https://images.unsplash.com/photo-1522248105696-9625ba87de6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1867&q=80"
         }
-      ]
-    };
-  },
+      ],
 
-  component: {
-    name: ""
+      stats: [
+        {
+          value: 20,
+          text: "Recipe"
+        },
+        {
+          value: 75,
+          text: "Saved"
+        },
+        {
+          value: 248,
+          text: "Following"
+        }
+      ],
+
+      tabs: ["Cookbooks", "Collection"]
+    };
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_resources.scss";
+
 .profile {
-  font-family: $font;
-}
-.user {
+  background-color: #f4f7f9;
   display: flex;
-  background: $white;
-  padding: 24px 16px;
-  &-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
+  flex-direction: column;
 
-    img {
-      width: 100%;
-      height: 100%;
-    }
+  .stats-wrapper {
+    display: inline-block;
+    background: $white;
+    margin: 8px;
+    border-radius: 4px;
   }
 
-  &-info {
-    margin-left: 16px;
-
-    &-name {
-      @include header-5;
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    &-popularity {
-      padding-top: 8px;
-    }
+  &-stats {
+    display: flex;
+    margin: 24px 16px;
+    border-bottom: 1px solid #000;
   }
-}
-
-.divider {
-  height: 1px;
-  background-color: #e6e6e6;
 }
 
 .cookbooks {
@@ -180,6 +156,3 @@ export default {
   transform: translate3d(0px, 0px, 0px);
 }
 </style>
-
-
-

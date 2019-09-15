@@ -5,11 +5,12 @@
 </template>
 
 <script>
-import Register from "./view/Register";
-import UserProfile from "./view/UserProfile";
+import Register from "./view/Register/Register";
+import UserProfile from "./view/UserProfile/UserProfile";
 
 export default {
   components: {
+    Register,
     UserProfile
   },
   methods: {
