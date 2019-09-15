@@ -1,0 +1,16 @@
+{
+	"name": "@tasti/user-profile",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "private"
+	},
+	"scripts": {
+		"test": "echo testing tabs"
+	},
+	"dependencies": {
+		"@tasti/tabs": "^1.0.0",
+		"@tasti/core": "^1.0.0"
+	}
+}

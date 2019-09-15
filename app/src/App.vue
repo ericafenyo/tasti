@@ -6,7 +6,7 @@
 
 <script>
 import Register from "./view/Register/Register";
-import UserProfile from "./view/UserProfile";
+import UserProfile from "./view/UserProfile/UserProfile";
 
 export default {
   components: {
