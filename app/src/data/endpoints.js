@@ -36,7 +36,6 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:2700/';
 
 const instance = axios.create({ baseURL: BASE_URL });
-import Result from './Result';
 
 /**
  * Performs an HTTP request using the [axios api]{@link https://github.com/axios/axios}

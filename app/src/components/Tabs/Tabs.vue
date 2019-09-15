@@ -19,7 +19,7 @@ export default {
   props: {
     tabs: {
       type: Array,
-      default: ["Tab 1", "Tab2"]
+      default: () => ["Tab 1", "Tab2"]
     }
   },
 

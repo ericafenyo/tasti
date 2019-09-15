@@ -32,7 +32,7 @@ export default {
   props: {
     stats: {
       type: Array,
-      default: [
+      default: () => [
         {
           value: 20,
           text: "Recipe"
