@@ -34,6 +34,7 @@
 		"eslint": "^6.3.0",
 		"eslint-plugin-vue": "^5.2.3",
 		"jsdoc": "^3.6.3",
+		"lerna": "^3.16.4",
 		"node-sass": "^4.12.0",
 		"sass-loader": "^8.0.0",
 		"style-loader": "^1.0.0",
@@ -47,7 +48,10 @@
 		"env": {
 			"node": true
 		},
-		"extends": [ "plugin:vue/essential", "eslint:recommended" ],
+		"extends": [
+			"plugin:vue/essential",
+			"eslint:recommended"
+		],
 		"rules": {},
 		"parserOptions": {
 			"parser": "babel-eslint"
@@ -58,7 +62,10 @@
 			"autoprefixer": {}
 		}
 	},
-	"browserslist": [ "> 1%", "last 2 versions" ],
+	"browserslist": [
+		"> 1%",
+		"last 2 versions"
+	],
 	"author": "Eric Afenyo",
 	"license": "MIT",
 	"bugs": {
