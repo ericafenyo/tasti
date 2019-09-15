@@ -2,7 +2,7 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create Account" level="3" class="mb-4" />
+        <Headline text="Create Account" :level=3 class="mb-4" />
         <ValidationObserver v-slot="{ invalid, passes }" slim>
           <form @submit.prevent class="form" novalidate="true">
             <Input
