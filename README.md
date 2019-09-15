@@ -1,6 +1,7 @@
 # Tasti
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ericafenyo/tasti?label=version) ![GitHub](https://img.shields.io/github/license/ericafenyo/tasti) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ericafenyo/tasti?label=version) [![GitHub](https://img.shields.io/github/license/ericafenyo/tasti)]("https://github.com/ericafenyo/tasti/blob/feature/Tabs/LICENSE")
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 Tasti is a recipe app that allows users to create, browse, and share recipes with their network.
 
