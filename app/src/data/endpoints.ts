@@ -43,18 +43,18 @@ const instance = axios.create({ baseURL: BASE_URL });
  * @param {object} params Optional: The URL parameters to be sent with the request.
  * @param {Type} params Optional: The URL parameters to be sent with the request.
  */
-export const registerUser = (user) => {
+export const registerUser = (user: object) => {
 	try {
 		const response = instance.post('/users/register', user);
 		return response;
 	} catch (error) {
 		console.log('Error during user registration', error);
-		return "Error"
+		return 'Error';
 		// return new Result.Builder().setError(true).build();
 	}
 };
 
-export const createRecipe = (userId, recipe) => {
+export const createRecipe = (userId : number, recipe: object) => {
 	const headers = { 'Content-Type': 'multipart/form-data' };
 
 	try {
