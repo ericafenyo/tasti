@@ -5,13 +5,12 @@
     <div class="cookbooks">
       <div class="container px-3">
         <div class="row">
-          <div class="col-xs-12 col-md-6 col-lg-4" v-for="cookbook in cookbooks" :key="cookbook.id">
-            <div class="cookbook">
-              <div class="cookbook-thumbnail">
-                <img :src="cookbook.image" alt="thumbnail" />
-              </div>
-              <div class="cookbook-name">{{cookbook.name}}</div>
-            </div>
+          <div
+            class="col-xs-12 col-md-6 col-lg-4 mb-3"
+            v-for="cookbook in cookbooks"
+            :key="cookbook.id"
+          >
+            <Cookbook :cookbook="cookbook" />
           </div>
         </div>
       </div>
@@ -21,12 +20,15 @@
 
 <script>
 import { ProfileStats } from "@tasti/core";
+import Cookbook from "@/components/Cookbook/Cookbook.vue";
+
 import Tabs from "@tasti/tabs";
 
 export default {
   components: {
     ProfileStats,
-    Tabs
+    Tabs,
+    Cookbook
   },
 
   methods: {
@@ -41,19 +43,22 @@ export default {
         {
           id: 1,
           name: "Italian",
-          image:
+          recipeCount: 20,
+          imageUrl:
             "https://images.unsplash.com/photo-1487376318617-f43c7b41e2e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
         },
         {
           id: 2,
           name: "Chocolates",
-          image:
+          recipeCount: 68,
+          imageUrl:
             "https://images.unsplash.com/photo-1472452049192-db15def0be25?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1681&q=80"
         },
         {
           id: 3,
           name: "Sweets",
-          image:
+          recipeCount: 2,
+          imageUrl:
             "https://images.unsplash.com/photo-1522248105696-9625ba87de6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1867&q=80"
         }
       ],
@@ -103,23 +108,6 @@ export default {
 
 .cookbooks {
   padding: 24px 0 0 0;
-}
-
-.cookbook {
-  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.08),
-    0 1px 3px 1px rgba(60, 64, 67, 0.16);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  &-thumbnail img {
-    width: 100%;
-    height: 100%;
-  }
-
-  &-name {
-    text-align: center;
-    line-height: 1.8;
-  }
 }
 
 .tabs-wrapper {
