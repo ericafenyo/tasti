@@ -1,22 +1,35 @@
 <template>
-  <div class="cookbook">
+  <div class="cookbook p-2">
     <div class="cookbook-thumbnail">
-      <img
-        class="image-fluid"
-        src="https://images.unsplash.com/photo-1496174883999-edcc585a373f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2700&q=80"
-        alt="recipe thumbnail"
-      />
+      <img class="image-fluid" :src="cookbook.imageUrl" alt="recipe thumbnail" />
     </div>
-    <p class="cookbook-label">Sweets</p>
+    <Subhead :text="cookbook.name" class="mt-3" />
+    <v-text class="my-2" :text="`${cookbook.recipeCount} recipes`" />
   </div>
 </template>
 
-<script>
-export default {};
+<script lang="ts">
+import { Vue, Component, Prop } from "vue-property-decorator";
+import Subhead from "../Subhead/Subhead.vue";
+import Text from "../Text/Text.vue";
+
+interface CookbookItem {
+  imageUrl: String;
+  name: String;
+  recipeCount: Number;
+}
+
+/**
+ *  FIXME: Docs
+ */
+@Component({ components: { Subhead, "v-text": Text } })
+export default class Cookbook extends Vue {
+  @Prop({ type: Object, default: "" }) readonly cookbook!: CookbookItem;
+}
 </script>
 
-
 <style lang="scss" scoped>
+@import "@/scss/_resources.scss";
 
 .cookbook {
   background: $white;
@@ -35,7 +48,6 @@ export default {};
   }
 
   &-label {
-
   }
 }
 </style>
