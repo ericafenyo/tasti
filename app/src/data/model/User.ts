@@ -36,7 +36,7 @@ class User {
    * @param {function} callback A function that receives the HTTP response.
    * @return an object with the loading, the success and the error state.
    */
-	async signUp(userInfo, callback) {
+	async signUp(userInfo : object, callback: Function) {
 		try {
 			const result = await registerUser(userInfo);
 			callback(result);
@@ -46,7 +46,7 @@ class User {
 		}
 	}
 
-	login(user) {
+	login(user : object) {
 		console.log(user);
 	}
 }
