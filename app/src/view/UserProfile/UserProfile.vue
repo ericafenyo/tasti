@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
-    <ProfileStats :stats="stats" />
-    <Tabs :tabs="tabs" class="mx-2 my-2" @active="active" />
+    <ProfileStats :stats="stats" class="m-3" />
+    <Tabs :tabs="tabs" class="mx-3 my-2" @active="active" />
     <div class="cookbooks">
       <div class="container px-3">
         <div class="row">
