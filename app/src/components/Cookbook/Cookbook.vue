@@ -2,16 +2,10 @@
   <div class="cookbook p-3">
     <div class="cookbook-thumbnail-wrapper">
       <div class="cookbook-thumbnail">
-        <div class="cookbook-thumbnail-item col-6 p-0 mr-1 bg-red">
-         
-        </div>
+        <div class="cookbook-thumbnail-item col-6 p-0 mr-1 bg-red"></div>
         <div class="cookbook-thumbnail-item col-6 p-0">
-          <div class="mb-1 bg-red">
-           
-          </div>
-          <div class="bg-red">
-            
-          </div>
+          <div class="mb-1 bg-red"></div>
+          <div class="bg-red"></div>
         </div>
       </div>
     </div>
@@ -23,7 +17,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Subhead from "../Subhead/Subhead.vue";
-import Text from "../Text/Text.vue";
+import Text from "../Paragraph/Paragraph.vue";
 
 interface CookbookItem {
   imageUrl: String;
@@ -59,6 +53,7 @@ export default class Cookbook extends Vue {
       display: flex;
 
       &-item {
+        
       }
 
       &-item:last-child {
@@ -76,7 +71,7 @@ export default class Cookbook extends Vue {
   }
 
   .bg-red {
-    background-color:  #45515e;;
+    background-color: #45515e;
   }
 }
 </style>
