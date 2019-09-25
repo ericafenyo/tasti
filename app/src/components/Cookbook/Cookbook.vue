@@ -17,7 +17,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Subhead from "../Subhead/Subhead.vue";
-import Text from "../Paragraph/Paragraph.vue";
 
 interface CookbookItem {
   imageUrl: String;
@@ -28,7 +27,7 @@ interface CookbookItem {
 /**
  *  FIXME: Docs
  */
-@Component({ components: { Subhead, "v-text": Text } })
+@Component({ components: { Subhead } })
 export default class Cookbook extends Vue {
   @Prop({ type: Object, default: "" }) readonly cookbook!: CookbookItem;
 }
@@ -53,7 +52,6 @@ export default class Cookbook extends Vue {
       display: flex;
 
       &-item {
-        
       }
 
       &-item:last-child {
