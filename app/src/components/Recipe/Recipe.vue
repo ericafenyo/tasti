@@ -1,13 +1,16 @@
 <template>
   <div class="recipe">
     <div class="recipe-thumbnail">
-      <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?fit=crop&w=800" alt="recipe-thumbnail">
+      <img
+        src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?fit=crop&w=800"
+        alt="recipe-thumbnail"
+      />
     </div>
     <div class="recipe-body">
-      <Subhead text = "Some subheading" />
+      <Subhead text="Some subheading" />
       <div class="recipe-footer">
         <div class="recipe-footer-stats">
-          <IconAlarm />
+          <!-- <IconAlarm /> -->
           <span class>Description</span>
         </div>
       </div>
@@ -19,7 +22,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import Paragraph from "../Paragraph/Paragraph.vue";
-import IconAlarm from "@/assets/icons/alarm.svg";
+// import IconAlarm from "../../assets/icons/alarm.vue";
 
 interface RecipeItem {
   name: String;
@@ -29,7 +32,7 @@ interface RecipeItem {
   likes: String;
 }
 
-@Component({ components: { IconAlarm, Paragraph } })
+@Component({ components: { Paragraph } })
 export default class Recipe extends Vue {
   @Prop({ type: Object, default: {} }) recipe!: RecipeItem;
 }
@@ -41,6 +44,7 @@ export default class Recipe extends Vue {
 .recipe {
   &-footer {
     &-stats {
+
     }
   }
 }
