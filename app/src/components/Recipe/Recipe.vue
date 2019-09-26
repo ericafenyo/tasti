@@ -7,11 +7,15 @@
       />
     </div>
     <div class="recipe-body">
-      <Subhead text="Some subheading" />
+      <h4 class="subhead">Subhead</h4>
       <div class="recipe-footer">
         <div class="recipe-footer-stats">
-          <!-- <IconAlarm /> -->
-          <span class>Description</span>
+          <IconAlarm />
+          <span class="caption">10 min</span>
+        </div>
+        <div class="recipe-footer-stats">
+          <IconService />
+          <span class="caption">Servings</span>
         </div>
       </div>
     </div>
@@ -21,8 +25,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import Paragraph from "../Paragraph/Paragraph.vue";
-// import IconAlarm from "../../assets/icons/alarm.vue";
+import IconAlarm from "../../assets/icons/alarm.svg";
+import IconService from "../../assets/icons/service.svg";
 
 interface RecipeItem {
   name: String;
@@ -32,7 +36,7 @@ interface RecipeItem {
   likes: String;
 }
 
-@Component({ components: { Paragraph } })
+@Component({ components: { IconAlarm, IconService } })
 export default class Recipe extends Vue {
   @Prop({ type: Object, default: {} }) recipe!: RecipeItem;
 }
@@ -42,9 +46,33 @@ export default class Recipe extends Vue {
 @import "@/scss/_resources.scss";
 
 .recipe {
-  &-footer {
-    &-stats {
+  width: 360px;
 
+  &-thumbnail {
+    img {
+      width: 100%;
+    }
+  }
+
+  &-body {
+    padding: 16px 0;
+  }
+  &-footer {
+    margin-top: 8px;
+    &-stats {
+      display: inline-flex;
+      align-items: center;
+      &:not(:last-child) {
+        margin-right: 16px;
+      }
+      svg {
+        width: 20px;
+        
+      }
+
+      span {
+        margin-left: 8px;
+      }
     }
   }
 }
