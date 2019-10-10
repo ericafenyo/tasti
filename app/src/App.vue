@@ -1,22 +1,19 @@
 <template>
   <div id="app">
-    <Register />
+    <Recipe />
   </div>
 </template>
 
-<script>
-import Register from "./view/Register/Register";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import UserProfile from "./view/UserProfile/UserProfile.vue";
+import Recipe from './components/Recipe/Recipe.vue'
 
-export default {
+@Component({
   components: {
-    Register
-  },
-  methods: {
-    handleSubmit(user) {
-      console.log(user);
-    }
+    UserProfile,
+    Recipe
   }
-};
+})
+export default class App extends Vue {}
 </script>
-
-

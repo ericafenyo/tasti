@@ -77,7 +77,7 @@ export default {
     color: $black;
 
     &-active {
-      background: $color-accent;
+      background: $color-primary;
       color: $white;
     }
   }

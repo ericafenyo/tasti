@@ -12,15 +12,14 @@ const store = new Vuex.Store({
 	state: initialState,
 
 	mutations: {
-		CREATE_USER(state, payload) {
-			state.users.push(payload);
+		CREATE_USER(state, payload ) {
+			// state.users.push(payload);
 		}
 	},
 
-
 	actions: {
 		createUser({ commit }, userInfo) {
-			user.signUp(userInfo);
+			user.signUp(userInfo, () => {});
 			commit('CREATE_USER', userInfo);
 		}
 	}
