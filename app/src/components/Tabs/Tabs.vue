@@ -53,7 +53,7 @@ export default {
   align-items: center;
   background: $white;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
   border: 1px solid transparent;
   font-weight: 700;
@@ -77,7 +77,7 @@ export default {
     color: $black;
 
     &-active {
-      background: $color-primary;
+      background: $green;
       color: $white;
     }
   }

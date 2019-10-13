@@ -1,18 +1,16 @@
 <template>
   <div id="app">
-    <Recipe />
+    <Register />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UserProfile from "./view/UserProfile/UserProfile.vue";
-import Recipe from './components/Recipe/Recipe.vue'
+import Register from "./view/Register/Register.vue";
 
 @Component({
   components: {
-    UserProfile,
-    Recipe
+    Register
   }
 })
 export default class App extends Vue {}

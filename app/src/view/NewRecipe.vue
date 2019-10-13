@@ -110,7 +110,7 @@ export default {
   width: 62px;
   height: 62px;
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
   margin-right: 16px;
 
@@ -144,7 +144,7 @@ export default {
         @include card;
         padding: 0 16px;
         background-color: $white;
-        border-radius: 4px;
+        border-radius: 3px;
         border: none;
         flex: 1;
         margin-right: 16px;
@@ -191,9 +191,8 @@ export default {
   padding: 0 16px;
   width: 100%;
   height: 48px;
-  border-radius: 4px;
+  border-radius: 3px;
   font-weight: bold;
-  border-radius: 4px;
   color: $white;
   font-size: 1em;
 }

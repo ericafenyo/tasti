@@ -116,33 +116,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_mixins.scss";
+@import "@/scss/_resources.scss";
 
 .input {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5em;
-  font-family: $font;
+  margin-bottom: 1.5rem;
+
   &-label {
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: $brown-grey-two;
+    font-size: 0.875em;
+    margin-bottom: 0.5rem;
+    color: $color-primary-text;
+    font-weight: 500;
   }
   &-element {
-    height: 42px;
-    border: none;
-    border-bottom: solid 1px $brown-grey-two;
-    background-color: $white;
-    font-size: 16px;
-    color: $charcoal;
-    border: solid 1px #edf0f2;
-    background-color: #ffffff;
-    padding: 0 0.75em;
-    border-radius: 4px;
+    height: 48px;
+    background-color: $color-surface;
+    font-size: 1em;
+    color: $color-primary-text;
+    border: solid 1px $color-border;
+    padding: 0 1rem;
+    border-radius: 3px;
     width: 100%;
 
     &:focus {
       outline: none;
+      border: solid 2px $color-accent;
     }
   }
 
@@ -153,7 +152,7 @@ export default {
     &-message {
       font-size: 12px;
       margin: 0 8px;
-      color: $color-primary;
+      color: $green;
     }
   }
 
@@ -171,4 +170,3 @@ export default {
   }
 }
 </style>
-
