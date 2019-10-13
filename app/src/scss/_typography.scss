@@ -1,33 +1,6 @@
 /* == FONT STYLES == */
 
-@import './variables';
-
-@mixin header-1 {
-  font-size: 40px;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-  color: #030f09;
-}
-
-@mixin header-2 {
-  font-size: 32px;
-  font-weight: bold;
-  line-height: 1;
-  color: #030f09;
-}
-
-@mixin header-3 {
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 1.33;
-  color: #030f09;
-}
-
-@mixin header-4 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #030f09;
-}
+@import "./variables";
 
 .header-5 {
   font-size: 16px;
