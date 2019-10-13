@@ -1,28 +1,28 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import { user } from '../data/model/User';
+import { user } from "../data/model/User";
 
 Vue.use(Vuex);
 
 const initialState = {
-	users: []
+  users: []
 };
 const store = new Vuex.Store({
-	state: initialState,
+  state: initialState,
 
-	mutations: {
-		CREATE_USER(state, payload ) {
-			// state.users.push(payload);
-		}
-	},
+  mutations: {
+    CREATE_USER(state, payload) {
+      // state.users.push(payload);
+    }
+  },
 
-	actions: {
-		createUser({ commit }, userInfo) {
-			user.signUp(userInfo, () => {});
-			commit('CREATE_USER', userInfo);
-		}
-	}
+  actions: {
+    createUser({ commit }, userInfo) {
+      user.signUp(userInfo, () => {});
+      commit("CREATE_USER", userInfo);
+    }
+  }
 });
 
 export default store;
