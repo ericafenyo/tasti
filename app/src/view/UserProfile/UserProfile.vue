@@ -22,7 +22,7 @@
 import { ProfileStats } from "@tasti/core";
 import Cookbook from "@/components/Cookbook/Cookbook.vue";
 
-import Tabs from "@tasti/tabs";
+import { Tabs } from "@tasti/tabs";
 
 export default {
   components: {
