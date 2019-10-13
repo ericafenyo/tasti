@@ -6,9 +6,10 @@
     viewBox="0 0 24 24"
     :aria-labelledby="iconName"
     role="presentation"
+    class="icon"
   >
     <title :id="iconName" lang="en">{{ iconName }} icon</title>
-    <g :fill="iconColor">
+    <g :class="state">
       <slot />
     </g>
   </svg>
@@ -29,10 +30,32 @@ export default {
       type: [Number, String],
       default: 24
     },
-    iconColor: {
+    state: {
       type: String,
-      default: "currentColor"
+      default: "inactive"
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/_resources.scss";
+
+.icon {
+  &:hover g {
+    fill: rgba($black, $alpha-active);
+  }
+}
+
+.active {
+  fill: rgba($black, $alpha-active);
+}
+
+.inactive {
+  fill: rgba($black, $alpha-inactive);
+}
+
+.disabled {
+  fill: rgba($black, $alpha-disabled);
+}
+</style>
