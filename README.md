@@ -8,20 +8,20 @@ Tasti is a recipe app that allows users to create, browse, and share recipes wit
 
 ## Prerequisites
 
-- Node
-- Mysql
+-   Node
+-   Mysql
 
 ## Getting Started
 
 > These instructions will get you a copy of the project up and running on your local machine.
 
-1. Download a copy of the project:
+1.  Download a copy of the project:
 
 ```bash
 $ git clone https://github.com/ericafenyo/tasti.git
 ```
 
-2. Start the API server (Backend)
+2.  Start the API server (Backend)
 
 ```bash
 # Change directory to server
