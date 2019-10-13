@@ -1,34 +1,29 @@
+/** == ALPHA STATES == **/
+$alpha-active: 0.87;
+$alpha-inactive: 0.54;
+$alpha-disabled: 0.38;
+
+/** == UTILITY COLORS == **/
 $white: #ffffff;
-$melon: #ff8256;
-$soft-blue: #5699ff;
-$black: #212121;
-$coral-pink: #ef6a6e;
-$brown-grey: #979797;
-$cloudy-blue: #b0bac9;
-$dark: #2e384d;
-$clear-blue: #2e5bff;
-$bluey-grey: #8798ad;
-$black-87: rgba(0, 0, 0, 0.87);
-$black-50: rgba(0, 0, 0, 0.87);
-$pale-grey: #fafbfc;
-$charcoal: #363837;
-$brown-grey-two: #9e9e9e;
-$light-periwinkle: #f0f1f4;
-$hunter-green: #030f09;
-$brownish-grey: #606060;
-
+$black: #000000;
 $green: #2bb24c;
-$red: #f44336;
+$red: #e6492d;
+$orange: #f6ab2f;
+$blue: #1665d8;
+$violet: #6977ff;
+$yellow: #facf55;
 
-$color-primary: #45515e;
-$color-secondary: #606060;
-$color-accent: #30be76;
+/** == CONTENT COLORS == **/
+$color-primary-text: #3e3f42;
+$color-secondary-text: #6b6c6f;
+$color-tertiary-text: #6b6c6f;
+$color-border: #eaedf3;
 
-$color-border: #e6e6e6;
+/** == THEME COLORS == **/
+$color-surface: #f7f7f9;
+$color-accent: #6b75ca;
 
-$font: Helvetica,
-Arial,
-sans-serif;
+$font: Helvetica, Arial, sans-serif;
 
 /** == BREAK POINTS == **/
 $phablet-width: 480px;
@@ -36,8 +31,4 @@ $tablet-width: 768px;
 $laptop-width: 992px;
 $desktop-width: 1200px;
 
-
-
-$font: Helvetica,
-Arial,
-sans-serif;
+$font: Helvetica, Arial, sans-serif;
