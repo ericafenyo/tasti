@@ -1,5 +1,5 @@
 <template>
-    <BaseHeadline :level="level" class="headline" :class="`headline-${level}`">{{text}}</BaseHeadline>
+  <BaseHeadline :level="level" class="headline" :class="`headline-${level}`">{{text}}</BaseHeadline>
 </template>
 
 <script>
@@ -27,30 +27,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_resources";
 .headline {
   &-1 {
-    font-size: 2.5rem;
-    font-weight: 500;
-    letter-spacing: -0.025em;
-    color: #333333;
-    line-height: 1;
+    @include header-1;
   }
   &-2 {
-    line-height: 1.06667;
-    letter-spacing: -0.025em;
-    font-size: 1.875rem;
-    color: #333333;
-    line-height: 1.06667;
+    @include header-2;
   }
 
   &-3 {
-    font-size: 1.375rem;
-    color: #13293f;
-    line-height: 1.18182;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    color: #13293f;
-    line-height: 1.18182;
+    @include header-3;
   }
 }
 </style>

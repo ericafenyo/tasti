@@ -96,7 +96,7 @@ export default {
     display: inline-block;
     background: $white;
     margin: 8px;
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   &-stats {

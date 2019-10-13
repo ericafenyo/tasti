@@ -2,7 +2,7 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create Account" :level=3 class="mb-4" />
+        <Headline text="Create Account" :level="3" class="mb-4" />
         <ValidationObserver v-slot="{ invalid, passes }" slim>
           <form @submit.prevent class="form" novalidate="true">
             <Input
@@ -101,31 +101,32 @@ export default {
 @import "@/scss/_resources.scss";
 
 .register {
+  background-color: $color-surface;
+  height: 100vh;
   .register-wrapper {
     max-width: 480px;
     margin: 0 auto;
-    background-color: #f9fafb;
-    padding: 2em 0;
+    background-color: $white;
+    padding: 2rem 0;
     height: 100vh;
 
     @include phablet {
-      margin-top: 48px;
       height: unset;
+    }
+
+    @include laptop {
+      padding: 2rem 1rem;
+      border: 1px solid $color-border;
     }
   }
 
-  .title {
-    font-family: Rubik;
-    font-size: 24px;
-    font-weight: normal;
-    margin: 48px 0;
-    text-align: center;
-    color: $charcoal;
+  @include laptop {
+    padding-top: 4rem;
   }
 
   .account-notice {
     span {
-      color: $brown-grey-two;
+      color: $color-primary-text;
     }
 
     .action-sign-in {

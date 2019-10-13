@@ -48,13 +48,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/scss/_mixins.scss";
+@import "@/scss/_resources.scss";
 
 .button {
   padding: 0 1em;
   min-height: 40px;
   font-family: sans-serif;
-  border-radius: 4px;
+  border-radius: 3px;
   border: 1px solid transparent;
   cursor: pointer;
   font-weight: 700;
@@ -64,8 +64,8 @@ export default {
   transition: background-color 0.2s linear, color 0.2s linear;
 
   &-primary {
-    background-color: $green;
-    border-color: $green;
+    background-color: $color-accent;
+    border-color: $color-accent;
     color: $white;
 
     &:disabled {
@@ -76,8 +76,8 @@ export default {
 
   &-outline {
     background-color: $white;
-    border-color: $green;
-    color: $green;
+    border-color: $color-accent;
+    color: $color-accent;
 
     &:disabled {
       opacity: 0.5;
@@ -95,4 +95,3 @@ export default {
   }
 }
 </style>
-
