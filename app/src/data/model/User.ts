@@ -21,34 +21,34 @@
  * SOFTWARE.
  */
 
-import { registerUser } from '../endpoints';
+import { registerUser } from "../endpoints";
 
 /**
-  * @class
-  * A User is an object with helper functions for performing
-  * user-based data transactions. For example deleting a user account.
-  */
+ * @class
+ * A User is an object with helper functions for performing
+ * user-based data transactions. For example deleting a user account.
+ */
 class User {
-	/**
+  /**
    * Create a new user profile
-   * 
+   *
    * @param {object} userInfo
    * @param {function} callback A function that receives the HTTP response.
    * @return an object with the loading, the success and the error state.
    */
-	async signUp(userInfo : object, callback: Function) {
-		try {
-			const result = await registerUser(userInfo);
-			callback(result);
-			console.log('result', result);
-		} catch (error) {
-			console.log('Error', error);
-		}
-	}
+  async signUp(userInfo: object, callback: Function) {
+    try {
+      const result = await registerUser(userInfo);
+      callback(result);
+      console.log("result", result);
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
 
-	login(user : object) {
-		console.log(user);
-	}
+  login(user: object) {
+    console.log(user);
+  }
 }
 
 export const user = new User();

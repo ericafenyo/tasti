@@ -1,11 +1,11 @@
 {
-	"name": "@tasti/tabs",
-	"version": "1.0.0",
-	"license": "MIT",
-	"publishConfig": {
-		"access": "private"
-	},
-	"scripts": {
-		"test": "echo testing tabs"
-	}
+  "name": "@tasti/tabs",
+  "version": "1.0.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "private"
+  },
+  "scripts": {
+    "test": "echo testing tabs"
+  }
 }
