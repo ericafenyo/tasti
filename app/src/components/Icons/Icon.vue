@@ -1,5 +1,5 @@
 <template>
-  <IconBase :icon-name="name">
+  <IconBase :icon-name="name" @on-click="(event)=>$emit('on-click', event)">
     <component :is="computeIcon" />
   </IconBase>
 </template>
@@ -25,6 +25,8 @@ import IconSearch from "./IconSearch.vue";
 import IconSettings from "./IconSettings.vue";
 import IconTimer from "./IconTimer.vue";
 import IconUpload from "./IconUpload.vue";
+import IconVisibility from "./IconVisibility.vue";
+import IconVisibilityOff from "./IconVisibilityOff.vue";
 
 export default {
   components: {
@@ -46,7 +48,9 @@ export default {
     IconSearch,
     IconSettings,
     IconTimer,
-    IconUpload
+    IconUpload,
+    IconVisibility,
+    IconVisibilityOff
   },
 
   props: {

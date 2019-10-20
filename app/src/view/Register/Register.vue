@@ -5,31 +5,37 @@
         <Headline text="Create Account" :level="3" class="mb-4" />
         <ValidationObserver v-slot="{ invalid, passes }" slim>
           <form @submit.prevent class="form" novalidate="true">
-            <Input
-              label="Full name"
-              type="text"
-              name="name"
-              :required="true"
-              placeholder="What's your full name?"
-              @on-input="onInput"
-              validate="required"
-            />
-            <Input
-              label="Email Address"
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              @on-input="onInput"
-              validate="required|email"
-            />
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              placeholder="Enter 8 or more characters"
-              @on-input="onInput"
-              validate="required|min:8"
-            />
+            <div class="form-item">
+              <Input
+                label="Full name"
+                type="text"
+                name="name"
+                :required="true"
+                placeholder="What's your full name?"
+                @on-input="onInput"
+                validate="required"
+              />
+            </div>
+            <div class="form-item">
+              <Input
+                label="Email Address"
+                type="text"
+                name="email"
+                placeholder="you@example.com"
+                @on-input="onInput"
+                validate="required|email"
+              />
+            </div>
+            <div class="form-item">
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                placeholder="Enter 8 or more characters"
+                @on-input="onInput"
+                validate="required|min:8"
+              />
+            </div>
 
             <div class="form-group">
               <div class="privacy-agreement my-3">
@@ -149,5 +155,9 @@ export default {
 
 .mt-5 {
   margin-top: 48px;
+}
+
+.form-item {
+  margin-bottom: 1.5rem;
 }
 </style>
