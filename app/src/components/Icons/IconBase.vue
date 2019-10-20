@@ -7,6 +7,7 @@
     :aria-labelledby="iconName"
     role="presentation"
     class="icon"
+    @click.prevent="(event)=>$emit('on-click', event)"
   >
     <title :id="iconName" lang="en">{{ iconName }} icon</title>
     <g :class="state">
