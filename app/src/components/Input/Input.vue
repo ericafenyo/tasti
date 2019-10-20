@@ -1,118 +1,60 @@
 <template>
   <div class="input">
     <label :for="name" class="input-label">{{label}}</label>
-    <ValidationProvider ref="inputValidator" :name="name" :rules="validate" v-slot="{errors}" slim>
-      <input
-        mode="eager"
-        :id="name"
-        ref="inputRef"
-        :placeholder="placeholder"
-        class="input-element"
-        :class="computeClasses(errors)"
-        :type="type"
-        :name="name"
-        v-model="model"
-      />
-      <div v-show="errors[0]" class="input-help">
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          width="16px"
-          height="16px"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
-          />
-          <path d="M0 0h24v24H0z" fill="none" />
-        </svg>
-        <span :class="{'input-help-message' : (true)}">{{errors[0]}}</span>
-      </div>
-    </ValidationProvider>
+    <component
+      :is="computeComponent"
+      :id="name"
+      :placeholder="placeholder"
+      :type="type"
+      :name="name"
+    />
   </div>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    model: ""
-  }),
-  props: {
-    label: {
-      type: String,
-      default: () => "Label"
-    },
+<script lang="ts">
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 
-    type: {
-      type: String,
-      default: () => "text"
-    },
+import InputText from "./InputText.vue";
+import InputPassword from "./InputPassword.vue";
 
-    size: {
-      type: String,
-      default: () => ""
-    },
-    icon: {
-      type: String,
-      default: () => ""
-    },
-    state: {
-      type: String,
-      default: () => ""
-    },
-    name: {
-      type: String,
-      default: () => ""
-    },
-
-    placeholder: {
-      type: String,
-      default: () => "Enter a your text"
-    },
-
-    value: {
-      type: String,
-      default: () => ""
-    },
-    disabled: {
-      type: Boolean,
-      default: () => false
-    },
-
-    required: {
-      type: Boolean,
-      default: () => false
-    },
-
-    helperText: {
-      type: String,
-      default: () => ""
-    },
-
-    validate: {
-      type: String,
-      default: () => ""
-    }
-  },
-
-  watch: {
-    model(value) {
-      this.$emit("on-input", value, this.name);
-    }
-  },
-
-  computed: {},
-
-  methods: {
-    computeClasses(errors) {
-      const { state } = this.$props;
-      return (
-        (state ? `input-${state}` : "") + (errors[0] ? " input-error" : "")
-      );
-    }
+@Component({
+  components: {
+    InputText,
+    InputPassword
   }
-};
+})
+export default class Input extends Vue {
+  @Prop(String) readonly label: string;
+  @Prop(String) readonly text: string;
+  @Prop(Boolean) readonly size: boolean;
+  @Prop(String) readonly icon: string;
+  @Prop(String) readonly type: string;
+  @Prop(String) readonly state: string;
+  @Prop(String) readonly className: string;
+  @Prop(String) readonly placeholder: string;
+  @Prop(String) readonly name!: string;
+  @Prop(String) readonly value: string;
+  @Prop(String) readonly disabled: boolean;
+  @Prop(String) readonly focused: boolean;
+  @Prop(String) readonly required: boolean;
+  @Prop(String) readonly helperText: boolean;
+
+  capitalize(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  computeClasses(errors) {
+    const { state } = this.$props;
+    return (state ? `input-${state}` : "") + (errors[0] ? " input-error" : "");
+  }
+
+  get computeComponent(): string {
+    console.log(this.$props);
+
+    const { capitalize, type } = this;
+    return type ? `Input${capitalize(type)}` : "InputText";
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -121,7 +63,6 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
 
   &-label {
     font-size: 0.875em;
