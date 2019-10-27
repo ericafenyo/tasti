@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Register from "./view/Register/Register.vue";
+import Register from "./views/Register/Register.vue";
 import Toolbar from "./components/Toolbar/Toolbar.vue";
 import Input from "./components/Input/Input.vue";
 
