@@ -5,23 +5,38 @@
         <Headline text="Create Account" :level="3" class="mb-4" />
         <ValidationObserver v-slot="{ invalid, passes }" slim>
           <form @submit.prevent class="form" novalidate="true">
-            <div class="form-item">
-              <Input
-                label="Full name"
-                type="text"
-                name="name"
-                :required="true"
-                placeholder="What's your full name?"
-                @on-input="onInput"
-                validate="required"
-              />
+            <div class="form-column">
+              <div class="form-item">
+                <Input
+                  label="First Name"
+                  type="text"
+                  name="name"
+                  :required="true"
+                  placeholder="John"
+                  @on-input="onInput"
+                  validate="required"
+                />
+              </div>
+
+              <div class="form-item">
+                <Input
+                  label="Last Name"
+                  type="text"
+                  name="name"
+                  :required="true"
+                  placeholder="Doe"
+                  @on-input="onInput"
+                  validate="required"
+                />
+              </div>
             </div>
+
             <div class="form-item">
               <Input
                 label="Email Address"
                 type="text"
                 name="email"
-                placeholder="you@example.com"
+                placeholder="name@example.com"
                 @on-input="onInput"
                 validate="required|email"
               />
@@ -37,8 +52,8 @@
               />
             </div>
 
-            <div class="form-group">
-              <div class="privacy-agreement my-3">
+            <div class="form-item">
+              <div class="privacy-agreement">
                 <Checkbox>
                   Accept
                   <a href="#">Terms and Conditions</a>
@@ -110,7 +125,7 @@ export default {
   background-color: $color-surface;
   height: 100vh;
   .register-wrapper {
-    max-width: 480px;
+    max-width: 560px;
     margin: 0 auto;
     background-color: $white;
     padding: 2rem 0;
@@ -141,6 +156,11 @@ export default {
       margin: 0 8px;
     }
   }
+
+  .button {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
 
 @media screen and (max-width: 578px) {
@@ -155,6 +175,14 @@ export default {
 
 .mt-5 {
   margin-top: 48px;
+}
+
+.form-column {
+  @include laptop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+  }
 }
 
 .form-item {
