@@ -18,4 +18,5 @@ export class AppController {
 	getProfile(@Request() request) {
 		return request.user;
 	}
+
 }
