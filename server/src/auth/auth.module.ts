@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 
 const jwtModuleOptions: JwtModuleOptions = {
 	secret: jwtConstants.secret,
-	signOptions: { expiresIn: '60s' }
+	signOptions: { expiresIn: '3600s' }
 };
 
 @Module({
