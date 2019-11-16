@@ -38,8 +38,6 @@ export default {
 
   computed: {
     computeClass() {
-      console.log(this.$props);
-
       return `button-${this.$props.type} button-${this.$props.size} ${this.$props.icon} `;
     }
   },
