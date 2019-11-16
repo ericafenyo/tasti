@@ -7,7 +7,13 @@
       :placeholder="placeholder"
       :type="type"
       :name="name"
+      :className="className"
+      :required="required"
+      @on-input="(inputData) => $emit('on-input', inputData)"
     />
+    <span
+      :class="['input-help-message', {'input-help-message-error':hasError }, {'opacity-0': !hasError}]"
+    >Field is required</span>
   </div>
 </template>
 
@@ -16,6 +22,7 @@ import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 
 import InputText from "./InputText.vue";
 import InputPassword from "./InputPassword.vue";
+import BaseInput from "./BaseInput.vue";
 
 @Component({
   components: {
@@ -23,23 +30,9 @@ import InputPassword from "./InputPassword.vue";
     InputPassword
   }
 })
-export default class Input extends Vue {
-  @Prop(String) readonly label: string;
-  @Prop(String) readonly text: string;
-  @Prop(Boolean) readonly size: boolean;
-  @Prop(String) readonly icon: string;
-  @Prop(String) readonly type: string;
-  @Prop(String) readonly state: string;
-  @Prop(String) readonly className: string;
-  @Prop(String) readonly placeholder: string;
-  @Prop(String) readonly name!: string;
-  @Prop(String) readonly value: string;
-  @Prop(String) readonly disabled: boolean;
-  @Prop(String) readonly focused: boolean;
-  @Prop(String) readonly required: boolean;
-  @Prop(String) readonly helperText: boolean;
-
+export default class Input extends BaseInput {
   capitalize(value: string) {
+    console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
@@ -49,10 +42,13 @@ export default class Input extends Vue {
   }
 
   get computeComponent(): string {
-    console.log(this.$props);
-
     const { capitalize, type } = this;
     return type ? `Input${capitalize(type)}` : "InputText";
+  }
+
+  get hasError(): boolean {
+    const [inputError] = this.className;
+    return inputError["input-error"];
   }
 }
 </script>
@@ -70,43 +66,38 @@ export default class Input extends Vue {
     color: $color-primary-text;
     font-weight: 500;
   }
-  &-element {
+
+  /deep/ &-element {
+    font-family: $font;
     height: 48px;
     background-color: $color-surface;
-    font-size: 1em;
+    font-size: 1rem;
     color: $color-primary-text;
-    border: solid 1px $color-border;
-    padding: 0 1rem;
+    border: 0;
+    box-shadow: inset 0 0 0 0px $color-border;
+    padding-left: 1rem;
+    padding-right: 3rem;
     border-radius: 3px;
     width: 100%;
+    z-index: 0;
+    transition: all 0.2s;
 
     &:focus {
-      outline: none;
-      border: solid 2px $color-accent;
+      box-shadow: inset 0 0 0px 2px $color-accent;
+    }
+
+    &.input-error {
+      box-shadow: inset 0 0 0px 2px $red;
     }
   }
 
-  &-help {
-    display: flex;
-    align-items: center;
-    margin-top: 8px;
-    &-message {
-      font-size: 12px;
-      margin: 0 8px;
-      color: $green;
-    }
-  }
+  &-help-message {
+    font-size: 12px;
+    margin-top: 0.5rem;
+    font-weight: 500;
 
-  &-error {
-    border-color: red;
-    & + .input-help {
-      svg {
-        color: red;
-      }
-
-      .input-help-message {
-        color: red;
-      }
+    &-error {
+      color: $red;
     }
   }
 }

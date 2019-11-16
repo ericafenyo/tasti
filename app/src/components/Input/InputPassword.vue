@@ -1,7 +1,7 @@
 <template>
-  <span class="input-password-wrapper">
+  <span class="input-password">
     <input
-      class="input-password"
+      :class="['input-element', ...className]"
       :type="computeInputType"
       required
       :id="name"
@@ -27,7 +27,7 @@ export default class InputText extends Vue {
   @Prop(Boolean) readonly disabled: boolean;
   @Prop(String) readonly helperText: string;
   @Prop(String) readonly placeholder: string;
-  @Prop(String) readonly className: string;
+  @Prop() readonly className: any;
 
   model: string = "";
   isVisible: boolean = false;
@@ -41,8 +41,6 @@ export default class InputText extends Vue {
   }
 
   toggleVisibility(event) {
-    console.log(event.target);
-this.$refs.inputPassword.focus()
     this.isVisible = !this.isVisible;
   }
 
@@ -55,7 +53,7 @@ this.$refs.inputPassword.focus()
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
-.input-password-wrapper {
+.input-password {
   position: relative;
 
   .icon {
@@ -64,28 +62,6 @@ this.$refs.inputPassword.focus()
     top: 50%;
     transform: translateY(-50%);
     right: 16px;
-  }
-}
-.input-password {
-  font-family: $font;
-  height: 48px;
-  background-color: $color-surface;
-  font-size: 1rem;
-  color: $color-primary-text;
-  border: 0;
-  box-shadow: inset 0 0 0 0px $color-border;
-  padding-left: 1rem;
-  padding-right: 3rem;
-  border-radius: 3px;
-  width: 100%;
-  z-index: 0;
-
-  &:focus {
-    box-shadow: inset 0 0 0px 2px $color-accent;
-  }
-
-  &:hover {
-    box-shadow: inset 0 0 0px 2px $color-accent;
   }
 }
 </style>

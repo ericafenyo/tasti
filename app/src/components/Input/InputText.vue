@@ -1,12 +1,12 @@
 <template>
   <input
-    class="input-text"
     type="text"
     :id="name"
     ref="inputRef"
     :placeholder="placeholder"
     :name="name"
-    v-model="model"
+    v-model.trim="model"
+    :class="['input-element', ...className]"
   />
 </template>
 
@@ -20,7 +20,7 @@ export default class InputText extends Vue {
   @Prop(Boolean) readonly disabled: boolean;
   @Prop(String) readonly helperText: string;
   @Prop(String) readonly placeholder: string;
-  @Prop(String) readonly className: string;
+  @Prop() readonly className: any;
 
   model: string = "";
 
@@ -33,20 +33,4 @@ export default class InputText extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
-
-.input-text {
-  font-family: $font;
-  height: 48px;
-  background-color: $color-surface;
-  font-size: 1rem;
-  color: $color-primary-text;
-  border: 0;
-  box-shadow: inset 0 0 0 0px $color-border;
-  padding: 0 1rem;
-  border-radius: 3px;
-
-  &:focus {
-    box-shadow: inset 0 0 0 2px $color-accent;
-  }
-}
 </style>
