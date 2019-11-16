@@ -4,18 +4,15 @@ export class User {
   @PrimaryGeneratedColumn('increment') 
   id: number;
 
-  @Column() 
-  username: string;
+	@Column({ name: 'first_name' })
+	firstName: string;
+
+	@Column({ name: 'last_name' })
+	lastName: string;
 
   @Column() 
   email: string;
 
   @Column() 
   password: string;
-
-	@Column({ nullable: true })
-  name: string;
-  
-	@Column({ nullable: true })
-	state: string;
 }
