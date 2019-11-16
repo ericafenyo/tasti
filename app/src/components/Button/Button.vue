@@ -50,7 +50,7 @@ export default {
 
 .button {
   padding: 0 1em;
-  min-height: 40px;
+  min-height: 48px;
   font-family: sans-serif;
   border-radius: 3px;
   border: 1px solid transparent;
