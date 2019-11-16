@@ -3,119 +3,125 @@
     <div class="register-wrapper">
       <div class="container">
         <Headline text="Create Account" :level="3" class="mb-4" />
-        <ValidationObserver v-slot="{ invalid, passes }" slim>
-          <form @submit.prevent class="form" novalidate="true">
-            <div class="form-column">
-              <div class="form-item">
-                <Input
-                  label="First Name"
-                  type="text"
-                  name="name"
-                  :required="true"
-                  placeholder="John"
-                  @on-input="onInput"
-                  validate="required"
-                />
-              </div>
-
-              <div class="form-item">
-                <Input
-                  label="Last Name"
-                  type="text"
-                  name="name"
-                  :required="true"
-                  placeholder="Doe"
-                  @on-input="onInput"
-                  validate="required"
-                />
-              </div>
-            </div>
-
+        <form @submit.prevent class="form" novalidate="true">
+          <div class="form-column">
             <div class="form-item">
               <Input
-                label="Email Address"
+                label="First Name"
                 type="text"
-                name="email"
-                placeholder="name@example.com"
+                name="first-name"
+                required="true"
+                :className="[{'input-error': $v.formData.firstName.$error}]"
+                placeholder="John"
                 @on-input="onInput"
-                validate="required|email"
-              />
-            </div>
-            <div class="form-item">
-              <Input
-                label="Password"
-                type="password"
-                name="password"
-                placeholder="Enter 8 or more characters"
-                @on-input="onInput"
-                validate="required|min:8"
               />
             </div>
 
             <div class="form-item">
-              <div class="privacy-agreement">
-                <Checkbox>
-                  Accept
-                  <a href="#">Terms and Conditions</a>
-                </Checkbox>
-              </div>
+              <Input
+                label="Last Name"
+                type="text"
+                name="last-name"
+                required="true"
+                :className="[{'input-error': $v.formData.lastName.$error}]"
+                placeholder="Doe"
+                @on-input="onInput"
+              />
             </div>
-            <Button
-              :disabled="invalid"
-              text="Create Account"
-              class="mb-3"
-              type="primary"
-              @on-click="onSubmit"
+          </div>
+
+          <div class="form-item">
+            <Input
+              label="Email Address"
+              type="text"
+              name="email"
+              :className="[{'input-error': $v.formData.email.$error}]"
+              placeholder="name@example.com"
+              @on-input="onInput"
             />
-            <div class="account-notice">
-              <span class="text">Already have an account?</span>
-              <a class="action-sign-in" href="#">Sign in</a>
+          </div>
+          <div class="form-item">
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              :className="[{'input-error': $v.formData.password.$error}]"
+              placeholder="Enter 8 or more characters"
+              @on-input="onInput"
+            />
+          </div>
+
+          <div class="form-item">
+            <div class="privacy-agreement">
+              <Checkbox>
+                Accept
+                <a href="#">Terms and Conditions</a>
+              </Checkbox>
             </div>
-          </form>
-        </ValidationObserver>
+          </div>
+          <Button text="Create Account" class="mb-3" type="primary" @on-click="onSubmit" />
+          <div class="account-notice">
+            <span class="text">Already have an account?</span>
+            <a class="action-sign-in" href="#">Sign in</a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import Input from "@/components/Input/Input";
-import Headline from "@/components/Headline/Headline";
-import Button from "@/components/Button/Button";
-import Checkbox from "@/components/Checkbox";
+<script lang="ts">
+import { Vue, Component, Prop } from "vue-property-decorator";
+import { Validate, Validations } from "vuelidate-property-decorators";
+import { required, email, minLength } from "vuelidate/lib/validators";
+import camelCase from "lodash/camelCase";
 
-export default {
-  data: () => ({
-    name: "",
-    email: "",
-    password: ""
-  }),
+import Headline from "@/components/Headline/Headline.vue";
+import Input from "@/components/Input/Input.vue";
+import Button from "@/components/Button/Button.vue";
+import Checkbox from "@/components/Checkbox.vue";
 
+@Component({
   components: {
-    Input,
     Headline,
+    Input,
     Button,
     Checkbox
-  },
+  }
+})
+export default class Register extends Vue {
+  formData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: ""
+  };
 
-  methods: {
-    onSubmit() {
-      const { name, email, password } = this.$data;
-      // If the form data is not null, dispatch an action
-      // to create a new user account.
-      console.log(name, email, password);
-      if (name && email && password) {
-        console.log(name, email, password);
+  @Validations()
+  validations = {
+    formData: {
+      firstName: { required },
+      lastName: { required },
+      email: { required, email },
+      password: { required, minLength: minLength(8) }
+    }
+  };
 
-        this.$store.dispatch("createUser", this.$data);
-      }
-    },
+  onSubmit() {
+    const { $touch, $invalid } = this.$v;
+    // Force the validation of form
+    $touch();
 
-    onInput(value, name) {
-      this.$data[name] = value;
+    if (!$invalid) {
+      this.$store.dispatch("createUser", this.formData);
+      
     }
   }
-};
+
+  onInput({ value, name }) {
+    this.formData[camelCase(name)] = value;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
