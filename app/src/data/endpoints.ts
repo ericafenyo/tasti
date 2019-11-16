@@ -30,12 +30,7 @@
  * 3: Invoke the function of your choice and pass the required parameters.
  */
 
-import axios from "axios";
 
-// The API server URL that will be used for the HTTP request.
-const BASE_URL = "http://localhost:2700/";
-
-const instance = axios.create({ baseURL: BASE_URL });
 
 /**
  * Performs an HTTP request using the [axios api]{@link https://github.com/axios/axios}
@@ -44,24 +39,24 @@ const instance = axios.create({ baseURL: BASE_URL });
  * @param {Type} params Optional: The URL parameters to be sent with the request.
  */
 export const registerUser = (user: object) => {
-  try {
-    const response = instance.post("/users/register", user);
-    return response;
-  } catch (error) {
-    console.log("Error during user registration", error);
-    return "Error";
-    // return new Result.Builder().setError(true).build();
-  }
+	try {
+		const response = instance.post('/users/register', user);
+		return response;
+	} catch (error) {
+		console.log('Error during user registration', error);
+		return 'Error';
+		// return new Result.Builder().setError(true).build();
+	}
 };
 
 export const createRecipe = (userId: number, recipe: object) => {
-  const headers = { "Content-Type": "multipart/form-data" };
+	const headers = { 'Content-Type': 'multipart/form-data' };
 
-  try {
-    console.log(recipe);
-    const response = instance.post(`recipes/${userId}`, recipe, { headers });
-    console.log(response);
-  } catch (error) {
-    console.log("Error", error);
-  }
+	try {
+		console.log(recipe);
+		const response = instance.post(`recipes/${userId}`, recipe, { headers });
+		console.log(response);
+	} catch (error) {
+		console.log('Error', error);
+	}
 };
