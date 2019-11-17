@@ -25,17 +25,25 @@
  */
 
 import { instance } from '../ConnectionHelper';
+import { AxiosPromise, AxiosResponse } from 'axios';
 
 export interface UserService {
-	createUser: (user: any) => void;
+  createAccount: (user: any) => void;
+
+  authenticate: (username: string, password: string) => Promise<AxiosResponse<any>>;
 }
 
 export class UserServiceImpl implements UserService {
-	/**
+  /**
      * 
      * @param user 
      */
-	async createUser(user: any) {
-		return await instance.post('/auth/create', user);
-	}
+  async createAccount(user: any) {
+    return await instance.post('/auth/create', user);
+  }
+
+  async authenticate(username: string, password: string): Promise<AxiosResponse<any>> {
+    // TODO: Encrypt password before sending
+    return await instance.post('/auth/login', { username, password });
+  }
 }
