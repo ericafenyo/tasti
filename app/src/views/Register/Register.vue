@@ -103,14 +103,18 @@ export default class Register extends Vue {
     }
   };
 
-  onSubmit() {
+  async onSubmit() {
     const { $touch, $invalid } = this.$v;
     // Force the validation of form
     $touch();
 
     if (!$invalid) {
-      this.$store.dispatch("createUser", this.formData);
-      this.$router.replace("login");
+      try {
+        await this.$store.dispatch("createUser", this.formData);
+        this.$router.replace("login");
+      } catch (error) {
+         throw new Error("There was an error while signing up");
+      }
     }
   }
 
