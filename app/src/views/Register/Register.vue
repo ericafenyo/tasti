@@ -60,10 +60,6 @@
             </div>
           </div>
           <Button text="Create Account" class="mb-3" type="primary" @on-click="onSubmit" />
-          <div class="account-notice">
-            <span class="text">Already have an account?</span>
-            <a class="action-sign-in" href="#">Sign in</a>
-          </div>
         </form>
       </div>
     </div>
@@ -114,7 +110,7 @@ export default class Register extends Vue {
 
     if (!$invalid) {
       this.$store.dispatch("createUser", this.formData);
-      
+      this.$router.replace("login");
     }
   }
 
