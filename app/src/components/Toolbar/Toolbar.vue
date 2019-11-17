@@ -34,6 +34,7 @@ export default class Toolbar extends Vue {
 @import "@/scss/_resources.scss";
 .toolbar-wrapper {
   height: 56px;
+  width: 100%;
   background: $white;
   box-shadow: inset 0px -1px 0px $color-border;
 
