@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Toolbar />
-    <router-view/>
+    <Toolbar class="header-fix" />
+    <router-view />
   </div>
 </template>
 
@@ -29,5 +29,9 @@ export default class App extends Vue {}
   :first-child {
     width: 480px;
   }
+}
+
+.header-fix {
+  position: fixed;
 }
 </style>
