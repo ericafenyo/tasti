@@ -5,21 +5,28 @@ import { userRepository } from '@/data/Injector';
 Vue.use(Vuex);
 
 const initialState = {
-	users: []
+  users: [],
+  token: ''
 };
+
 export const store = new Vuex.Store({
-	state: initialState,
+  state: initialState,
 
-	mutations: {
-		CREATE_USER(state, payload: object) {
-			// state.users.push(payload);
-		}
-	},
+  mutations: {
+    async setToken(state, payload: string) {
+      localStorage.setItem('access_token', payload);
+      state.token = payload;
+    }
+  },
 
-	actions: {
-		createUser({ commit }, userInfo: object) {
-			userRepository.createUser(userInfo);
-			commit('CREATE_USER', userInfo);
-		}
-	}
+  actions: {
+    async createUser({ commit }, userInfo: object) {
+      userRepository.createAccount(userInfo);
+    },
+
+    async authenticate({ commit }, { username, password }) {
+      const response = await userRepository.authenticate(username, password);
+      commit('setToken', response.data.access_token);
+    }
+  }
 });

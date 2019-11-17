@@ -57,14 +57,21 @@ export default class Login extends Vue {
     password: { required }
   };
 
-  onSubmit() {
+  async onSubmit() {
     const { $touch, $invalid } = this.$v;
     // Force the validation of form
     $touch();
 
     if (!$invalid) {
-      //   this.$store.dispatch("createUser", this.formData);
-      //   this.$router.replace("login");
+      try {
+        await this.$store.dispatch("authenticate", {
+          username: this.email,
+          password: this.password
+        });
+        this.$router.replace("/");
+      } catch (error) {
+        throw new Error("There was an error while logging in");
+      }
     }
   }
 
@@ -85,25 +92,9 @@ export default class Login extends Vue {
 
   @include phablet {
     height: initial;
-  }
-
-  @include laptop {
     padding: 3rem 1rem;
-    padding-top: 3rem;
     margin-top: 3rem;
     border: 1px solid $color-border;
-  }
-
-  .account-notice {
-    span {
-      color: $color-primary-text;
-    }
-
-    .action-sign-in {
-      color: #30be76;
-      font-size: 16px;
-      margin: 0 8px;
-    }
   }
 
   .button {
