@@ -7,5 +7,5 @@
 	"database": "tasty",
 	"entities": [ "dist/**/*.entity{.ts,.js}" ],
 	"synchronize": true,
-	"logging": false
+	"logging": true
 }
