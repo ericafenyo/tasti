@@ -2,7 +2,7 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create Account" :level="3" class="mb-4" />
+        <Headline text="Create a Free Account" :level="3" class="mb-4" />
         <form @submit.prevent class="form" novalidate="true">
           <div class="form-column">
             <div class="form-item">
@@ -185,9 +185,5 @@ export default class Register extends Vue {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
   }
-}
-
-.form-item {
-  margin-bottom: 1.5rem;
 }
 </style>
