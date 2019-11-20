@@ -1,36 +1,23 @@
 <template>
   <div id="app">
-    <Toolbar class="header-fix" />
+    <Header class="header-fix" />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Register from "./views/Register/Register.vue";
-import Toolbar from "./components/Toolbar/Toolbar.vue";
-import Input from "./components/Input/Input.vue";
+import Header from "./components/Header/Header.vue";
 
 @Component({
   components: {
-    Input,
-    Toolbar,
-    Register
+    Header
   }
 })
 export default class App extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.element-test {
-  display: flex;
-  margin: 48px;
-
-  :first-child {
-    width: 480px;
-  }
-}
-
 .header-fix {
   position: fixed;
 }
