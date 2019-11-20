@@ -4,7 +4,10 @@
   </IconBase>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import camelCase from "lodash/camelCase";
+
 import IconBase from "./IconBase.vue";
 
 import IconAdd from "./IconAdd.vue";
@@ -12,6 +15,8 @@ import IconArrowDown from "./IconArrowDown.vue";
 import IconArrowLeft from "./IconArrowLeft.vue";
 import IconArrowRight from "./IconArrowRight.vue";
 import IconArrowUp from "./IconArrowUp.vue";
+import IconArrowForward from "./IconArrowForward.vue";
+import IconArrowBack from "./IconArrowBack.vue";
 import IconClose from "./IconClose.vue";
 import IconDelete from "./IconDelete.vue";
 import IconEdit from "./IconEdit.vue";
@@ -28,7 +33,31 @@ import IconUpload from "./IconUpload.vue";
 import IconVisibility from "./IconVisibility.vue";
 import IconVisibilityOff from "./IconVisibilityOff.vue";
 
-export default {
+type IconOption =
+  | "add"
+  | "arrow-down"
+  | "arrow-left"
+  | "arrow-right"
+  | "arrow-up"
+  | "arrow-forward"
+  | "arrow-back"
+  | "close"
+  | "delete"
+  | "edit"
+  | "filter"
+  | "like"
+  | "logout"
+  | "message"
+  | "notification"
+  | "play"
+  | "search"
+  | "settings"
+  | "timer"
+  | "upload"
+  | "visibility"
+  | "visibility-off";
+
+@Component({
   components: {
     IconBase,
     IconAdd,
@@ -36,6 +65,8 @@ export default {
     IconArrowLeft,
     IconArrowRight,
     IconArrowUp,
+    IconArrowForward,
+    IconArrowBack,
     IconClose,
     IconDelete,
     IconEdit,
@@ -51,26 +82,14 @@ export default {
     IconUpload,
     IconVisibility,
     IconVisibilityOff
-  },
-
-  props: {
-    name: {
-      type: String,
-      default: "edit"
-    }
-  },
-
-  methods: {
-    capitalize(value) {
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    }
-  },
-
-  computed: {
-    computeIcon() {
-      const name = this.capitalize(this.name);
-      return `Icon${name}`;
-    }
   }
-};
+})
+export default class Icon extends Vue {
+  @Prop({ type: String, default: "edit" })
+  readonly name: IconOption;
+
+  get computeIcon(): string {
+    return camelCase(`icon-${this.name}`);
+  }
+}
 </script>
