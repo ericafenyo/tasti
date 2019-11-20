@@ -42,12 +42,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 
-.icon {
-  &:hover g {
-    fill: rgba($black, $alpha-active);
-  }
-}
-
 .active {
   fill: rgba($black, $alpha-active);
 }
