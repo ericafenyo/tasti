@@ -19,7 +19,7 @@ export default class SearchBar extends Vue {}
 .search-bar {
   position: relative;
   height: 42px;
-  min-width: 480px;
+  max-width: 650px;
   background-color: $color-surface;
   border-radius: 4px;
   overflow: hidden;
@@ -66,6 +66,7 @@ export default class SearchBar extends Vue {}
     padding: 0 12px;
     right: 0;
     top: 50%;
+    box-sizing: content-box;
   }
 }
 </style>
