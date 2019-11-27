@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -26,12 +26,8 @@ export class UserService {
 	async create(user: User) {
 		const hashedPassword = await this.encryptPassword(user.password);
 		const { password, ...result } = user;
-		const userConstruct = { password: hashedPassword, ...result };
+		const userConstruct: User = { password: hashedPassword, ...result };
 
-		try {
-			const response = await this.userRepository.insert(userConstruct);
-		} catch (error) {
-      throw UnauthorizedException
-    }
+		return await this.userRepository.insert(userConstruct);
 	}
 }
