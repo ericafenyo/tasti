@@ -3,7 +3,7 @@ import { Recipe } from '../recipe/recipe.entity';
 
 @Entity()
 export class Ingredient {
-  @PrimaryGeneratedColumn('uuid') 
+  @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({ nullable: false })
   name: string;

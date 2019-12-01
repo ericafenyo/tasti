@@ -3,9 +3,9 @@ import { Recipe } from '../recipe/recipe.entity';
 
 @Entity()
 export class Direction {
-  @PrimaryGeneratedColumn('uuid') 
+  @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Column({ nullable: false })
   text: string;
 

@@ -4,6 +4,6 @@ import { DirectionController } from './direction.controller';
 
 @Module({
   providers: [DirectionService],
-  controllers: [DirectionController]
+  controllers: [DirectionController],
 })
 export class DirectionModule {}

@@ -10,5 +10,5 @@ export class Photo {
    path: string;
 
    @ManyToOne(type => Recipe, recipe => recipe.photos)
-   recipe: Recipe
+   recipe: Recipe;
 }

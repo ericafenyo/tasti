@@ -1,4 +1,4 @@
 
 export class PhotoDto {
- path : string;
+ path: string;
 }

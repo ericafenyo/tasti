@@ -19,9 +19,9 @@ import { PhotoModule } from './photo/photo.module';
     DirectionModule,
     RecipeMetadataModule,
     ProfileModule,
-    PhotoModule
+    PhotoModule,
   ],
   controllers: [ AppController ],
-  providers: [ AppService ]
+  providers: [ AppService ],
 })
 export class AppModule {}

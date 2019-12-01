@@ -9,7 +9,7 @@ import { Recipe } from '../recipe/recipe.entity';
 export class RecipeMetadataService {
   constructor(
     @InjectRepository(RecipeMetadata) private metadataRepository: Repository<RecipeMetadata>,
-    @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>
+    @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
   ) {}
 
   /**
