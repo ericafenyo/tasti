@@ -1,11 +1,55 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../user/user.entity';
+import { Ingredient } from '../ingredient/ingredient.entity';
+import { Direction } from '../direction/direction.entity';
+import { Photo } from '../photo/photo.entity';
+import { RecipeMetadata } from '../recipe-metadata/recipe-metadata.entity';
 
 @Entity()
 export class Recipe {
-	@PrimaryGeneratedColumn('uuid') id: number;
-	@Column() name: string;
+  @PrimaryGeneratedColumn('uuid') id: string;
+
+  @Column() name: string;
+
   @Column() imagePath: string;
-	@ManyToOne((type) => User, (user) => user.recipes, { nullable: false })
-  user: User;
+
+  @ManyToOne(
+    _ => User,
+    user => user.recipes,
+    { nullable: false },
+  )
+  @JoinColumn({ name: 'userId' })
+  owner: User;
+
+  @OneToMany(
+    _ => Ingredient,
+    ingredient => ingredient.recipe,
+  )
+  ingredients: Ingredient[];
+
+  @OneToMany(
+    _ => Direction,
+    direction => direction.recipe,
+  )
+  directions: Direction[];
+
+  @OneToMany(
+    _ => Photo,
+    photo => photo.recipe,
+  )
+  photos: Photo[];
+
+  @OneToOne(
+    _ => RecipeMetadata,
+    metadata => metadata.recipe,
+  )
+  metadata: RecipeMetadata;
 }
