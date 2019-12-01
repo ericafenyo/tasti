@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, HttpStatus, HttpException, NotImplementedException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpStatus, HttpException, NotImplementedException, Logger } from '@nestjs/common';
 import { Recipe } from './recipe.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,13 +15,13 @@ export class RecipeService {
       }
       return;
     } catch (error) {
-      console.log(error);
+      Logger.log(error);
       throw error;
     }
   }
   constructor(
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   /**
