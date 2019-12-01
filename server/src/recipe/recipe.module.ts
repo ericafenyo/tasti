@@ -17,17 +17,17 @@ const path = require('path');
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads',
-        filename: function(_, file, callback) {
+        filename(_, file, callback) {
           const baseName = generator.generate({
             length: 12,
             numbers: true,
-            excludeSimilarCharacters: true
+            excludeSimilarCharacters: true,
           });
           const fileExtension = path.extname(file.originalname);
           callback(null, baseName + fileExtension);
-        }
-      })
-    })
+        },
+      }),
+    }),
   ],
 
   controllers: [ RecipeController ],

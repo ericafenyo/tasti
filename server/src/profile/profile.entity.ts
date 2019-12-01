@@ -2,19 +2,19 @@ import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Col
 
 @Entity()
 export class Profile {
-  @PrimaryGeneratedColumn('uuid') 
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @Column() 
+  @Column()
   bio: string;
 
-  @Column() 
+  @Column()
   avatarPath: string;
 
-  @Column() 
+  @Column()
   gender: string;
 
   @CreateDateColumn({ name: 'joined_at' })

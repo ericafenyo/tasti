@@ -9,6 +9,6 @@ import { Recipe } from '../recipe/recipe.entity';
   imports: [TypeOrmModule.forFeature([RecipeMetadata, Recipe])],
   controllers: [ RecipeMetadataController ],
   providers: [ RecipeMetadataService ],
-  exports: [ RecipeMetadataService ]
+  exports: [ RecipeMetadataService ],
 })
 export class RecipeMetadataModule {}

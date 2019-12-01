@@ -5,18 +5,17 @@ import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
-	constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-	@UseGuards(AuthGuard('local'))
-	@Post('auth/login')
-	async login(@Request() request) {
-		return this.authService.login(request.user);
-	}
+  @UseGuards(AuthGuard('local'))
+  @Post('auth/login')
+  async login(@Request() request) {
+    return this.authService.login(request.user);
+  }
 
-	@UseGuards(AuthGuard('jwt'))
-	@Get('profile')
-	getProfile(@Request() request) {
-		return request.user;
-	}
-
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
+  getProfile(@Request() request) {
+    return request.user;
+  }
 }
