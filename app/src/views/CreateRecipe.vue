@@ -1,5 +1,5 @@
 <template>
-  <section class="create-recipe pt-24">
+  <section class="create-recipe pt-24 pb-24">
     <div class="form-frame">
       <form @submit.prevent="onSubmit">
         <div class="form-module">
@@ -27,47 +27,123 @@
           </div>
         </div>-->
 
-        <div class="form-module">
+        <div class="form-module mb-4">
           <div class="container">
             <fieldset>
               <legend class="header-2">Ingredients</legend>
-
-              <div class="add-item">
-                <Icon color="red" class="mr-2" name="add" />
-                <span>Add Ingredient</span>
-              </div>
-              <div class="editable-item hidden">
-                <div class="flex">
-                  <div class="editable-item-checkbox mr-3">
-                    <Checkbox />
-                  </div>
-                  <div class="flex-1">
-                    <div class="editable-item-content hidden">
-                      <p editable="true">{{textData}}</p>
+              <div>
+                <div
+                  v-for="(ingredient, index) in data.ingredient.value"
+                  :key="index"
+                  class="editable-item editable mb-1"
+                >
+                  <div class="flex">
+                    <div class="editable-item-checkbox mr-3">
+                      <Checkbox />
                     </div>
-                    <div>
-                      <textarea class="editor mb-2" v-model="textData"></textarea>
+                    <div class="flex-1">
+                      <div class="editable-item-content">
+                        <p>{{ingredient}}</p>
+                      </div>
+                      <!-- <div :class="{'hidden': (!editorEnabled)}">
+                      <textarea class="editor mb-2" ></textarea>
                       <div class="editor-controls">
                         <Button text="Save" size="small" />
-                        <Button text="Cancel" size="small" type="text" />
+                        <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
                       </div>
+                      </div>-->
                     </div>
                   </div>
+                  <div
+                    @click.prevent="removeItem(index, 'ingredient')"
+                    class="editable-item-actions"
+                  >
+                    <Icon name="delete" />
+                  </div>
                 </div>
-                <div class="actions"></div>
+              </div>
+              <div class="mt-3">
+                <div :class="{'hidden': (editorEnabled)}">
+                  <div class="add-item" @click.prevent="enableEditor(1)">
+                    <Icon color="red" class="mr-2" name="add" />
+                    <span>Add Ingredient</span>
+                  </div>
+                </div>
+                <div :class="{'hidden': (!editorEnabled && activeEditor != 1)}">
+                  <textarea v-model="data.ingredient.model" class="editor mb-2"></textarea>
+                  <div class="editor-controls">
+                    <Button
+                      class="mr-2"
+                      @on-click="saveItem('ingredient')"
+                      text="Save"
+                      size="small"
+                    />
+                    <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="form-module">
+          <div class="container">
+            <fieldset class="form-module-title">
+              <legend class="header-2">How to Cook</legend>
+              <div>
+                <div
+                  v-for="(direction, index) in data.direction.value"
+                  :key="index"
+                  class="editable-item editable mb-1"
+                >
+                  <div class="flex">
+                    <div class="editable-item-checkbox mr-3">
+                      <Checkbox />
+                    </div>
+                    <div class="flex-1">
+                      <div class="editable-item-content">
+                        <p>{{direction}}</p>
+                      </div>
+                      <!-- <div :class="{'hidden': (!editorEnabled)}">
+                      <textarea class="editor mb-2" ></textarea>
+                      <div class="editor-controls">
+                        <Button text="Save" size="small" />
+                        <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
+                      </div>
+                      </div>-->
+                    </div>
+                  </div>
+                  <div
+                    @click.prevent="removeItem(index, 'direction')"
+                    class="editable-item-actions"
+                  >
+                    <Icon name="delete" />
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3">
+                <div :class="{'hidden': (editorEnabled)}">
+                  <div class="add-item" @click.prevent="enableEditor(2)">
+                    <Icon color="red" class="mr-2" name="add" />
+                    <span>Add Directions</span>
+                  </div>
+                </div>
+                <div :class="{'hidden': (!editorEnabled && activeEditor != 2)}">
+                  <textarea v-model="data.direction.model" class="editor mb-2"></textarea>
+                  <div class="editor-controls">
+                    <Button
+                      class="mr-2"
+                      @on-click="saveItem('direction')"
+                      text="Save"
+                      size="small"
+                    />
+                    <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
+                  </div>
+                </div>
               </div>
             </fieldset>
           </div>
         </div>
         <!-- <div class="form-module">
-          <div class="container">
-            <fieldset class="form-module-title">
-              <legend class="header-2">How to Cook</legend>
-              <div class="form-field"></div>
-            </fieldset>
-          </div>
-        </div>
-        <div class="form-module">
           <div class="container">
             <fieldset>
               <legend class="header-2">Additional Info</legend>
@@ -90,7 +166,14 @@ import Checkbox from "../components/Checkbox.vue";
 import autosize from "autosize";
 import Button from "@/components/Button/Button.vue";
 import Icon from "../components/Icons/Icon.vue";
-// import Upload from "../components/Upload.vue";
+
+type ItemKey = "ingredient" | "direction";
+type RecipeModel = {
+  [key: string]: {
+    model: string;
+    value: string[];
+  };
+};
 
 @Component({
   components: {
@@ -103,9 +186,50 @@ import Icon from "../components/Icons/Icon.vue";
   }
 })
 export default class CreateRecipe extends Vue {
-  textData = "Text";
+  data: RecipeModel = {
+    ingredient: {
+      model: "",
+      value: ["Okra"]
+    },
+    direction: {
+      model: "",
+      value: ["You suck at cooking"]
+    }
+  };
+
+  editorEnabled: boolean = false;
+  activeEditor: number = -1;
+
   onSubmit() {}
   onInput() {}
+
+  enableEditor( editorIndex?: number, enable: boolean = true, ) {
+    this.activeEditor = editorIndex;
+    this.editorEnabled = enable;
+  }
+
+  removeItem(index: number, key: ItemKey) {
+    this.data[key].value.splice(index, 1);
+  }
+
+  saveItem(key: ItemKey) {
+    const { model, value } = this.data[key];
+    console.log(model);
+    console.log(value);
+
+    if (!model) {
+      return;
+    }
+
+    this.data[key].value.push(model);
+    this.data[key].model = "";
+  }
+
+  disableEditor() {
+    console.log("qfsg");
+
+    this.editorEnabled = false;
+  }
 
   mounted() {
     autosize(document.querySelectorAll("textarea"));
@@ -117,13 +241,36 @@ export default class CreateRecipe extends Vue {
 @import "@/scss/_resources.scss";
 
 .create-recipe {
-  height: 100%;
   width: 100%;
   background-color: $color-surface;
 }
 
+.editable-item {
+  position: relative;
+  padding: 8px 4px;
+  border-radius: 2px;
+
+  &-actions {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    transform: translateY(-50%);
+  }
+
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+
+    .editable-item-actions {
+      display: block;
+    }
+  }
+}
+
 .editable {
-  cursor: text;
+  cursor: pointer;
 }
 
 .editor {
@@ -140,7 +287,7 @@ export default class CreateRecipe extends Vue {
   resize: none;
 }
 
-.add-item{
+.add-item {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -148,9 +295,9 @@ export default class CreateRecipe extends Vue {
   border: 1px dashed #a0aec0;
   color: #4a5568;
   font-weight: 500;
-  padding: 8px ;
-  &:hover{
-    background-color: rgba(9,30,66,.08);
+  padding: 8px;
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
     color: #172b4d;
   }
 }
