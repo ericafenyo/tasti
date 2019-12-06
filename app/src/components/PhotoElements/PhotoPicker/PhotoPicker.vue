@@ -139,7 +139,6 @@ export default class PhotoPicker extends Vue {
 }
 
 .delete-button {
-  background: url("./assets/icone_supprimer.svg") center no-repeat;
   width: 16px;
   height: 16px;
   position: absolute;

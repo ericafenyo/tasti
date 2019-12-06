@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar">
     <input class="search-bar-input" type="text" />
-    <Icon width="20" name="arrow-forward" class="arrow-forward-icon" />
+    <!-- <Icon width="20" name="arrow-forward" class="arrow-forward-icon" /> -->
     <Icon width="20" name="search" class="search-icon" />
   </div>
 </template>

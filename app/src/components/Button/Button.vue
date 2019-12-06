@@ -90,6 +90,7 @@ export default {
 
   &-text {
     padding: 0 8px;
+    background-color: transparent;
   }
 }
 </style>
