@@ -12,6 +12,7 @@
       @on-input="(inputData) => $emit('on-input', inputData)"
     />
     <span
+      v-if="hasHint"
       :class="['input-help-message', {'input-help-message-error':hasError }, {'opacity-0': !hasError}]"
     >Field is required</span>
   </div>
@@ -31,6 +32,8 @@ import BaseInput from "./BaseInput.vue";
   }
 })
 export default class Input extends BaseInput {
+
+
   capitalize(value: string) {
     console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
@@ -47,8 +50,10 @@ export default class Input extends BaseInput {
   }
 
   get hasError(): boolean {
-    const [inputError] = this.className;
-    return inputError["input-error"];
+    if (this.className) {
+      const [inputError] = this.className;
+      return inputError["input-error"];
+    }
   }
 }
 </script>
