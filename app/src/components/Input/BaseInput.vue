@@ -17,5 +17,6 @@ export default class BaseInput extends Vue {
   @Prop(String) readonly focused: boolean;
   @Prop(String) readonly required: boolean;
   @Prop(String) readonly helperText: boolean;
+  @Prop(String) readonly hasHint: boolean;
 }
 </script>
