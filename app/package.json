@@ -11,6 +11,7 @@
 		"build:css": "npx tailwind build tailwind.css -o ./src/scss/_utilities.scss"
 	},
 	"dependencies": {
+		"autosize": "^4.0.2",
 		"axios": "^0.19.0",
 		"bootstrap": "^4.3.1",
 		"core-js": "^3.2.1",
