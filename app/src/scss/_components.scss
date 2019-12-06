@@ -10,8 +10,30 @@
   font-weight: 600;
 }
 
+.form-module {
+  background: white;
+  padding: 1.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.form-frame {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 .form-item {
   margin-bottom: 1.5rem;
 }
 
+.form-field {
+  margin-bottom: 1.5rem;
+}
 
+.header-2 {
+  font-weight: 500;
+  font-size: 18px;
+  color: #3E3F42;
+  line-height: 28px;
+  margin: 8px 0 11px;
+}
