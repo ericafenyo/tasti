@@ -1,19 +1,18 @@
 <template>
   <div class="cropper">
     <div ref="image" />
-    <ButtonText @buttonClick="handleCropConfirm">
-      OK
-    </ButtonText>
+    <Button text="Crop" @on-click="handleCropConfirm"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
+import Button from '../../Button/Button.vue'
 import Croppie from 'croppie';
 
 require('croppie/croppie.css');
 
-@Component
+@Component({components:{ Button }})
 export default class ImageCropper extends Vue {
   @Prop({
     type: String,
@@ -27,7 +26,7 @@ export default class ImageCropper extends Vue {
   mounted() {
     this.croppie = new Croppie(this.$refs.image, {
       viewport: { width: 168, height: 168 },
-      boundary: { width: 500, height: 500 },
+      boundary: { width: 480, height: 480 },
       showZoomer: true,
       enableOrientation: false,
     });
@@ -41,7 +40,7 @@ export default class ImageCropper extends Vue {
   async handleCropConfirm() {
     const imageBlob = await this.croppie.result('blob');
     const urlCreator = window.URL || (window as any).webkitURL;
-    return this.$emit('cropConfirmed', urlCreator.createObjectURL(imageBlob));
+    return this.$emit('crop-confirmed', urlCreator.createObjectURL(imageBlob));
   }
 
   @Watch('imageUrl')
