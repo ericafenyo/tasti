@@ -37,3 +37,12 @@
   line-height: 28px;
   margin: 8px 0 11px;
 }
+
+.ar-1-1 {
+  @include aspect-ratio(1, 1);
+}
+
+.clip-content {
+  overflow: hidden !important;
+  // padding-right: 0;
+}
