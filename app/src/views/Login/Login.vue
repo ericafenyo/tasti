@@ -1,8 +1,8 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="login">
+    <div class="login card-module">
       <div class="container">
-        <Headline text="Login To Your Account" :level="3" class="mb-4" />
+        <Headline text="Login To Your Account" :level="3" class="mb-5" />
         <form @submit.prevent novalidate="true">
           <div class="form-item">
             <Input
@@ -64,13 +64,17 @@ export default class Login extends Vue {
 
     if (!$invalid) {
       try {
-        await this.$store.dispatch("authenticate", {
+        const response = await this.$store.dispatch("authenticate", {
           username: this.email,
           password: this.password
         });
-        this.$router.replace("/");
+
+        if (response.status === 201) {
+          this.$router.replace("/");
+        }
       } catch (error) {
-        throw new Error("There was an error while logging in");
+        console.error("There was an error while logging in -> " + error);
+        console.log(error);
       }
     }
   }
@@ -92,9 +96,10 @@ export default class Login extends Vue {
 
   @include phablet {
     height: initial;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
     margin-top: 3rem;
     border: 1px solid $color-border;
+    border-radius: 12px;
   }
 
   .button {

@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <Header class="header-fix" />
+    <NavigationBar v-if="false" class="header-fix" />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Header from "./components/Header/Header.vue";
+import NavigationBar from "./components/NavigationBar/NavigationBar.vue";
 
 @Component({
   components: {
-    Header
+    NavigationBar
   }
 })
 export default class App extends Vue {}

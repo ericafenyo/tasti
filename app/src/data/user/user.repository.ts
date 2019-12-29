@@ -4,12 +4,7 @@ export default class UserRepository implements UserService {
   constructor(private userService: UserService) {}
 
   createAccount(user: any) {
-    try {
-      const response = this.userService.createAccount(user);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    return this.userService.createAccount(user);
   }
 
   async authenticate(username: string, password: string) {

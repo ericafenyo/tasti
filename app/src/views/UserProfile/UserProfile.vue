@@ -1,101 +1,102 @@
 <template>
-  <div class="profile">
-    <ProfileStats :stats="stats" class="m-3" />
-    <Tabs :tabs="tabs" class="mx-3 my-2" @active="active" />
-    <div class="cookbooks">
-      <div class="container px-3">
-        <div class="row">
-          <div
-            class="col-xs-12 col-md-6 col-lg-4 mb-3"
-            v-for="cookbook in cookbooks"
-            :key="cookbook.id"
-          >
-            <Cookbook :cookbook="cookbook" />
+  <section class="profile h-full">
+      <CreateRecipeTemplate />
+    <div class="container">
+      <div class="layout mt-4">
+        <aside class="aside-content">
+          <ProfileStats :stats="stats" />
+          <div class="card-module my-4">
+            <ContextMenu :items="menuItems" @on-click="onMenuItemClick" />
           </div>
-        </div>
+          <div @click.prevent="createNewRecipe" class="flex items-center justify-between">
+            <span>New</span>
+            <Icon name="add" />
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <Tabs />
+          <div class="flex flex-wrap mt-3">
+            <div v-for="(recipe, index) in 4" :key="index">
+              <Recipe />
+            </div>
+          </div>
+        </main>
+
+        <!-- <aside class="aside-content">
+          <ProfileStats :stats="stats" />
+        </aside>-->
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
-<script>
-import { ProfileStats } from "@tasti/core";
+<script lang="ts">
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import ProfileStats from "../../components/ProfileStats/ProfileStats.vue";
 import Cookbook from "@/components/Cookbook/Cookbook.vue";
+import EditProfile from "@/components/EditProfile/EditProfile.vue";
+import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
 
-import { Tabs } from "@tasti/tabs";
-
-export default {
+import ContextMenu, {
+  ContextMenuItemOption
+} from "../../components/ContextMenu/ContextMenu.vue";
+import Tabs from "../../components/Tabs/Tabs.vue";
+import { IconOption } from "../../components/Icons/Icon.vue";
+@Component({
   components: {
     ProfileStats,
     Tabs,
-    Cookbook
-  },
-
-  methods: {
-    active(value) {
-      console.log(value);
-    }
-  },
-
-  data() {
-    return {
-      cookbooks: [
-        {
-          id: 1,
-          name: "Italian",
-          recipeCount: 20,
-          imageUrl:
-            "https://images.unsplash.com/photo-1487376318617-f43c7b41e2e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-        },
-        {
-          id: 2,
-          name: "Chocolates",
-          recipeCount: 68,
-          imageUrl:
-            "https://images.unsplash.com/photo-1472452049192-db15def0be25?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1681&q=80"
-        },
-        {
-          id: 3,
-          name: "Sweets",
-          recipeCount: 2,
-          imageUrl:
-            "https://images.unsplash.com/photo-1522248105696-9625ba87de6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1867&q=80"
-        }
-      ],
-
-      stats: [
-        {
-          value: 20,
-          text: "Recipe"
-        },
-        {
-          value: 75,
-          text: "Saved"
-        },
-        {
-          value: 248,
-          text: "Following"
-        }
-      ],
-
-      tabs: ["Cookbooks", "Collection"]
-    };
+    Cookbook,
+    ContextMenu,
+    EditProfile,
+    CreateRecipeTemplate
   }
-};
+})
+export default class UserProfile extends Vue {
+  addRecipe = false;
+
+  tabs = ["Cookbooks", "Collection"];
+  menuItems: ContextMenuItemOption[] = [
+    {
+      text: "Settings",
+      icon: "settings"
+    },
+    {
+      text: "Log Out",
+      icon: "logout"
+    }
+  ];
+
+  createNewRecipe() {}
+
+  active(value) {
+    console.log(value);
+  }
+  onMenuItemClick() {}
+}
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 16px;
+}
 
 .profile {
+  padding-top: 64px;
   background-color: #f4f7f9;
-  display: flex;
-  flex-direction: column;
+
+  .container {
+    padding: 0;
+  }
 
   .stats-wrapper {
-    display: inline-block;
+    //   display: inline-block;
     background: $white;
-    margin: 8px;
+    // margin: 8px;
     border-radius: 3px;
   }
 
@@ -125,9 +126,9 @@ export default {
     .tab {
       flex: 1;
       text-align: center;
-      color: rgba($hunter-green, 0.4);
+      color: rgba($color-accent, 0.4);
       &-active {
-        color: $hunter-green;
+        color: $color-accent;
         @include lead;
       }
     }

@@ -1,7 +1,6 @@
 <template>
   <div class="search-bar">
     <input class="search-bar-input" type="text" />
-    <!-- <Icon width="20" name="arrow-forward" class="arrow-forward-icon" /> -->
     <Icon width="20" name="search" class="search-icon" />
   </div>
 </template>
@@ -18,10 +17,10 @@ export default class SearchBar extends Vue {}
 
 .search-bar {
   position: relative;
-  height: 42px;
-  max-width: 650px;
+  height: 40px;
+  min-width: 480px;
   background-color: $color-surface;
-  border-radius: 4px;
+  border-radius: 16px;
   overflow: hidden;
   transition: all 0.2s;
 
@@ -53,20 +52,10 @@ export default class SearchBar extends Vue {}
     position: absolute;
     pointer-events: none;
     transform: translateY(-50%);
+    color: rgba($color: #000000, $alpha: $alpha-disabled);
     left: 12px;
     top: 50%;
   }
 
-  .arrow-forward-icon {
-    position: absolute;
-    transform: translateY(-50%);
-    background-color: $color-surface;
-    cursor: pointer;
-    height: 100%;
-    padding: 0 12px;
-    right: 0;
-    top: 50%;
-    box-sizing: content-box;
-  }
 }
 </style>

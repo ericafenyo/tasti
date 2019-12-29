@@ -13,7 +13,7 @@
     />
     <span
       v-if="hasHint"
-      :class="['input-help-message', {'input-help-message-error':hasError }, {'opacity-0': !hasError}]"
+      :class="['input-help-message', {'input-help-message-error':hasError }, {'hidden': !hasError}]"
     >Field is required</span>
   </div>
 </template>

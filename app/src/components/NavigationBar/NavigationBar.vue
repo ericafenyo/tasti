@@ -1,16 +1,29 @@
 <template>
   <header class="header">
-    <div class="logo">
-      <Logo color="white"  width="34"/>
-    </div>
-    <SearchBar class="flex-1 mx-4" />
-    <Avatar username="JD" :src="image" inline="true" />
-    <!-- <div>
-        <div class="header-avatar d-flex">
-          <Icon name="notification" />
-         
+    <div class="container">
+      <div class="flex justify-between">
+      <div class="flex items-center">
+        <div class="logo">
+          <Icon name="restaurant" color="white" width="20" />
         </div>
-    </div>-->
+        <SearchBar class="mx-4" />
+      </div>
+      <div class="inline-flex items-center">
+        <!-- <div>
+          <Icon name="notification" />
+        <Avatar username="JD" :src="image" inline="true" />
+        </div> -->
+        <div class="button-group">
+          <span class="button-item">
+               <Button size="small" type="outline" text="Log in" @on-click="() => {$router.push('/login')}" />
+          </span>
+           <span class="button-item">
+               <Button size="small" text="Sign up" @on-click="() => {$router.push('/join')}"/>
+          </span>
+        </div>
+      </div>
+      </div>
+    </div>
   </header>
 </template>
 
@@ -18,18 +31,18 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import Avatar from "../Avatar/Avatar.vue";
 import Icon from "../Icons/Icon.vue";
+import Button from "../Button/Button.vue"
 import SearchBar from "../SearchBar/SearchBar.vue";
-import Logo from "../../assets/icons/logo.svg";
 
 @Component({
   components: {
     Avatar,
     Icon,
     SearchBar,
-    Logo
+    Button
   }
 })
-export default class Toolbar extends Vue {
+export default class NavigationBar extends Vue {
   image =
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80";
 }
@@ -39,6 +52,7 @@ export default class Toolbar extends Vue {
 @import "@/scss/_resources.scss";
 .header {
   height: 56px;
+  z-index: 10;
   width: 100%;
   background: $white;
   box-shadow: inset 0px -1px 0px $color-border;
@@ -48,17 +62,17 @@ export default class Toolbar extends Vue {
   padding: 0 1rem;
 
   @include laptop {
-    height: 80px;
+    height: 64px;
   }
 
   .logo {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: $color-accent;
-    border-radius: 4px;
+    border-radius: 16px;
   }
 
   @include laptop {

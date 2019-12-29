@@ -1,6 +1,9 @@
 <template>
   <div v-show="isOpen" class="overlay" :isOpen="isOpen">
-    <div class="overlay-content h-full">
+    <div
+      class="overlay-content h-full"
+      :class="{'justify-center' : (centerHorizontal), 'items-center': (centerVertical)}"
+    >
       <slot></slot>
     </div>
   </div>
@@ -29,6 +32,12 @@ export default class Overlay extends Vue {
   @Prop({ type: Boolean, required: false, default: true })
   readonly translucent!: boolean;
 
+  @Prop({ type: Boolean, default: true })
+  centerHorizontal: boolean;
+
+  @Prop({ type: Boolean, default: true })
+  centerVertical: boolean;
+
   hideBodyScrollBar(hideScrollBar: boolean) {
     const bodyElement = document.querySelector("body");
     if (hideScrollBar) {
@@ -42,7 +51,7 @@ export default class Overlay extends Vue {
   isOpenChanged(opened: boolean) {
     if (opened) {
       this.hideBodyScrollBar(true);
-    }else{
+    } else {
       this.hideBodyScrollBar(false);
     }
   }
@@ -53,7 +62,7 @@ export default class Overlay extends Vue {
 @import "@/scss/_resources.scss";
 
 .overlay {
-  background-color: rgba($color: $white, $alpha: 0.85);
+  background-color: rgba($color: $white, $alpha: 0.95);
   position: fixed;
   right: 0;
   top: 0;
@@ -65,8 +74,6 @@ export default class Overlay extends Vue {
 
   &-content {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
   }
 }
 </style>

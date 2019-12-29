@@ -3,6 +3,10 @@
   background-color: #e6e6e6;
 }
 
+.divider-dashed {
+  border: 0.5px dashed #e6e6e6;
+}
+
 .subhead {
   font-family: arial;
   font-size: 1rem;
@@ -13,8 +17,15 @@
 .form-module {
   background: white;
   padding: 1.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 24px;
+  border: 1px solid $color-border;
+}
+
+.card-module {
+  background: $white;
+  border-radius: 6px;
+  border: 1px solid $color-border;
 }
 
 .form-frame {
@@ -45,4 +56,30 @@
 .clip-content {
   overflow: hidden !important;
   // padding-right: 0;
+}
+
+.button-group {
+
+  .button-item {
+    display: inline-block;
+    padding: 0 8px;
+  }
+}
+
+.card {
+  border: 1px solid #eaedf3;
+  border-radius: 16px;
+}
+
+
+.color-light-active {
+  color: rgba($color: $white, $alpha: $alpha-active);
+}
+
+.form-column {
+  @include laptop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+  }
 }

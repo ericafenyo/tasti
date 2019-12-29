@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
+import { Exclude } from 'class-transformer';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid') id: string;
@@ -14,6 +15,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column({ nullable: false })
   password: string;
 

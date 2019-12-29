@@ -23,11 +23,11 @@
 
 export interface RecipeRequestModel {
   name: string;
-  thumbnail: File;
-  gallery: File[];
-  ingredients: string[];
-  directions: string[];
-  info: {
+  image?: File;
+  photos?: File[];
+  ingredients?: string[];
+  directions?: string[];
+  info?: {
     serving: string;
     tags: string;
     facts: string;
