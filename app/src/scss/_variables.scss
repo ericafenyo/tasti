@@ -1,34 +1,45 @@
-/** == FONT FAMILY== **/
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap");
+/** == font family== **/
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
-$font: "Roboto", sans-serif;
+$font: 'Roboto', sans-serif;
 
-/** == ALPHA STATES == **/
+/** == alpha states == **/
 $alpha-active: 0.87;
 $alpha-inactive: 0.54;
 $alpha-disabled: 0.38;
 
-/** == UTILITY COLORS == **/
+/** == utility colors == **/
 $white: #ffffff;
 $black: #000000;
+$black-active: #202020;
+$black-inactive: #727272;
+$black-disabled: #9a9a9a;
 $green: #2bb24c;
-$red: #f56565;
+$green-inactive: #7ddfc3;
+$green-disabled: #d5f2ea;
+$red: #ff647c;
+$red-inactive: #fdafbb;
+$red-disabled: #fbe4e8;
 $orange: #f6ab2f;
 $blue: #1665d8;
+$blue-inactive: #66b5f8;
+$blue-disabled: #d5e9fa;
 $violet: #6977ff;
 $yellow: #facf55;
+$yellow-inactive: #ffe29d;
+$yellow-disabled: #FFF8E7;
 
-/** == CONTENT COLORS == **/
+/** == content colors == **/
 $color-primary-text: #3e3f42;
 $color-secondary-text: #6b6c6f;
 $color-tertiary-text: #9ea0a5;
 $color-border: #eaedf3;
 
-/** == THEME COLORS == **/
-$color-surface: #f4f6f9;
-$color-accent: #1eae8e;
+/** == theme colors == **/
+$color-surface: #f1f3f8;
+$color-accent: #6979f8;
 
-/** == BREAK POINTS == **/
+/** == break points == **/
 $phablet-width: 480px;
 $tablet-width: 768px;
 $laptop-width: 992px;

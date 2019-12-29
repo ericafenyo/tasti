@@ -2,7 +2,24 @@
   <div class="register">
     <div class="register-wrapper">
       <div class="container">
-        <Headline text="Create a Free Account" :level="3" class="mb-4" />
+        <Headline text="Create a Free Account" :level="3" />
+        <Notice
+          :title="notificationOptions.title"
+          placement="top-right"
+          :message="notificationOptions.message"
+          :type="notificationOptions.type"
+          :visible="noticeVisible"
+          @onDismiss="showNotice(false)"
+        />
+
+        <Alert
+          placement="top-right"
+          :message="notificationOptions.message"
+          type="error"
+          :visible="alertVisible"
+          @onDismiss="showAlert(false)"
+          class="mt-6"
+        />
         <form @submit.prevent class="form" novalidate="true">
           <div class="form-column">
             <div class="form-item">
@@ -59,8 +76,14 @@
               </Checkbox>
             </div>
           </div>
-          <Button text="Create Account" class="mb-3" type="primary" @on-click="onSubmit" />
+          <Button text="Create Account" type="primary" v-stream:click="register$" />
         </form>
+      </div>
+    </div>
+    <div class="container">
+      <div class="account-notice">
+        <span>Already have an account?</span>
+        <Link to="/login" text="Sign in" />
       </div>
     </div>
   </div>
@@ -71,21 +94,30 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
 import { required, email, minLength } from "vuelidate/lib/validators";
 import camelCase from "lodash/camelCase";
+import { HttpStatus } from "../../enums";
+import { HttpErrorResponse } from "../../types";
 
 import Headline from "@/components/Headline/Headline.vue";
 import Input from "@/components/Input/Input.vue";
-import Button from "@/components/Button/Button.vue";
 import Checkbox from "@/components/Checkbox.vue";
+import { AlertOptions } from "../../components/Notification/Alert.vue";
+import { Observable, Subject, interval, from } from "rxjs";
+import { switchMap, map } from "rxjs/operators";
+
+import { Result, Status } from "../../data/Result";
 
 @Component({
   components: {
     Headline,
     Input,
-    Button,
     Checkbox
   }
 })
 export default class Register extends Vue {
+  alertVisible = false;
+  noticeVisible = false;
+  notificationOptions = {};
+
   formData = {
     firstName: "",
     lastName: "",
@@ -108,18 +140,68 @@ export default class Register extends Vue {
     // Force the validation of form
     $touch();
 
-    if (!$invalid) {
-      try {
-        await this.$store.dispatch("createUser", this.formData);
-        this.$router.replace("login");
-      } catch (error) {
-         throw new Error("There was an error while signing up");
+    // if (!$invalid) {
+    //   try {
+    const response = (await this.$store.dispatch(
+      "createUser",
+      this.formData
+    )) as Observable<Result>;
+
+    const subscription = response.subscribe({
+      next: result => {
+        switch (result.status) {
+          case Status.Loading:
+            console.log("Loading");
+            break;
+          case Status.Success:
+            console.log(result.data);
+            break;
+
+          case Status.Error:
+            console.log(result.data);
+            break;
+
+          default:
+            console.log("unknown");
+            break;
+        }
+      },
+
+      complete: () => {
+        console.log("completed");
       }
-    }
+    });
+
+    // if (response.status === HttpStatus.CREATED) {
+    //   this.showNotice();
+    //   this.$router.replace("/login");
+    // }
+
+    // const errorResponse: HttpErrorResponse = error;
+
+    // this.notificationOptions = {
+    //   message: errorResponse.message,
+    //   title: "Error"
+    // };
+
+    // this.showAlert();
+    // setTimeout(() => {
+    //   this.showAlert(false);
+    // }, 10000);
+
+    // console.error("There was an error while signing up");
   }
 
   onInput({ value, name }) {
     this.formData[camelCase(name)] = value;
+  }
+
+  showAlert(bool = true) {
+    this.alertVisible = bool;
+  }
+
+  showNotice(bool = true) {
+    this.noticeVisible = bool;
   }
 }
 </script>
@@ -128,17 +210,24 @@ export default class Register extends Vue {
 @import "@/scss/_resources.scss";
 
 .register {
-  background-color: $color-surface;
+  background-color: $white;
   height: 100vh;
   .register-wrapper {
+    padding-top: 2rem;
     max-width: 560px;
     margin: 0 auto;
     background-color: $white;
-    padding: 2rem 0;
-    height: 100vh;
+
+    form {
+      margin-top: 24px;
+    }
 
     @include phablet {
-      height: unset;
+      height: initial;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      border: 1px solid $color-border;
+      border-radius: 12px;
     }
 
     @include laptop {
@@ -147,18 +236,25 @@ export default class Register extends Vue {
     }
   }
 
-  @include laptop {
+  @include phablet {
+    background-color: $color-surface;
     padding-top: 4rem;
   }
 
   .account-notice {
-    span {
-      color: $color-primary-text;
+    line-height: 48px;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: 1.125rem;
+    color: $color-primary-text;
+    margin-top: 16px;
+
+    @include laptop {
+      margin: 24px auto;
     }
 
-    .action-sign-in {
-      color: #30be76;
-      font-size: 16px;
+    .link {
       margin: 0 8px;
     }
   }
@@ -172,22 +268,6 @@ export default class Register extends Vue {
 @media screen and (max-width: 578px) {
   .register- {
     margin: 0 !important;
-  }
-}
-
-.mb-3 {
-  margin-bottom: 24px;
-}
-
-.mt-5 {
-  margin-top: 48px;
-}
-
-.form-column {
-  @include laptop {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
   }
 }
 </style>

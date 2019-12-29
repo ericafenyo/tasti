@@ -9,22 +9,21 @@ export class AuthService {
 
   async validateUser(username: string, userPassword: string) {
     const user = await this.userService.findOne(username);
+    console.log('login user ' + user);
+
+    if (!user) {
+      return null;
+    }
 
     const passwordMatched = await bcrypt.compare(userPassword, user.password);
-
-    if (user && passwordMatched) {
-      const { password, ...result } = user;
-      return result;
+    if (passwordMatched) {
+      return { sub: user.id, email: user.email };
     }
 
     return null;
   }
 
-  async login(user: any) {
-    const payload = { email: user.email, sub: user.userId };
-
-    return {
-      access_token: this.jwtService.sign(payload)
-    };
+  async login({ email, sub }) {
+    return { access_token: this.jwtService.sign({ email, sub }) };
   }
 }

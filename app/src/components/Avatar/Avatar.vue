@@ -94,8 +94,8 @@ export default {
     style() {
       const style = {
         display: this.inline ? "inline-flex" : "flex",
-        width: `${this.size}px`,
-        height: `${this.size}px`,
+        width: `100%`,
+        height: `100%`,
         borderRadius: this.rounded ? "50%" : 0,
         lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
         fontWeight: "bold",

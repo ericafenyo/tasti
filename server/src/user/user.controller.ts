@@ -7,7 +7,8 @@ import {
   BadRequestException,
   Param,
   Patch,
-  Delete
+  Delete,
+  ConflictException
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MysqlError } from '../enums/mysql.error.enum';
@@ -20,7 +21,11 @@ export class UserController {
   handleSqlError(error: any) {
     switch (error.errno) {
       case MysqlError.DUPLICATE_ENTRY:
-        throw new BadRequestException('User email already exist');
+        throw new ConflictException({
+          message: 'User email already exist',
+          refCode: 'DUPLICATE_EMAIL',
+          type: 'Conflict'
+        });
 
       default:
         throw new ServiceUnavailableException();

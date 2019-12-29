@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe">
+  <div class="recipe card-module">
     <div class="recipe-thumbnail">
       <img
         src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?fit=crop&w=800"
@@ -46,8 +46,6 @@ export default class Recipe extends Vue {
 @import "@/scss/_resources.scss";
 
 .recipe {
-  width: 360px;
-
   &-thumbnail {
     img {
       width: 100%;

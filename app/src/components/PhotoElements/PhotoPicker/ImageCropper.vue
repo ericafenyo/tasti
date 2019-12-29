@@ -1,23 +1,23 @@
 <template>
   <div class="cropper">
     <div ref="image" />
-    <Button text="Crop" @on-click="handleCropConfirm"/>
+    <Button text="Crop" @on-click="handleCropConfirm" />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator';
-import Button from '../../Button/Button.vue'
-import Croppie from 'croppie';
+import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
+import Button from "../../Button/Button.vue";
+import Croppie from "croppie";
 
-require('croppie/croppie.css');
+require("croppie/croppie.css");
 
-@Component({components:{ Button }})
+@Component({ components: { Button } })
 export default class ImageCropper extends Vue {
   @Prop({
     type: String,
     required: false,
-    default: null,
+    default: null
   })
   readonly imageUrl!: string;
 
@@ -28,25 +28,27 @@ export default class ImageCropper extends Vue {
       viewport: { width: 168, height: 168 },
       boundary: { width: 480, height: 480 },
       showZoomer: true,
-      enableOrientation: false,
+      enableOrientation: false
     });
     if (this.imageUrl) {
       this.croppie.bind({
-        url: this.imageUrl,
+        url: this.imageUrl
       });
     }
   }
 
   async handleCropConfirm() {
-    const imageBlob = await this.croppie.result('blob');
     const urlCreator = window.URL || (window as any).webkitURL;
-    return this.$emit('crop-confirmed', urlCreator.createObjectURL(imageBlob));
+    const blob = await this.croppie.result("blob");
+    const url = urlCreator.createObjectURL(blob);
+
+    return this.$emit("crop-confirmed", { url, blob });
   }
 
-  @Watch('imageUrl')
+  @Watch("imageUrl")
   handlePhotoUrlChange() {
     this.croppie.bind({
-      url: this.imageUrl,
+      url: this.imageUrl
     });
   }
 }

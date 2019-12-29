@@ -10870,6 +10870,10 @@
   background-color: $color-surface;
 }
 
+.border-rounded {
+  border: 1px solid #ecebed;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

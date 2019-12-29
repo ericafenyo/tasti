@@ -6,7 +6,7 @@
     :placeholder="placeholder"
     :name="name"
     v-model.trim="model"
-    :class="['input-element', ...className]"
+    :class="['input-element', 'border-rounded', ...className]"
   />
 </template>
 
