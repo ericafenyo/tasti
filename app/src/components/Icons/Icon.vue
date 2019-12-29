@@ -32,8 +32,9 @@ import IconTimer from "./IconTimer.vue";
 import IconUpload from "./IconUpload.vue";
 import IconVisibility from "./IconVisibility.vue";
 import IconVisibilityOff from "./IconVisibilityOff.vue";
+import IconRestaurant from "./IconRestaurant.vue";
 
-type IconOption =
+export type IconOption =
   | "add"
   | "arrow-down"
   | "arrow-left"
@@ -55,6 +56,7 @@ type IconOption =
   | "timer"
   | "upload"
   | "visibility"
+  | "restaurant"
   | "visibility-off";
 
 @Component({
@@ -81,7 +83,8 @@ type IconOption =
     IconTimer,
     IconUpload,
     IconVisibility,
-    IconVisibilityOff
+    IconVisibilityOff,
+    IconRestaurant
   }
 })
 export default class Icon extends Vue {
