@@ -1,3 +1,12 @@
 {
-  "message": "hello i18n !!"
+  "success": "Success",
+  "error": "Error",
+  "info": "Information",
+  "cancel": "Cancel",
+  "create": "Create",
+  "warning": "Warning",
+  "sign-up-error": "Sorry, we are unable to complete the sign-up process. Please try again later.",
+  "http-error": {
+    "duplicate-email": "User email already exist"
+  }
 }

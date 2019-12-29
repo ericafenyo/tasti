@@ -33,6 +33,7 @@ import IconUpload from "./IconUpload.vue";
 import IconVisibility from "./IconVisibility.vue";
 import IconVisibilityOff from "./IconVisibilityOff.vue";
 import IconRestaurant from "./IconRestaurant.vue";
+import IconInfo from "./IconInfo.vue";
 
 export type IconOption =
   | "add"
@@ -57,6 +58,7 @@ export type IconOption =
   | "upload"
   | "visibility"
   | "restaurant"
+  | "info"
   | "visibility-off";
 
 @Component({
@@ -84,7 +86,8 @@ export type IconOption =
     IconUpload,
     IconVisibility,
     IconVisibilityOff,
-    IconRestaurant
+    IconRestaurant,
+    IconInfo
   }
 })
 export default class Icon extends Vue {

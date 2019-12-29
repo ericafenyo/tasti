@@ -49,16 +49,17 @@ export default {
 @import "@/scss/_resources.scss";
 
 .button {
+  font-family: $font;
   padding: 0 1em;
-  height: 48px;
-  font-family: sans-serif;
+  min-width: 80px;
+  height: 40px;
   border-radius: 3px;
-  border: 1px solid transparent;
+  overflow: hidden;
+  border: 1.5px solid transparent;
   cursor: pointer;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 500;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 16px;
   transition: background-color 0.2s linear, color 0.2s linear;
 
   &-primary {
@@ -70,6 +71,12 @@ export default {
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+
+  &-secondary {
+    background-color: $color-surface;
+    border-color: $color-surface;
+    color: #242a31;
   }
 
   &-outline {
@@ -84,7 +91,7 @@ export default {
   }
 
   &-small {
-    height: 32px;
+    height: 36px;
     padding: 0 2px;
   }
 

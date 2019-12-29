@@ -30,6 +30,6 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = this.userRepository.create({ password: hashedPassword, ...result });
     await this.userRepository.save(user);
-    return user;
+    return result;
   }
 }

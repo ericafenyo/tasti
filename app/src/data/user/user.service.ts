@@ -24,13 +24,15 @@
  * Contains some helper functions for accessing web services.
  */
 
-import { instance } from '../ConnectionHelper';
+import { instance, invokeHttpRequest } from '../ConnectionHelper';
 import { AxiosPromise, AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
+import { Result } from '../../data/Result';
 
 export interface UserService {
-  createAccount: (user: any) => void;
+  createAccount: (user: any) => Observable<Result>;
 
-  authenticate: (username: string, password: string) => Promise<AxiosResponse<any>>;
+  authenticate: (username: string, password: string) => AxiosPromise<any>;
 }
 
 export class UserServiceImpl implements UserService {
@@ -38,8 +40,8 @@ export class UserServiceImpl implements UserService {
      * 
      * @param user 
      */
-  async createAccount(user: any) {
-    return await instance.post('/auth/create', user);
+  createAccount(user: any): Observable<Result> {
+    return invokeHttpRequest(() => instance.post('/users/new', user));
   }
 
   async authenticate(username: string, password: string): Promise<AxiosResponse<any>> {

@@ -10,17 +10,14 @@
       v-model="model"
       ref="inputPassword"
     />
-    <Icon :name="computeIcon" @on-click="toggleVisibility" />
+    <Icon :class="{'icon-inactive' : !isVisible}" :name="computeIcon" @on-click="toggleVisibility" />
   </span>
 </template>
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
-import Icon from "../Icons/Icon.vue";
 
-@Component({
-  components: { Icon }
-})
+@Component
 export default class InputText extends Vue {
   @Prop(String) readonly value: string;
   @Prop(String) readonly name: string;
@@ -62,6 +59,10 @@ export default class InputText extends Vue {
     top: 50%;
     transform: translateY(-50%);
     right: 16px;
+  }
+
+  .icon-inactive {
+    color: #d0c9d6;
   }
 }
 </style>

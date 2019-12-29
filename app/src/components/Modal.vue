@@ -1,59 +1,64 @@
 <template>
-  <div class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <Overlay :isOpen="isOpen">
+    <div class="modal">
+      <div v-if="title" class="modal-header">
         <span class="modal-title">{{title}}</span>
         <div class="close">
-          <icon-close />
+          <Icon name="close" />
         </div>
       </div>
-      <slot></slot>
+      <div class="modal-body">
+        <slot></slot>
+      </div>
+      <div class="divider-dashed mx-4" />
+      <div class="modal-footer">
+        <div class="modal-footer-actions">
+          <Button :text="$t('cancel')" type="secondary" @on-click="onNegative" />
+          <Button :text="$t('create')" @on-click="onPositive" />
+        </div>
+      </div>
     </div>
-  </div>
+  </Overlay>
 </template>
 
-<script >
-import IconClose from "../assets/icons/close.svg";
+<script lang="ts">
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 
-export default {
-  components: {
-    IconClose
-  }
-};
+@Component
+export default class Modal extends Vue {
+  /**
+   * Determines whether or not the modal is displayed.
+   */
+  @Prop({ type: Boolean, default: true })
+  isOpen: boolean;
+
+  @Prop({ type: String, default: "" })
+  title: string;
+
+  @Emit("on-positive")
+  onPositive() {}
+
+  @Emit("on-negative")
+  onNegative() {}
+}
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/_resources.scss";
 .modal {
-  position: fixed;
+  @include shadow-md;
+  box-sizing: border-box;
+  background-color: $white;
+  min-width: 640px;
+  border-radius: 4px;
+  overflow: hidden;
 
-  z-index: 1;
-  background: rgba($black, 0.5);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-
-  &-title {
-    @include header-4;
-    color: $hunter-green;
-  }
-
-  &-content {
-    padding: 16px 16px;
-    position: fixed;
-    bottom: 0;
-    min-height: 100px;
-    width: 100%;
-    background: #ffffff;
-    margin: auto;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+  &-footer {
+    padding: 24px;
+    &-actions {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <div class="stats-wrapper">
+  <div class="card-module">
     <div class="p-4">
       <div class="user">
-        <Avatar />
+        <div :style="{width:'100px', height: '100px'}">
+          <Avatar username="NE" :src="image" />
+        </div>
+
         <div class="user-info">
           <h5 class="user-info-name">Nick Evans</h5>
           <p class="caption">Potato Master</p>
-          <div class="user-info-popularity">
-            <span class="caption">584 followers • 23k likes</span>
-          </div>
         </div>
       </div>
       <div class="divider my-4"></div>
@@ -22,35 +22,35 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import Avatar from "../Avatar/Avatar.vue";
 
-export default {
+@Component({
   components: {
     Avatar
-  },
-
-  props: {
-    stats: {
-      type: Array,
-      default: () => [
-        {
-          value: 20,
-          text: "Recipe"
-        },
-        {
-          value: 20,
-          text: "Recipe"
-        },
-        {
-          value: 20,
-          text: "Recipe"
-        }
-      ]
-    }
   }
-};
+})
+export default class ProfileStats extends Vue {
+  image =
+    "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?w=800&h=800&q=80";
+  stats = [
+    {
+      value: "238",
+      text: "Recipes"
+    },
+    {
+      value: "20k",
+      text: "Followers"
+    },
+    {
+      value: "1.4k",
+      text: "Following"
+    }
+  ];
+}
 </script>
+
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
@@ -64,28 +64,24 @@ export default {
     text-align: center;
   }
 
-  .stats-value {
-    @include header-3;
+  &-value {
+    @include subtitle;
   }
 
-  .stats-label {
-    opacity: 0.5;
-    font-size: 16px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
+  &-label {
+    @include caption;
     line-height: 2;
-    letter-spacing: normal;
-    text-align: center;
-    color: $hunter-green;
   }
 }
 
 .user {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   &-info {
-    margin-left: 16px;
-
+    margin-top: 16px;
     &-name {
       @include header-3;
       margin: 0;
@@ -93,7 +89,7 @@ export default {
     }
 
     &-popularity {
-      padding-top: 8px;
+      padding-top: 24px;
     }
   }
 }
