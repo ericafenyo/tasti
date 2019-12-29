@@ -1,8 +1,8 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    :width="width"
-    :height="height"
+    width="24"
+    height="24"
     viewBox="0 0 24 24"
     :aria-labelledby="iconName"
     role="presentation"
@@ -10,7 +10,7 @@
     @click.prevent="(event)=>$emit('on-click', event)"
   >
     <title :id="iconName" lang="en">{{ iconName }} icon</title>
-    <g :class="state">
+    <g fill="currentColor">
       <slot />
     </g>
   </svg>
@@ -22,35 +22,7 @@ export default {
     iconName: {
       type: String,
       default: "edit"
-    },
-    width: {
-      type: [Number, String],
-      default: 24
-    },
-    height: {
-      type: [Number, String],
-      default: 24
-    },
-    state: {
-      type: String,
-      default: "inactive"
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "@/scss/_resources.scss";
-
-.active {
-  fill: rgba($black, $alpha-active);
-}
-
-.inactive {
-  fill: rgba($black, $alpha-inactive);
-}
-
-.disabled {
-  fill: rgba($black, $alpha-disabled);
-}
-</style>
