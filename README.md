@@ -1,63 +1,54 @@
----
-description: >-
-  The Tasti API was created as part of a full-stack web development project and
-  the source code is available for anyone to use.
----
+# Tasti
 
-# Introduction
+[![GitHub](https://img.shields.io/github/license/ericafenyo/tasti)](LICENSE)
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ericafenyo/tasti?label=version)][version]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fcd47d809a34c0fb86799fc8fab8af5)](https://www.codacy.com/manual/ericafenyo/tasti?utm_source=github.com&utm_medium=referral&utm_content=ericafenyo/tasti&utm_campaign=Badge_Grade)
 
-### API URL
+Tasti is a recipe app that allows users to create, browse, and share recipes with their network.
 
-The API should always be accessed over SSL.
+## Prerequisites
 
-`https://api.ericafenyo.com/tasti`
+-   Node
+-   Mysql
 
-### Verbs
+## Getting Started
 
-| Verb | Description |
-| :--- | :--- |
-| `GET` | Select one or more items. Success returns `200` status code. |
-| `POST` | Create a new item. Success returns `201` status code. |
-| `PATCH` | Update and item. Success returns `200` status code. |
-| `DELETE` | Delete an item. Success returns `200` or `204` status code. |
+> These instructions will get you a copy of the project up and running on your local machine.
 
-### Status Codes
+1.  Download a copy of the project:
 
- The API will respond with one of the following HTTP status codes.
+```bash
+$ git clone https://github.com/ericafenyo/tasti.git
+```
 
-| Code | Description |
-| :--- | :--- |
-| 200 | Success |
-| 201 | Success - _new resource created \(POST\)_ |
-| 204 | Bad Request - _request couldn't be parsed_ |
-| 400 | Bad Request - _request couldn't be parsed_ |
-| 401 | Unauthorised - _OAuth must be provided_ |
-| 403 | Forbidden - _invalid API key or unapproved app_ |
-| 404 | Not Found - _method exists, but no record found_ |
-| 405 | Method Not Found - _method doesn't exist_ |
-| 409 | Conflict - _resource already created_ |
-| 500 | Server Error - _please open a support issue_ |
-| 503 | Service Unavailable - _try again later_ |
+2.  Start the API server (Backend)
 
-### Required Headers
+```bash
+# Change directory to server
+$ cd server
 
-All `POST`, `PATCH`, and `DELETE` methods require Authentication. Some `GET`calls that returns user specific data also requires Authentication. Methods that 🔒 **require** Authentication will be indicated.
+# Install dependencies
+$ npm install
 
-Your http request should take care of sending the required auth headers. Here's how the Bearer token should be sent.
+# start the server
+$ npm run start
+```
 
-| Header | Value |
-| :--- | :--- |
-| Authorization | Bearer \[ access\_token \] |
+Starting the client-server (Frontend)
 
-### Dates
+```bash
+# Change directory to app
+$ cd server
 
-All dates will be GMT and returned in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format like `2014-09-01T09:10:11.000Z`. Adjust accordingly in your app for the user's local timezone.
+# Install dependencies
+$ npm install
 
-### Images
+# Start the server
+$ npm run serve
+```
 
-Coming soon
+## License
 
-### Videos
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Coming soon
-
+[version]: https://github.com/ericafenyo/tasti/releases
