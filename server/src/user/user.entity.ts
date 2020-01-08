@@ -1,10 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinTable, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinTable, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
 import { Exclude } from 'class-transformer';
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid') id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ name: 'first_name' })
   firstName: string;
@@ -19,10 +20,16 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @OneToMany((type) => Recipe, (recipe) => recipe.owner)
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @OneToMany(type => Recipe, (recipe) => recipe.owner)
   recipes: Recipe[];
 
-  @OneToOne((type) => Profile)
+  @OneToOne(type => Profile)
   @JoinColumn()
   profile: Profile;
 }
