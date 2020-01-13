@@ -9,6 +9,7 @@ import { DirectionModule } from './direction/direction.module';
 import { RecipeMetadataModule } from './recipe-metadata/recipe-metadata.module';
 import { ProfileModule } from './profile/profile.module';
 import { PhotoModule } from './photo/photo.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PhotoModule } from './photo/photo.module';
     RecipeMetadataModule,
     ProfileModule,
     PhotoModule,
+    UploadModule,
   ],
   controllers: [ AppController ],
   providers: [ AppService ],
