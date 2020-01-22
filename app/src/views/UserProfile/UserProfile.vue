@@ -1,11 +1,10 @@
 <template>
-  <section class="profile h-full">
-      <CreateRecipeTemplate />
-    <div class="container">
-      <div class="layout mt-4">
+  <section class="profile">
+    <div class="container h-full">
+      <div class="layout h-full">
         <aside class="aside-content">
-          <ProfileStats :stats="stats" />
-          <div class="card-module my-4">
+          <ProfileStats :stats="stats" class="mr-3" />
+          <div class="card-module my-4 mr-3">
             <ContextMenu :items="menuItems" @on-click="onMenuItemClick" />
           </div>
           <div @click.prevent="createNewRecipe" class="flex items-center justify-between">
@@ -15,12 +14,12 @@
         </aside>
 
         <main class="main-content">
-          <Tabs />
-          <div class="flex flex-wrap mt-3">
+          <!-- <Tabs /> -->
+          <!-- <div class="flex flex-wrap mt-3">
             <div v-for="(recipe, index) in 4" :key="index">
               <Recipe />
             </div>
-          </div>
+          </div> -->
         </main>
 
         <!-- <aside class="aside-content">
@@ -81,16 +80,23 @@ export default class UserProfile extends Vue {
 @import "@/scss/_resources.scss";
 .layout {
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-gap: 16px;
+  grid-template-columns: 284px 1fr;
 }
 
 .profile {
-  padding-top: 64px;
-  background-color: #f4f7f9;
-
+  background-color: $color-surface;
+  height: 100%;
   .container {
     padding: 0;
+  }
+
+  .aside-content{
+    border-right: 1px solid rgb(230, 236, 241);
+  }
+
+  .main-content{
+    background-color: $white;
+    height: 100%;
   }
 
   .stats-wrapper {

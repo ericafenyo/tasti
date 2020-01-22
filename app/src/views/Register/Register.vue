@@ -1,84 +1,82 @@
 <template>
   <div class="register">
-    <div class="register-wrapper">
-      <div class="container">
+    <div class="register-form">
         <Headline text="Create a Free Account" :level="3" />
-        <Notice
-          :title="notificationOptions.title"
-          placement="top-right"
-          :message="notificationOptions.message"
-          :type="notificationOptions.type"
-          :visible="noticeVisible"
-          @onDismiss="showNotice(false)"
-        />
+      <Notice
+        :title="notificationOptions.title"
+        placement="top-right"
+        :message="notificationOptions.message"
+        :type="notificationOptions.type"
+        :visible="noticeVisible"
+        @onDismiss="showNotice(false)"
+      />
 
-        <Alert
-          placement="top-right"
-          :message="notificationOptions.message"
-          type="error"
-          :visible="alertVisible"
-          @onDismiss="showAlert(false)"
-          class="mt-6"
-        />
-        <form @submit.prevent class="form" novalidate="true">
-          <div class="form-column">
-            <div class="form-item">
-              <Input
-                label="First Name"
-                type="text"
-                name="first-name"
-                required="true"
-                :className="[{'input-error': $v.formData.firstName.$error}]"
-                placeholder="John"
-                @on-input="onInput"
-              />
-            </div>
-
-            <div class="form-item">
-              <Input
-                label="Last Name"
-                type="text"
-                name="last-name"
-                required="true"
-                :className="[{'input-error': $v.formData.lastName.$error}]"
-                placeholder="Doe"
-                @on-input="onInput"
-              />
-            </div>
-          </div>
-
+      <Alert
+        placement="top-right"
+        :message="notificationOptions.message"
+        type="error"
+        :visible="alertVisible"
+        @onDismiss="showAlert(false)"
+        class="mt-6"
+      />
+      <form @submit.prevent class="form" novalidate="true">
+        <div class="form-column">
           <div class="form-item">
             <Input
-              label="Email Address"
+              label="First Name"
               type="text"
-              name="email"
-              :className="[{'input-error': $v.formData.email.$error}]"
-              placeholder="name@example.com"
-              @on-input="onInput"
-            />
-          </div>
-          <div class="form-item">
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              :className="[{'input-error': $v.formData.password.$error}]"
-              placeholder="Enter 8 or more characters"
+              name="first-name"
+              required="true"
+              :className="[{'input-error': $v.formData.firstName.$error}]"
+              placeholder="John"
               @on-input="onInput"
             />
           </div>
 
           <div class="form-item">
-            <div class="privacy-agreement">
-              <Checkbox>
-                Accept
-                <a href="#">Terms and Conditions</a>
-              </Checkbox>
-            </div>
+            <Input
+              label="Last Name"
+              type="text"
+              name="last-name"
+              required="true"
+              :className="[{'input-error': $v.formData.lastName.$error}]"
+              placeholder="Doe"
+              @on-input="onInput"
+            />
           </div>
-          <Button text="Create Account" type="primary" v-stream:click="register$" />
-        </form>
-      </div>
+        </div>
+
+        <div class="form-item">
+          <Input
+            label="Email Address"
+            type="text"
+            name="email"
+            :className="[{'input-error': $v.formData.email.$error}]"
+            placeholder="name@example.com"
+            @on-input="onInput"
+          />
+        </div>
+        <div class="form-item">
+          <Input
+            label="Password"
+            type="password"
+            name="password"
+            :className="[{'input-error': $v.formData.password.$error}]"
+            placeholder="Enter 8 or more characters"
+            @on-input="onInput"
+          />
+        </div>
+
+        <div class="form-item">
+          <div class="privacy-agreement">
+            <Checkbox>
+              Accept
+              <a href="#">Terms and Conditions</a>
+            </Checkbox>
+          </div>
+        </div>
+        <Button text="Create Account" type="primary" v-stream:click="register$" />
+      </form>
     </div>
     <div class="container">
       <div class="account-notice">
@@ -210,30 +208,28 @@ export default class Register extends Vue {
 @import "@/scss/_resources.scss";
 
 .register {
-  background-color: $white;
   height: 100vh;
-  .register-wrapper {
-    padding-top: 2rem;
-    max-width: 560px;
+  .register-form {
+    max-width: 460px;
     margin: 0 auto;
     background-color: $white;
+    padding: 1.5rem 1rem;
+
+    //   @include phablet {
+    //   height: initial;
+    //   margin-top: 3rem;
+    //   border: 1px solid $color-border;
+    //   border-radius: 12px;
+    // }
 
     form {
       margin-top: 24px;
     }
 
-    @include phablet {
-      height: initial;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
-      border: 1px solid $color-border;
-      border-radius: 12px;
-    }
-
-    @include laptop {
-      padding: 2rem 1rem;
-      border: 1px solid $color-border;
-    }
+    // @include laptop {
+    //   padding: 2rem 1rem;
+    //   border: 1px solid $color-border;
+    // }
   }
 
   @include phablet {
