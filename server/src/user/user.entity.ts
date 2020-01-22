@@ -26,12 +26,6 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @OneToMany(type => Recipe, (recipe) => recipe.owner)
   recipes: Recipe[];
 
