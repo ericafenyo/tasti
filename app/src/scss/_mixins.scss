@@ -15,8 +15,9 @@
 }
 
 @mixin header-3 {
-  font-size: 1.625em;
+  font-size: 1.5rem;
   line-height: 1.2;
+  font-weight: 500;
   color: $color-primary-text;
 }
 
