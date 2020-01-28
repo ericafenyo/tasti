@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  Req,
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
@@ -16,6 +15,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { RecipeService } from './recipe.service';
 import { RecipeMetadataService } from '../recipe-metadata/recipe-metadata.service';
 import { RecipeDto } from './recipe.dto';
+import { multerOption } from '../core';
 
 @Controller('recipes')
 export class RecipeController {
@@ -23,16 +23,14 @@ export class RecipeController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('image', multerOption))
   async createRecipe(@Request() request: any, @UploadedFile() file) {
-    const { user, body } = request;
-    const imagePath = file? file.filename : "";
-    const recipe: RecipeDto = { name: body.name, imagePath};
-
-    console.log(file);
-    return user;
-    
-    // return await this.recipeService.create(user.id, recipe);
+    const { user, body: { name } } = request;
+    const imagePath =
+      file ? file.key :
+      '';
+    const recipe: RecipeDto = { name, imagePath };
+    return await this.recipeService.create(user.id, recipe);
   }
 
   @Post(':id/metadata')
@@ -41,7 +39,12 @@ export class RecipeController {
   }
 
   @Get(':id')
-  async getRecipes(@Param('id') userId: string) {
+  async getRecipeId(@Param('id') userId: string) {
     return await this.recipeService.find(userId);
+  }
+
+  @Get()
+  async getRecipes() {
+    return await this.recipeService.findAll();
   }
 }
