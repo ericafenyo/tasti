@@ -2,6 +2,7 @@
   <div id="app">
     <NavigationBar v-if="false" class="header-fix" />
     <router-view />
+    <portal-target name="notification-outlet"></portal-target>
   </div>
 </template>
 
