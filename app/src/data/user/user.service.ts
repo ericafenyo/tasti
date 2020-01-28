@@ -33,13 +33,19 @@ export interface UserService {
   createAccount: (user: any) => Observable<Result>;
 
   authenticate: (username: string, password: string) => AxiosPromise<any>;
+
+  profile: () => Observable<Result>;
 }
 
 export class UserServiceImpl implements UserService {
+  profile(): Observable<Result> {
+    return invokeHttpRequest(() => instance.get('users'));
+  }
+
   /**
-     * 
-     * @param user 
-     */
+   * 
+   * @param user
+   */
   createAccount(user: any): Observable<Result> {
     return invokeHttpRequest(() => instance.post('/users/new', user));
   }
