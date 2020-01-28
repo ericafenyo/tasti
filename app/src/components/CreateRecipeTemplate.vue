@@ -1,5 +1,5 @@
 <template>
-  <Modal :isOpen="true" @on-positive="createRecipe">
+  <Modal :isOpen="true" @on-negative="$emit('on-close')" @on-positive="createRecipe" @on-close="$emit('on-close')">
     <div class="new-recipe">
       <fieldset>
         <div class="flex">
@@ -12,7 +12,7 @@
             class="self-end ml-3 w-full"
             type="text"
             label="Recipe Name"
-            :className="[{'input-error': $v.data.name.$error}]"
+            :className="[{'input-error': $v.name.$error}]"
             name="name"
             :hasHint="true"
             @on-input="setData"
@@ -33,6 +33,7 @@ import { Validations } from "vuelidate-property-decorators";
 import { required } from "vuelidate/lib/validators";
 import { emit } from "cluster";
 import { constants } from "../constants";
+import { Actions } from "../store/actions";
 const generator = require("generate-password");
 @Component({
   components: {
@@ -40,35 +41,23 @@ const generator = require("generate-password");
   }
 })
 export default class CreateRecipeTemplate extends Vue {
-  // Create a storage reference from firebase storage service
-  storageRef = storage()
-    .ref()
-    .child(constants.IMAGE_STORAGE_PATH);
-
-  data = {
-    name: "",
-    image: null
-  };
+  name = "";
+  image = null;
 
   @Validations()
   validations = {
-    data: {
-      name: { required }
-    }
+    name: { required }
   };
 
   setData({ value, name }) {
-    this.data[name] = value;
+    this[name] = value;
   }
 
   setImage({ blob, filename }) {
-    console.log(blob);
-    this.data.image = new File([blob], filename);
+    this.image = new File([blob], filename);
   }
 
   async createRecipe() {
-    console.log(this.storageRef);
-
     const { $touch, $invalid } = this.$v;
     // Force the validation of form
     $touch();
@@ -78,34 +67,17 @@ export default class CreateRecipeTemplate extends Vue {
         contentType: "image/jpeg"
       };
 
-      const baseName = generator.generate({
-        length: 12,
-        numbers: true,
-        excludeSimilarCharacters: true
-      });
+      const formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("image", this.image);
 
-      const imageRef = this.storageRef
-        .child(baseName+".jpg")
-        .put(this.data.image, metadata)
-        .then((snapshot) => {
-          console.log(snapshot);
-          
-          this.storageRef.child(snapshot.metadata.name).getDownloadURL()
-          .then(url => {
-            console.log(url);
-            
-          })
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      // const response = await this.$store.dispatch("createRecipe");
-    } else {
-      console.log("error");
-
-      // this.showAlert({
-
-      // })
+      try {
+        const response = await this.$store.dispatch(
+          Actions.CREATE_RECIPE,
+          formData
+        );
+        console.log(response);
+      } catch (error) {}
     }
   }
 }

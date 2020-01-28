@@ -25,7 +25,7 @@ export default class ImageCropper extends Vue {
 
   mounted() {
     this.croppie = new Croppie(this.$refs.image, {
-      viewport: { width: 168, height: 168 },
+      viewport: { width: 160, height: 120 },
       boundary: { width: 480, height: 480 },
       showZoomer: true,
       enableOrientation: false
@@ -39,8 +39,9 @@ export default class ImageCropper extends Vue {
 
   async handleCropConfirm() {
     const urlCreator = window.URL || (window as any).webkitURL;
-    const blob = await this.croppie.result("blob");
+    const blob = await this.croppie.result({ type: "blob", size: "original" });
     const url = urlCreator.createObjectURL(blob);
+    console.log(this.imageUrl);
 
     return this.$emit("crop-confirmed", { url, blob });
   }
