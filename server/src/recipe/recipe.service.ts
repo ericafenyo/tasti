@@ -56,7 +56,19 @@ export class RecipeService {
   async find(id: string) {
     const recipes = await this.recipeRepository.find({
       where: { user: { id } },
-      relations: [ 'photos', 'ingredients', 'directions', 'metadata' ]
+      relations: [ 'photos', 'ingredients', 'directions', 'metadata', 'owner' ]
+    });
+
+    return recipes;
+  }
+
+  /**
+   * Returns all recipes created by a particular user.
+   * @param {String} id the user Id;
+   */
+  async findAll() {
+    const recipes = await this.recipeRepository.find({
+      relations: [ 'photos', 'ingredients', 'directions', 'metadata', 'owner','owner.profile' ]
     });
 
     return recipes;
