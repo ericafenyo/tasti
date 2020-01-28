@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import VuxRx from 'vue-rx';
-import { initializeApp } from 'firebase';
+import PortalVue from 'portal-vue';
 
 // Vee-validate
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-const en = require('vee-validate/dist/locale/en.json');
 import Vuelidate from 'vuelidate';
 
 Vue.use(VuxRx);
 Vue.use(Vuelidate);
+Vue.use(PortalVue);
 
 import router from './router';
 
@@ -34,6 +34,9 @@ import Alert from './components/Notification/Alert.vue';
 import Notice from './components/Notification/Notice.vue';
 import Overlay from './components/Overlay/Overlay.vue';
 import Modal from './components/Modal.vue';
+import Loader from './components/Loader.vue';
+import Headline from './components/Headline/Headline.vue';
+import Avatar from './components/Avatar/Avatar.vue';
 import i18n from './i18n';
 
 Vue.component('Icon', Icon);
@@ -48,6 +51,9 @@ Vue.component('Alert', Alert);
 Vue.component('Notice', Notice);
 Vue.component('Overlay', Overlay);
 Vue.component('Modal', Modal);
+Vue.component('Loader', Loader);
+Vue.component('Headline', Headline);
+Vue.component('Avatar', Avatar);
 // Add the required rule
 extend('required', {
   validate: required.validate,
@@ -71,23 +77,10 @@ Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.config.productionTip = false;
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyAYGxB6GBwC97mqDE0FdDz7bRF6OS5ZKTg',
-  authDomain: 'tasti-1751d.firebaseapp.com',
-  databaseURL: 'https://tasti-1751d.firebaseio.com',
-  projectId: 'tasti-1751d',
-  storageBucket: 'tasti-1751d.appspot.com',
-  messagingSenderId: '144900147899',
-  appId: '1:144900147899:web:5b69d724420203e914b79e'
-};
-
 new Vue({
   el: '#app',
   store,
   i18n,
   router,
-  render: (h) => h(App),
-  created() {
-    initializeApp(firebaseConfig);
-  }
+  render: (h) => h(App)
 }).$mount('#app');
