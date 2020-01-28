@@ -1,5 +1,5 @@
 <template>
-  <IconBase :icon-name="name" @on-click="(event)=>$emit('on-click', event)">
+  <IconBase :icon-name="name" :size="size" @on-click="(event)=>$emit('on-click', event)">
     <component :is="computeIcon" />
   </IconBase>
 </template>
@@ -34,6 +34,7 @@ import IconVisibility from "./IconVisibility.vue";
 import IconVisibilityOff from "./IconVisibilityOff.vue";
 import IconRestaurant from "./IconRestaurant.vue";
 import IconInfo from "./IconInfo.vue";
+import IconClock from "./IconClock.vue";
 
 export type IconOption =
   | "add"
@@ -59,7 +60,8 @@ export type IconOption =
   | "visibility"
   | "restaurant"
   | "info"
-  | "visibility-off";
+  | "visibility-off"
+  | "clock";
 
 @Component({
   components: {
@@ -87,12 +89,16 @@ export type IconOption =
     IconVisibility,
     IconVisibilityOff,
     IconRestaurant,
-    IconInfo
+    IconInfo,
+    IconClock
   }
 })
 export default class Icon extends Vue {
   @Prop({ type: String, default: "edit" })
   readonly name: IconOption;
+
+  @Prop({ type: Number, default: 16 })
+  readonly size: number;
 
   get computeIcon(): string {
     return camelCase(`icon-${this.name}`);

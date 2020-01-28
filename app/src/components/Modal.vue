@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 
 @Component
 export default class Modal extends Vue {
@@ -40,13 +40,20 @@ export default class Modal extends Vue {
 
   @Emit("on-negative")
   onNegative() {}
+
+  @Watch("isOpen")
+  onVisibilityChange(visible) {
+    if (!visible) {
+      this.$emit("on-close");
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .modal {
-  @include shadow-md;
+  box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   background-color: $white;
   min-width: 640px;
