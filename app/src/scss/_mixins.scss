@@ -22,7 +22,14 @@
 }
 
 @mixin subtitle {
-  font-size: 1.125em;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 500;
+  color: $color-primary-text;
+}
+
+@mixin subtitle-small {
+  font-size: 0.875rem;
   line-height: 1.2;
   font-weight: 500;
   color: $color-primary-text;
@@ -39,9 +46,9 @@
 }
 
 @mixin caption {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  color: rgba($color: #3F3356, $alpha: .60);
+  color: rgba($color: #3F3356, $alpha: .65);
 }
 
 
