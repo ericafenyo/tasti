@@ -1,12 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinTable, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne, JoinColumn, RelationId } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
 import { Exclude } from 'class-transformer';
+import { BaseFields } from '../BaseEntity';
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class User extends BaseFields {
   @Column({ name: 'first_name' })
   firstName: string;
 
@@ -16,20 +14,14 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @CreateDateColumn()
-  createdAt : Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @Exclude()
   @Column({ nullable: false })
   password: string;
 
-  @OneToMany(type => Recipe, (recipe) => recipe.owner)
+  @OneToMany((type) => Recipe, (recipe) => recipe.owner)
   recipes: Recipe[];
 
-  @OneToOne(type => Profile)
+  @OneToOne((type) => Profile, (profile) => profile.user)
   @JoinColumn()
   profile: Profile;
 }
