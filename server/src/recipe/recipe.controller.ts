@@ -16,13 +16,14 @@ import { RecipeService } from './recipe.service';
 import { RecipeMetadataService } from '../recipe-metadata/recipe-metadata.service';
 import { RecipeDto } from './recipe.dto';
 import { multerOption } from '../core';
+import { AuthType } from 'src/enums';
 
 @Controller('recipes')
 export class RecipeController {
   constructor(private recipeService: RecipeService, private metadataService: RecipeMetadataService) {}
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard(AuthType.JWT))
   @UseInterceptors(FileInterceptor('image', multerOption))
   async createRecipe(@Request() request: any, @UploadedFile() file) {
     const { user, body: { name } } = request;
