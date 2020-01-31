@@ -1,13 +1,13 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    :width="size"
+    :height="size"
     viewBox="0 0 24 24"
     :aria-labelledby="iconName"
     role="presentation"
     class="icon"
-    @click.prevent="(event)=>$emit('on-click', event)"
+    :style="{boxSizing:'content-box'}"
   >
     <title :id="iconName" lang="en">{{ iconName }} icon</title>
     <g fill="currentColor">
@@ -22,6 +22,10 @@ export default {
     iconName: {
       type: String,
       default: "edit"
+    },
+    size: {
+      type: Number,
+      default: 16
     }
   }
 };

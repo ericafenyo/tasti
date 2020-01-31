@@ -1,15 +1,20 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Home from './views/Home/Home.vue';
 import Login from './views/Login/Login.vue';
 import Register from './views/Register/Register.vue';
 import CreateRecipe from './views/CreateRecipe/CreateRecipe.vue';
-import UserProfile from './views/UserProfile/UserProfile.vue'
+import Profile from './views/User/Profile.vue';
 
 Vue.use(Router);
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      component: Home
+    },
     {
       path: '/login',
       component: Login
@@ -21,7 +26,7 @@ export default new Router({
 
     {
       path: '/account/profile',
-      component: UserProfile
+      component: Profile
     },
     {
       path: '/recipes/new',
@@ -29,7 +34,7 @@ export default new Router({
     },
     {
       path: '/profile',
-      component: UserProfile
+      component: Profile
     }
   ]
 });

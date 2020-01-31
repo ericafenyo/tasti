@@ -4,15 +4,18 @@ import {
   Request,
   Get,
   ServiceUnavailableException,
-  BadRequestException,
   Param,
   Patch,
   Delete,
-  ConflictException
+  ConflictException,
+  UseGuards,
+  Put
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MysqlError } from '../enums/mysql.error.enum';
 import { RecipeService } from '../recipe/recipe.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthType } from 'src/enums';
 
 @Controller('users')
 export class UserController {
@@ -21,11 +24,7 @@ export class UserController {
   handleSqlError(error: any) {
     switch (error.errno) {
       case MysqlError.DUPLICATE_ENTRY:
-        throw new ConflictException({
-          message: 'User email already exist',
-          refCode: 'DUPLICATE_EMAIL',
-          type: 'Conflict'
-        });
+        throw new ConflictException('User email already exist');
 
       default:
         throw new ServiceUnavailableException();
@@ -33,19 +32,31 @@ export class UserController {
   }
 
   /**
-   * returns all users.
-   */
-  @Get()
-  getUsers() {
-    return this.userService.find();
-  }
-
-  /**
-   * returns a user's profile.
+   * Get a user's profile information.
    * @param userId the id of a particular {@link User}.
    */
   @Get(':id')
-  getProfile(userId: string) {}
+  async getProfileById(@Param('id') userId: string) {
+    return await this.userService.findById(userId);
+  }
+
+  /**
+   * 
+   * @param {Object} request the Http request object
+   */
+  @Get()
+  @UseGuards(AuthGuard(AuthType.JWT))
+  async getProfile(@Request() request) {
+    const { user } = request;
+    return await this.userService.findById(user.id);
+  }
+
+  @Put(':id')
+  @UseGuards(AuthGuard(AuthType.JWT))
+  async updateProfile(@Request() request, @Param('id') profileId: string) {
+    const { user, body } = request;
+    return this.userService.updateProfile(profileId, user.id, body);
+  }
 
   @Post('/new')
   async createAccount(@Request() request) {

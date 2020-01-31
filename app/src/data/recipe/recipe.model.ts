@@ -33,3 +33,16 @@ export interface RecipeRequestModel {
     facts: string;
   };
 }
+
+export interface RecipeUiModel {
+  name?: string;
+  image?: string;
+  photos?: File[];
+  ingredients?: string[];
+  directions?: string[];
+  info?: {
+    serving: string;
+    tags: string;
+    facts: string;
+  };
+}
