@@ -2,20 +2,25 @@
   <div class="card-module">
     <div class="p-4">
       <div class="user">
-        <div :style="{width:'100px', height: '100px'}">
-          <Avatar username="NE" :src="image" />
-        </div>
-
+        <Avatar :username="props.profile.name" :src="props.profile.avatarPath" size="large" />
         <div class="user-info">
-          <h5 class="user-info-name">Nick Evans</h5>
-          <p class="caption">Potato Master</p>
+          <h5 class="user-info-name">{{props.profile.name}}</h5>
+          <p class="caption">{{props.profile.occupation}}</p>
         </div>
       </div>
       <div class="divider my-4"></div>
       <div class="stats">
-        <div v-for="(stat, index) in stats" :key="index">
-          <span class="stats-value">{{stat.value}}</span>
-          <span class="stats-label">{{stat.text}}</span>
+        <div>
+          <span class="stats-value">{{props.stats.recipeCount}}</span>
+          <span class="stats-label">Recipes</span>
+        </div>
+        <div>
+          <span class="stats-value">{{props.stats.followersCount}}</span>
+          <span class="stats-label">Followers</span>
+        </div>
+        <div>
+          <span class="stats-value">{{props.stats.followingCount}}</span>
+          <span class="stats-label">Following</span>
         </div>
       </div>
     </div>
@@ -25,6 +30,7 @@
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import Avatar from "../Avatar/Avatar.vue";
+import { type } from "os";
 
 @Component({
   components: {
@@ -32,6 +38,9 @@ import Avatar from "../Avatar/Avatar.vue";
   }
 })
 export default class ProfileStats extends Vue {
+  @Prop({ type: Object, default: () => ({}) })
+  props: object;
+
   image =
     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?w=800&h=800&q=80";
   stats = [
