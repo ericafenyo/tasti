@@ -1,7 +1,7 @@
 <template>
   <div class="register">
     <div class="register-form">
-        <Headline text="Create a Free Account" :level="3" />
+      <Headline text="Create a Free Account" :level="3" />
       <Notice
         :title="notificationOptions.title"
         placement="top-right"
@@ -75,7 +75,7 @@
             </Checkbox>
           </div>
         </div>
-        <Button text="Create Account" type="primary" v-stream:click="register$" />
+        <Button text="Create Account" type="primary" @click.native="onSubmit" />
       </form>
     </div>
     <div class="container">
@@ -103,6 +103,7 @@ import { Observable, Subject, interval, from } from "rxjs";
 import { switchMap, map } from "rxjs/operators";
 
 import { Result, Status } from "../../data/Result";
+import { Actions } from "../../store/actions";
 
 @Component({
   components: {
@@ -137,57 +138,34 @@ export default class Register extends Vue {
     const { $touch, $invalid } = this.$v;
     // Force the validation of form
     $touch();
+    if (!$invalid) {
+      try {
+        const response = await this.$store.dispatch(
+          Actions.CREATE_USER,
+          this.formData
+        );
 
-    // if (!$invalid) {
-    //   try {
-    const response = (await this.$store.dispatch(
-      "createUser",
-      this.formData
-    )) as Observable<Result>;
-
-    const subscription = response.subscribe({
-      next: result => {
-        switch (result.status) {
-          case Status.Loading:
-            console.log("Loading");
-            break;
-          case Status.Success:
-            console.log(result.data);
-            break;
-
-          case Status.Error:
-            console.log(result.data);
-            break;
-
-          default:
-            console.log("unknown");
-            break;
-        }
-      },
-
-      complete: () => {
-        console.log("completed");
+        console.log(response);
+        
+      } catch (error) {
+       console.log(error);
+       
       }
-    });
+      // if (response.status === HttpStatus.CREATED) {
+      //   this.showNotice();
+      //   this.$router.replace("/login");
+      // }
 
-    // if (response.status === HttpStatus.CREATED) {
-    //   this.showNotice();
-    //   this.$router.replace("/login");
-    // }
+      // this.showAlert();
+      // setTimeout(() => {
+      //   this.showAlert(false);
+      // }, 10000);
 
-    // const errorResponse: HttpErrorResponse = error;
-
-    // this.notificationOptions = {
-    //   message: errorResponse.message,
-    //   title: "Error"
-    // };
-
-    // this.showAlert();
-    // setTimeout(() => {
-    //   this.showAlert(false);
-    // }, 10000);
-
-    // console.error("There was an error while signing up");
+      // console.error("There was an error while signing up");
+    }else{
+      console.log("invalid");
+      
+    }
   }
 
   onInput({ value, name }) {
