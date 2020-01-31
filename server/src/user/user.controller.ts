@@ -51,11 +51,11 @@ export class UserController {
     return await this.userService.findById(user.id);
   }
 
-  @Put()
+  @Put(':id')
   @UseGuards(AuthGuard(AuthType.JWT))
-  async updateProfile(@Request() request){
+  async updateProfile(@Request() request, @Param('id') profileId: string) {
     const { user, body } = request;
-    return this.userService.updateProfile(user.id, body)
+    return this.userService.updateProfile(profileId, user.id, body);
   }
 
   @Post('/new')
