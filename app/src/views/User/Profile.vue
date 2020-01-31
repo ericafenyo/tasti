@@ -5,14 +5,14 @@
     </template>
     <div v-if="!isLoading" class="layout h-full">
       <aside class="aside-content">
-        <ProfileStats :stats="stats" class="mr-3" />
-        <div class="card-module my-4 mr-3">
+        <ProfileStats :props="profile" class="m-4" />
+        <!-- <div class="card-module my-4 mr-3">
           <ContextMenu :items="menuItems" @on-click="onMenuItemClick" />
         </div>
         <div @click.prevent="createNewRecipe" class="flex items-center justify-between">
           <span>New</span>
           <Icon name="add" />
-        </div>
+        </div>-->
       </aside>
 
       <main class="main-content">
@@ -55,7 +55,7 @@ import { Result, Status } from "../../data/Result";
     Loader
   }
 })
-export default class UserProfile extends Vue {
+export default class Profile extends Vue {
   isLoading = false;
   profile = {};
 
@@ -72,23 +72,8 @@ export default class UserProfile extends Vue {
   }
 
   async mounted() {
-    const response: Observable<Result> = await this.$store.dispatch(
-      Actions.GET_PROFILE
-    );
-
-    response.subscribe(result => {
-      switch (result.status) {
-        case Status.Loading:
-          this.showLoading();
-          break;
-        case Status.Success:
-
-        case Status.Error:
-          this.handleError();
-        default:
-          break;
-      }
-    });
+    const response = await this.$store.dispatch(Actions.GET_PROFILE);
+    this.profile = response.data;
   }
 
   addRecipe = false;
