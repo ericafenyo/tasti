@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany, OneToOne, JoinColumn, RelationId } from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne, JoinColumn, RelationId, RelationCount } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
 import { Exclude } from 'class-transformer';
@@ -15,13 +15,19 @@ export class User extends BaseFields {
   email: string;
 
   @Exclude()
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
 
-  @OneToMany((type) => Recipe, (recipe) => recipe.owner)
+  @OneToMany(() => Recipe, (recipe) => recipe.owner)
   recipes: Recipe[];
 
-  @OneToOne((type) => Profile, (profile) => profile.user)
-  @JoinColumn()
+  @RelationCount((user: User) => user.recipes)
+  recipeCount: number;
+
+  @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
+  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
+
+  @RelationId((user: User) => user.profile)
+  profileId: string;
 }

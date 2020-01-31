@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  OneToOne,
+  ManyToMany,
+  JoinTable,
+  RelationCount
+} from 'typeorm';
 import { User } from 'src/user/user.entity';
 
 @Entity()
@@ -16,9 +26,28 @@ export class Profile {
   @Column({ default: '' })
   gender: string;
 
-  @OneToOne((type) => User, (user) => user.profile)
+  @Column({ default: '' })
+  occupation: string;
+
+  @OneToOne(() => User, (user) => user.profile)
   user: User;
+
+  @ManyToMany(() => Profile, (profile) => profile.following)
+  @JoinTable()
+  followers: User[];
+
+  @ManyToMany(() => Profile, (profile) => profile.followers)
+  following: User[];
+
+  @RelationCount((profile: Profile) => profile.followers)
+  followersCount: number;
+
+  @RelationCount((profile: Profile) => profile.following)
+  followingCount: number;
 
   @CreateDateColumn({ name: 'joined_at' })
   joinedAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

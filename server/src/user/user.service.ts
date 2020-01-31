@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository, getConnection, getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
@@ -16,14 +16,16 @@ export class UserService {
     @InjectRepository(Profile) private profileRepository: Repository<Profile>
   ) {}
 
-  async updateProfile(id: string, profileDto: ProfileDto) {
-    const user = await getConnection()
-        .createQueryBuilder()
-        .select('*')
-        .from(User, 'user')
-        .getOne()
-    return user;
-    // const profile = this.profileRepository.create(profileDto);
+  /**
+   * Updates the user's profile information
+   * @param {String} profileId the id of the profile
+   * @param {String} userId  the user's id
+   * @param {ProfileDto} profileDto an object containing the updated information
+   */
+  async updateProfile(profileId: string, userId: string, profileDto: ProfileDto) {
+    const oldProfile = this.profileRepository.find({ id: profileId });
+    const updatedProfile = this.profileRepository.create({ ...oldProfile, ...profileDto });
+    return await this.profileRepository.update(profileId, updatedProfile);
   }
 
   async findOne(email: string) {
@@ -31,16 +33,20 @@ export class UserService {
     return user;
   }
 
-  async findById(id: string) {
+  async findById(profileId: string) {
     const user = await this.userRepository.findOne({
-      where: { id },
+      where: { id: profileId },
       relations: [ 'profile' ]
     });
+
+    const { email, recipeCount, profile: { id, followersCount, followingCount, ...profileRemains } } = user;
+
+    return { stats: { recipeCount, followersCount, followingCount }, profile: { email, ...profileRemains } };
 
     // if (!user) {
     //   throw new NotFoundException("method exists, but no record found");
     // }
-    return user;
+    // return user;
   }
 
   async find() {
