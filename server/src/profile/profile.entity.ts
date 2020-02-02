@@ -7,7 +7,8 @@ import {
   OneToOne,
   ManyToMany,
   JoinTable,
-  RelationCount
+  RelationCount,
+  ManyToOne
 } from 'typeorm';
 import { User } from 'src/user/user.entity';
 
