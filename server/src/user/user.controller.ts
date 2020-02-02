@@ -51,6 +51,24 @@ export class UserController {
     return await this.userService.findById(user.id);
   }
 
+  /**
+   * Returns all following for a particular user;
+   * @param {String} userId - the user's id
+   */
+  @Get(':id/followers')
+  async getFollowers(@Param('id') userId: string) {
+    return await this.userService.getFollowers(userId);
+  }
+
+  /**
+   * Returns all following for a particular user;
+   * @param {String} userId - the user's id
+   */
+  @Get(':id/following')
+  async getFollowing(@Param('id') userId: string) {
+    return await this.userService.getFollowing(userId);
+  }
+
   @Put(':id')
   @UseGuards(AuthGuard(AuthType.JWT))
   async updateProfile(@Request() request, @Param('id') profileId: string) {

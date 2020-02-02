@@ -6,7 +6,8 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
-  CreateDateColumn
+  CreateDateColumn,
+  ManyToMany
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Ingredient } from '../ingredient/ingredient.entity';
@@ -22,22 +23,21 @@ export class Recipe {
 
   @Column() imagePath: string;
 
-  @CreateDateColumn() 
-  createdAt: Date;
+  @CreateDateColumn() createdAt: Date;
 
-  @ManyToOne((_) => User, (user) => user.recipes, { nullable: false })
-  @JoinColumn({ name: 'userId' })
+  @ManyToOne(() => User, (user) => user.recipes, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
   owner: User;
 
-  @OneToMany((_) => Ingredient, (ingredient) => ingredient.recipe)
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe)
   ingredients: Ingredient[];
 
-  @OneToMany((_) => Direction, (direction) => direction.recipe)
+  @OneToMany(() => Direction, (direction) => direction.recipe)
   directions: Direction[];
 
-  @OneToMany((_) => Photo, (photo) => photo.recipe)
+  @OneToMany(() => Photo, (photo) => photo.recipe)
   photos: Photo[];
 
-  @OneToOne((_) => RecipeMetadata, (metadata) => metadata.recipe)
+  @OneToOne(() => RecipeMetadata, (metadata) => metadata.recipe)
   metadata: RecipeMetadata;
 }
