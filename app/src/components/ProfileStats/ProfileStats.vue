@@ -2,24 +2,24 @@
   <div class="card-module">
     <div class="p-4">
       <div class="user">
-        <Avatar :username="props.profile.name" :src="props.profile.avatarPath" size="large" />
+        <Avatar :username="args.profile.name" :src="args.profile.avatarPath" size="large" />
         <div class="user-info">
-          <h5 class="user-info-name">{{props.profile.name}}</h5>
-          <p class="caption">{{props.profile.occupation}}</p>
+          <h5 class="user-info-name">{{args.profile.name}}</h5>
+          <p class="caption">{{args.profile.occupation}}</p>
         </div>
       </div>
       <div class="divider my-4"></div>
       <div class="stats">
         <div>
-          <span class="stats-value">{{props.stats.recipeCount}}</span>
+          <span class="stats-value">{{args.stats.recipeCount}}</span>
           <span class="stats-label">Recipes</span>
         </div>
         <div>
-          <span class="stats-value">{{props.stats.followersCount}}</span>
+          <span class="stats-value">{{args.stats.followersCount}}</span>
           <span class="stats-label">Followers</span>
         </div>
         <div>
-          <span class="stats-value">{{props.stats.followingCount}}</span>
+          <span class="stats-value">{{args.stats.followingCount}}</span>
           <span class="stats-label">Following</span>
         </div>
       </div>
@@ -38,8 +38,12 @@ import { type } from "os";
   }
 })
 export default class ProfileStats extends Vue {
-  @Prop({ type: Object, default: () => ({}) })
-  props: object;
+  @Prop({ type: Object, default: () => ({ profile: {}, stats: {} }) })
+  args: object;
+
+  mounted() {
+    console.log(this.args.profile);
+  }
 
   image =
     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?w=800&h=800&q=80";
