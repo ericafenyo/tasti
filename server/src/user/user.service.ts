@@ -5,9 +5,13 @@ import { Repository } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
+import { Validator } from 'class-validator';
+
+// TODO: Inject this as a dependency
+const validator = new Validator();
 
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = 20;
 
 @Injectable()
 export class UserService {
@@ -28,25 +32,81 @@ export class UserService {
     return await this.profileRepository.update(profileId, updatedProfile);
   }
 
+  /**
+   * 
+   * @param {String} email - the users email address;
+   */
   async findOne(email: string) {
-    const user = await this.userRepository.findOne({ email });
-    return user;
+    try {
+      const user = await this.userRepository
+        .createQueryBuilder('user')
+        .addSelect('user.password')
+        .where('email = :email', { email })
+        .getOne();
+
+      if (validator.isEmpty(user)) {
+        throw new NotFoundException();
+      }
+
+      return user;
+    } catch (error) {
+      console.log(JSON.stringify(error));
+      throw new NotFoundException();
+    }
   }
 
-  async findById(profileId: string) {
-    const user = await this.userRepository.findOne({
-      where: { id: profileId },
-      relations: [ 'profile' ]
-    });
+  /**
+   * 
+   * @param userId 
+   */
+  async findById(userId: string) {
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id: userId },
+        relations: [ 'profile', 'profile.following', 'profile.followers' ]
+      });
 
-    const { email, recipeCount, profile: { id, followersCount, followingCount, ...profileRemains } } = user;
+      if (validator.isEmpty(user)) {
+        throw new NotFoundException('method exists, but no record found');
+      }
 
-    return { stats: { recipeCount, followersCount, followingCount }, profile: { email, ...profileRemains } };
+      const { email, recipeCount, profile: { id, followersCount, followingCount, ...profileRemains } } = user;
+      return { stats: { recipeCount, followersCount, followingCount }, profile: { email, ...profileRemains } };
+    } catch (error) {}
 
-    // if (!user) {
-    //   throw new NotFoundException("method exists, but no record found");
-    // }
-    // return user;
+    // console.log(profileId);
+  }
+
+  async getFollowers(userId: string) {
+    try {
+      const user = await this.userRepository.findOne({
+        select: [ 'id' ],
+        where: { id: userId },
+        relations: [ 'profile', 'profile.followers' ]
+      });
+
+      if (validator.isEmpty(user)) {
+        throw new NotFoundException('method exists, but no record found');
+      }
+      const { id, profile: { followers } } = user;
+      return { id, followers };
+    } catch (error) {}
+  }
+
+  async getFollowing(userId: string) {
+    try {
+      const user = await this.userRepository.findOne({
+        select: [ 'id' ],
+        where: { id: userId },
+        relations: [ 'profile', 'profile.followers' ]
+      });
+
+      if (validator.isEmpty(user)) {
+        throw new NotFoundException('method exists, but no record found');
+      }
+      const { id, profile: { following } } = user;
+      return { id, following };
+    } catch (error) {}
   }
 
   async find() {
