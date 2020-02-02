@@ -8,5 +8,11 @@
   "sign-up-error": "Sorry, we are unable to complete the sign-up process. Please try again later.",
   "http-error": {
     "duplicate-email": "User email already exist"
-  }
+  },
+  "profile-tabs": [
+    { "text": "Recipes", "key": "recipes" },
+    { "text": "Favorites", "key": "favorites" },
+    { "text": "Followers", "key": "followers" },
+    { "text": "Following", "key": "following" }
+  ]
 }
