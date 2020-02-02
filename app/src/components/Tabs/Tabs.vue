@@ -1,48 +1,37 @@
 <template>
   <div class="tabs">
     <div
-      v-for="(tab, index) in tabs"
+      v-for="(tab, index) in items"
+      @click="setActiveTab(index)"
       :key="index"
-      :class="{'tabs-item-active' : (index === active )}"
-      class="tabs-item"
-      @click="onClick(index)"
-    >{{tab}}</div>
+      :class="['tab-item', {'tab-item-active': (activeIndex == index)}]"
+    >{{tab.text}}</div>
   </div>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    active: 0
-  }),
+<script lang="ts">
+import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 
-  props: {
-    tabs: {
-      type: Array,
-      default: () => ["Tab 1", "Tab2"]
-    }
-  },
+@Component
+export default class Tabs extends Vue {
+  activeIndex = 0;
+  tabItems = [];
 
-  mounted() {
-    this.$emit("active", this.active);
-  },
-
-  watch: {
-    /**
-     * Emits a action when the active tab is changed
-     * @params{number} the active tab index
-     */
-    active(value) {
-      this.$emit("on-change", value);
-    }
-  },
-
-  methods: {
-    onClick(index) {
-      this.active = index;
-    }
+  @Prop({ type: Array, default: [] })
+  items: string[];
+  /**
+   * Emits a action when the active tab is changed
+   * @params{number} the active tab index
+   */
+  @Watch("activeIndex")
+  onActiveChanged(value) {
+    this.$emit("on-change", value);
   }
-};
+
+  setActiveTab(index) {
+    this.activeIndex = index;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -50,35 +39,23 @@ export default {
 
 .tabs {
   display: flex;
+  background-color: $color-surface;
+  border-radius: 16px;
   align-items: center;
-  background: $white;
-  height: 40px;
-  border-radius: 3px;
-  overflow: hidden;
-  border: 1px solid transparent;
-  font-weight: 700;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 13px;
-  transition: background-color 0.2s linear, color 0.2s linear;
 
-  @include laptop {
+  justify-content: space-between;
+  .tab-item {
     cursor: pointer;
-  }
-
-  &-item {
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1px;
-    font-weight: 600;
-    align-self: stretch;
-    color: $black;
+    height: 32px;
+    flex: 1;
+    line-height: 32px;
+    border-radius: 12px;
+    margin: 3px;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &-active {
-      background: $green;
-      color: $white;
+      background-color: #fff;
     }
   }
 }
