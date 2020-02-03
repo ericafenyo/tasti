@@ -4,6 +4,7 @@
     :width="size"
     :height="size"
     viewBox="0 0 24 24"
+    preserveAspectRatio="xMidYMid meet"
     :aria-labelledby="iconName"
     role="presentation"
     class="icon"
