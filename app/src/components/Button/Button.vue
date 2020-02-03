@@ -1,49 +1,53 @@
 <template>
-  <button class="button" :class="computeClass" :disabled="disabled" @click="$emit('on-click')">
+  <button
+  
+    :class="['button', computeClass]"
+    :disabled="disabled"
+    @click="$emit('on-click')"
+  >
     <i v-if="icon" class="material-icons button-icon">{{icon}}</i>
-    <span class="button-text" v-if="true">{{text}}</span>
+    <span class="button-text" v-if="!loading">{{text}}</span>
+    <span v-if="loading">
+      <Loader />
+    </span>
   </button>
 </template>
 
-<script>
-export default {
-  props: {
-    text: {
-      type: String,
-      require: true,
-      default: () => "Button"
-    },
-    type: {
-      type: String,
-      require: false,
-      default: () => "primary"
-    },
+<script lang="ts">
+export type ButtonSize = "x-small" | "small" | "medium" | "large";
 
-    size: {
-      type: String,
-      require: false,
-      default: () => ""
-    },
-    icon: {
-      type: String,
-      require: false,
-      default: () => ""
-    },
-    disabled: {
-      type: Boolean,
-      require: false,
-      default: () => false
-    }
-  },
+import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import { type } from "os";
 
-  computed: {
-    computeClass() {
-      return `button-${this.$props.type} button-${this.$props.size} ${this.$props.icon} `;
-    }
-  },
-  methods: {}
-};
+@Component
+export default class Button extends Vue {
+  @Prop({ type: String, default: "Button" })
+  text: string;
+
+  @Prop({ type: String, default: "primary" })
+  type: string;
+
+  @Prop({ type: String, default: "medium" })
+  size: ButtonSize;
+
+  @Prop({ type: String, default: "" })
+  icon: string;
+
+  @Prop({ type: Boolean, default: false })
+  disabled: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  loading: boolean;
+
+  @Prop({ type: String, default: "submit" })
+  htmlType: string;
+
+  get computeClass() {
+    return `button--${this.$props.type} button--${this.$props.size} ${this.$props.icon} `;
+  }
+}
 </script>
+
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
@@ -52,7 +56,6 @@ export default {
   font-family: $font;
   padding: 0 1em;
   min-width: 80px;
-  height: 40px;
   border-radius: 3px;
   overflow: hidden;
   border: 1.5px solid transparent;
@@ -62,7 +65,25 @@ export default {
   font-size: 16px;
   transition: background-color 0.2s linear, color 0.2s linear;
 
-  &-primary {
+  // Button sizes
+  &--x-small {
+    height: 32px;
+  }
+
+  &--small {
+    height: 32px;
+  }
+
+  &--medium {
+    height: 40px;
+  }
+
+  &--large {
+    height: 48px;
+  }
+
+  // Button types
+  &--primary {
     background-color: $color-accent;
     border-color: $color-accent;
     color: $white;
@@ -73,13 +94,13 @@ export default {
     }
   }
 
-  &-secondary {
+  &--secondary {
     background-color: $color-surface;
     border-color: $color-surface;
     color: #242a31;
   }
 
-  &-outline {
+  &--outline {
     background-color: $white;
     border-color: $color-accent;
     color: $color-accent;
@@ -90,12 +111,7 @@ export default {
     }
   }
 
-  &-small {
-    height: 36px;
-    padding: 0 2px;
-  }
-
-  &-text {
+  &--text {
     padding: 0 8px;
     background-color: transparent;
   }
