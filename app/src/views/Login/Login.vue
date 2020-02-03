@@ -1,45 +1,43 @@
 <template>
   <section class="section-no-header background-surface">
     <div class="login card-module">
-      <Headline text="Login To Your Account" :level="2" class="mb-8" />
-      <Alert
-        :visible="alertVisible"
-        :type="notificationType"
-        :message="notificationMessage"
-        @on-dismiss="showAlert({ visible: false })"
-      />
-      <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
-        <div class="form-item">
-          <Input
-            label="Email Address"
-            type="text"
-            name="email"
-            :className="[{'input-error': $v.email.$error}]"
-            placeholder="name@example.com"
-            :value="email"
-            @on-input="onInput"
-          />
-        </div>
-        <div class="form-item">
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            :hasAction="true"
-            :actionText="$t('forgot-password')"
-            :actionRoute="'/forgot-password'"
-            :value="password"
-            :className="[{'input-error': $v.password.$error}]"
-            placeholder="Enter 8 or more characters"
-            @on-input="onInput"
-          />
-        </div>
-        <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
-        <div class="mt-3 text-center">
-          <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
-          <Link :text="$t('sign-up')" to="/join" />
-        </div>
-      </form>
+      <div class="container">
+        <Headline text="Login To Your Account" :level="3" class="mb-5" />
+        <Alert
+          :visible="alertVisible"
+          :type="alertType"
+          :message="alertMessage"
+          @on-dismiss="showAlert({ visible: false })"
+        />
+        <portal to="notification-outlet">
+          <Notice :visible="true" />
+        </portal>
+        <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
+          <div class="form-item">
+            <Input
+              label="Email Address"
+              type="text"
+              name="email"
+              :className="[{'input-error': $v.email.$error}]"
+              placeholder="name@example.com"
+              :value="email"
+              @on-input="onInput"
+            />
+          </div>
+          <div class="form-item">
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              :value="password"
+              :className="[{'input-error': $v.password.$error}]"
+              placeholder="Enter 8 or more characters"
+              @on-input="onInput"
+            />
+          </div>
+          <Button :disabled="$v.$invalid" size="large" text="Login" />
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -56,9 +54,9 @@ import { HttpStatus, AlertKeys } from "../../enums";
 import { Actions } from "../../store/actions";
 import { Result } from "../../data/Result";
 import {
-  NotificationOptions,
-  NotificationType
-} from "../../components/Notification";
+  AlertOptions,
+  AlertType
+} from "../../components/Notification/Alert.vue";
 
 @Component({
   components: {
@@ -77,13 +75,15 @@ export default class Login extends Vue {
   password: string = "";
 
   alertVisible = false;
-  notificationMessage = "";
-  notificationType = "";
+  alertMessage = "";
+  alertType = "";
 
-  showAlert(options: NotificationOptions = { visible: false }) {
-    this.notificationType = options.type;
-    this.notificationMessage = options.message;
-    this.alertVisible = options.visible;
+  showAlert(options?: AlertOptions) {
+    if (options) {
+      this.alertType = options.type;
+      this.alertMessage = options.message;
+      this.alertVisible = options.visible;
+    }
   }
 
   resetForm() {
@@ -97,11 +97,11 @@ export default class Login extends Vue {
     password: { required }
   };
 
-  async onSubmit() {
+  async onSubmit(event) {
     const { $invalid } = this.$v;
-    // Start with loading a state
+    console.log(event);
+
     if (!$invalid) {
-      this.enableLoading();
       const response: Result = await this.$store.dispatch(
         Actions.AUTHENTICATE,
         {
@@ -109,30 +109,17 @@ export default class Login extends Vue {
           password: this.password
         }
       );
-      // stop the loading indicator
-      this.enableLoading(false);
+
       if (response.status === HttpStatus.CREATED) {
-        // reset form inputs
-        this.resetForm();
+        // Show success notification
         // Redirect to the home screen
-        this.$router.replace("/");
+        // this.$router.replace("/");
       } else if (response.status === HttpStatus.UNAUTHORIZED) {
         // reset form inputs
         this.resetForm();
 
         // Show alert
         const alertObject: any = this.$t(AlertKeys.INVALID_CREDENTIALS);
-        this.showAlert({
-          type: alertObject.type,
-          message: alertObject.message,
-          visible: true
-        });
-      } else if (response.status === HttpStatus.SERVICE_UNAVAILABLE) {
-        // reset form inputs
-        this.resetForm();
-
-        // Show alert
-        const alertObject: any = this.$t(AlertKeys.SERVICE_UNAVAILABLE);
         this.showAlert({
           type: alertObject.type,
           message: alertObject.message,
@@ -151,8 +138,6 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
-
   max-width: 432px;
   margin: 0 auto;
   background-color: $white;
