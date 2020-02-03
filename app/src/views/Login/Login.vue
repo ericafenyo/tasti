@@ -88,7 +88,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
-  max-width: 560px;
+  max-width: 480px;
   margin: 0 auto;
   background-color: $white;
   padding: 2rem 0;
