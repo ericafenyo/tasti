@@ -1,10 +1,7 @@
 export enum HttpStatus {
   CREATED = 201,
-  UNAUTHORIZED = 401,
-  SERVICE_UNAVAILABLE = 503
+  UNAUTHORIZED = 401
 }
 export enum AlertKeys {
-  INVALID_CREDENTIALS = 'invalid-credentials',
-  SERVICE_UNAVAILABLE = 'service-unavailable',
-  LOGIN_SUCCESSFUL = 'login_successful'
+  INVALID_CREDENTIALS = 'invalid-credentials'
 }
