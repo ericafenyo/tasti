@@ -3,7 +3,16 @@
     <div class="login card-module">
       <div class="container">
         <Headline text="Login To Your Account" :level="3" class="mb-5" />
-        <form @submit.prevent novalidate="true">
+        <Alert
+          :visible="alertVisible"
+          :type="alertType"
+          :message="alertMessage"
+          @on-dismiss="showAlert({ visible: false })"
+        />
+        <portal to="notification-outlet">
+          <Notice :visible="true" />
+        </portal>
+        <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
           <div class="form-item">
             <Input
               label="Email Address"
@@ -11,6 +20,7 @@
               name="email"
               :className="[{'input-error': $v.email.$error}]"
               placeholder="name@example.com"
+              :value="email"
               @on-input="onInput"
             />
           </div>
@@ -19,12 +29,13 @@
               label="Password"
               type="password"
               name="password"
+              :value="password"
               :className="[{'input-error': $v.password.$error}]"
               placeholder="Enter 8 or more characters"
               @on-input="onInput"
             />
           </div>
-          <Button text="Login" class="mb-3" type="primary" @on-click="onSubmit" />
+          <Button :disabled="$v.$invalid" size="large" text="Login" />
         </form>
       </div>
     </div>
@@ -39,6 +50,13 @@ import { required } from "vuelidate/lib/validators";
 import Headline from "@/components/Headline/Headline.vue";
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
+import { HttpStatus, AlertKeys } from "../../enums";
+import { Actions } from "../../store/actions";
+import { Result } from "../../data/Result";
+import {
+  AlertOptions,
+  AlertType
+} from "../../components/Notification/Alert.vue";
 
 @Component({
   components: {
@@ -51,30 +69,57 @@ export default class Login extends Vue {
   email: string = "";
   password: string = "";
 
+  alertVisible = false;
+  alertMessage = "";
+  alertType = "";
+
+  showAlert(options?: AlertOptions) {
+    if (options) {
+      this.alertType = options.type;
+      this.alertMessage = options.message;
+      this.alertVisible = options.visible;
+    }
+  }
+
+  resetForm() {
+    this.email = "";
+    this.password = "";
+  }
+
   @Validations()
   validations = {
     email: { required },
     password: { required }
   };
 
-  async onSubmit() {
-    const { $touch, $invalid } = this.$v;
-    // Force the validation of form
-    $touch();
+  async onSubmit(event) {
+    const { $invalid } = this.$v;
+    console.log(event);
 
     if (!$invalid) {
-      try {
-        const response = await this.$store.dispatch("authenticate", {
+      const response: Result = await this.$store.dispatch(
+        Actions.AUTHENTICATE,
+        {
           username: this.email,
           password: this.password
-        });
-
-        if (response.status === 201) {
-          this.$router.replace("/");
         }
-      } catch (error) {
-        console.error("There was an error while logging in -> " + error);
-        console.log(error);
+      );
+
+      if (response.status === HttpStatus.CREATED) {
+        // Show success notification
+        // Redirect to the home screen
+        // this.$router.replace("/");
+      } else if (response.status === HttpStatus.UNAUTHORIZED) {
+        // reset form inputs
+        this.resetForm();
+
+        // Show alert
+        const alertObject: any = this.$t(AlertKeys.INVALID_CREDENTIALS);
+        this.showAlert({
+          type: alertObject.type,
+          message: alertObject.message,
+          visible: true
+        });
       }
     }
   }
@@ -88,7 +133,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
-  max-width: 480px;
+  max-width: 432px;
   margin: 0 auto;
   background-color: $white;
   padding: 2rem 0;
@@ -99,7 +144,7 @@ export default class Login extends Vue {
     padding: 2rem 1rem;
     margin-top: 3rem;
     border: 1px solid $color-border;
-    border-radius: 12px;
+    border-radius: 6px;
   }
 
   .button {
