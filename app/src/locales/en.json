@@ -14,5 +14,9 @@
     { "text": "Favorites", "key": "favorites" },
     { "text": "Followers", "key": "followers" },
     { "text": "Following", "key": "following" }
-  ]
+  ],
+  "invalid-credentials": {
+    "type": "error",
+    "message": "Your email or password is incorrect"
+  }
 }
