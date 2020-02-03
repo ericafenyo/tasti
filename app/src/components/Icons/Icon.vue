@@ -35,6 +35,9 @@ import IconVisibilityOff from "./IconVisibilityOff.vue";
 import IconRestaurant from "./IconRestaurant.vue";
 import IconInfo from "./IconInfo.vue";
 import IconClock from "./IconClock.vue";
+import IconCritical from "./IconCritical.vue";
+import IconConfirm from "./IconConfirm.vue";
+import IconWarning from "./IconWarning.vue";
 
 export type IconOption =
   | "add"
@@ -61,6 +64,9 @@ export type IconOption =
   | "restaurant"
   | "info"
   | "visibility-off"
+  | "critical"
+  | "confirm"
+  | "warning"
   | "clock";
 
 @Component({
@@ -90,7 +96,10 @@ export type IconOption =
     IconVisibilityOff,
     IconRestaurant,
     IconInfo,
-    IconClock
+    IconCritical,
+    IconConfirm,
+    IconClock,
+    IconWarning
   }
 })
 export default class Icon extends Vue {
