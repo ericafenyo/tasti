@@ -1,24 +1,28 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+
 import { User, Recipe } from '@/data/Injector';
 import { RecipeRequestModel } from '@/data/recipe/recipe.model';
-import { RecipeService } from '@/data/recipe/recipe.service';
 
 Vue.use(Vuex);
 
 const initialState = {
   isModalOpen: false,
-  users: [],
-  token: ''
+  userId: ''
 };
 
 export const store = new Vuex.Store({
+  plugins: [ createPersistedState() ],
   state: initialState,
 
   mutations: {
     async setToken(state, payload: string) {
       localStorage.setItem('access_token', payload);
-      state.token = payload;
+    },
+
+    async setUser(state, payload: string) {
+      state.userId = payload;
     }
   },
 
@@ -30,6 +34,7 @@ export const store = new Vuex.Store({
     async authenticate({ commit }, { username, password }) {
       const response = await User.authenticate(username, password);
       commit('setToken', response.data.access_token);
+      commit('setUser', response.data.id);
       return response;
     },
 
@@ -44,6 +49,10 @@ export const store = new Vuex.Store({
 
     getRecipes() {
       return Recipe.find();
+    },
+
+    getFollowers({ state }) {
+      return User.followers(state.userId);
     }
   }
 });
