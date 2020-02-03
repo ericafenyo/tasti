@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-horizontal">
     <div v-if="isVisible" class="alert" :class="composeAlertClasses">
-      <Icon :name="computeIcon" class="alert-icon" :size="18" />
+      <Icon :name="computeIcon" class="alert-icon" :size="20" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
       <Icon class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
@@ -10,6 +10,15 @@
 </template>
 
 <script lang="ts">
+export type AlertType = "success" | "info" | "warning" | "error";
+
+export interface AlertOptions {
+  type?: AlertType;
+  title?: string;
+  message?: string;
+  visible?: boolean;
+}
+
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 import { IconOption } from "../Icons/Icon.vue";
 import { NotificationType } from ".";
@@ -29,13 +38,11 @@ export default class Alert extends Vue {
       return "warning";
     } else if (type === "error") {
       return "critical";
-    } else {
-      return "confirm";
     }
   }
 
   @Prop({ type: String, default: "success" })
-  type: NotificationType;
+  type: AlertType;
 
   @Prop({ type: String, default: "" })
   title: string;
