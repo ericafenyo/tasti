@@ -1,7 +1,8 @@
 /** == font family== **/
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
-$font: 'Roboto', sans-serif;
+$font: 'Roboto',
+sans-serif;
 
 /** == alpha states == **/
 $alpha-active: 0.87;
@@ -17,10 +18,10 @@ $black-disabled: #9a9a9a;
 $green: #2bb24c;
 $green-inactive: #7ddfc3;
 $green-disabled: #d5f2ea;
-$red: #ff647c;
+$red: #f56565;
 $red-inactive: #fdafbb;
 $red-disabled: #fbe4e8;
-$orange: #f6ab2f;
+$orange: #f77d05;
 $blue: #1665d8;
 $blue-inactive: #66b5f8;
 $blue-disabled: #d5e9fa;
@@ -36,10 +37,10 @@ $color-tertiary-text: #9ea0a5;
 $color-border: #eaedf3;
 
 /** == theme colors == **/
-// $color-surface: #f1f3f8;
-$color-surface: #ecedef;
+$color-surface: #f1f3f8;
+// $color-surface: #ecedef;
 // $color-accent: #6979f8;
-$color-accent: #3884ff;
+$color-accent: #ffa26b;
 
 /** == break points == **/
 $phablet-width: 480px;
