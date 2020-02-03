@@ -25,6 +25,6 @@ export class AuthService {
   }
 
   async login({ email, sub }) {
-    return { access_token: this.jwtService.sign({ email, sub }) };
+    return { id: sub, access_token: this.jwtService.sign({ email, sub }) };
   }
 }
