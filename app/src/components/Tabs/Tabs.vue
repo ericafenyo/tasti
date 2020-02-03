@@ -15,7 +15,6 @@ import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 @Component
 export default class Tabs extends Vue {
   activeIndex = 0;
-  tabItems = [];
 
   @Prop({ type: Array, default: [] })
   items: string[];
@@ -23,9 +22,9 @@ export default class Tabs extends Vue {
    * Emits a action when the active tab is changed
    * @params{number} the active tab index
    */
-  @Watch("activeIndex")
+  @Watch("activeIndex", { immediate: true })
   onActiveChanged(value) {
-    this.$emit("on-change", value);
+    this.$emit("on-change", this.items[value]);
   }
 
   setActiveTab(index) {
