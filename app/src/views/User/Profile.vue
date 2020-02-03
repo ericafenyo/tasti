@@ -17,11 +17,9 @@
 
       <main class="main-content">
         <div class="m-4">
-          <Tabs :items="$t('profile-tabs')" />
+          <Tabs :items="$t('profile-tabs')" @on-change="loadData" />
         </div>
-        <div>
-          
-        </div>
+        <div></div>
       </main>
     </div>
   </section>
@@ -71,6 +69,11 @@ export default class Profile extends Vue {
 
   handleSuccess() {
     this.showLoading(false);
+  }
+
+  async loadData({ key }) {
+    const response = await this.$store.dispatch(Actions.GET_FOLLOWERS);
+    console.log(response);
   }
 
   async mounted() {
