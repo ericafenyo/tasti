@@ -1,16 +1,23 @@
 <template>
   <transition name="slide-horizontal">
     <div v-if="isVisible" class="alert" :class="composeAlertClasses">
-      <Icon name="info" class="alert-icon" />
+      <Icon :name="computeIcon" class="alert-icon" :size="20" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
-      <Icon class="alert-action-close" name="close" @on-click="onDismiss" />
+      <Icon class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
     </div>
   </transition>
 </template>
 
 <script lang="ts">
-export type AlertOptions = "success" | "info" | "warning" | "error";
+export type AlertType = "success" | "info" | "warning" | "error";
+
+export interface AlertOptions {
+  type?: AlertType;
+  title?: string;
+  message?: string;
+  visible?: boolean;
+}
 
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 import { IconOption } from "../Icons/Icon.vue";
@@ -20,8 +27,21 @@ export default class Alert extends Vue {
   isVisible = true;
   className = "";
 
+  get computeIcon(): IconOption {
+    const { type } = this;
+    if (type === "success") {
+      return "confirm";
+    } else if (type === "info") {
+      return "info";
+    } else if (type === "warning") {
+      return "warning";
+    } else if (type === "error") {
+      return "critical";
+    }
+  }
+
   @Prop({ type: String, default: "success" })
-  type: AlertOptions;
+  type: AlertType;
 
   @Prop({ type: String, default: "" })
   title: string;
@@ -32,7 +52,7 @@ export default class Alert extends Vue {
   @Prop({ type: Boolean, default: false })
   visible: boolean;
 
-  @Emit("onDismiss")
+  @Emit("on-dismiss")
   emitOnDismiss() {}
 
   @Watch("visible", { immediate: true })
@@ -56,23 +76,26 @@ export default class Alert extends Vue {
 
 .alert {
   position: relative;
-  border: 1px solid;
+  border-left: 4px solid;
   padding-top: 16px;
   padding: 16px 48px;
   margin-bottom: 24px;
   border-radius: 4px;
+  background-color: $color-surface;
 
   &-icon {
     position: absolute;
-    left: 12px;
+    left: 16px;
+    margin-top: 2px;
   }
 
   &-action-close {
     position: absolute;
     cursor: pointer;
     color: rgba($black, $alpha-disabled);
-    right: 12px;
-    top: 12px;
+    right: 4px;
+    padding: 8px;
+    top: 8px;
 
     &:hover {
       color: rgba($black, $alpha-inactive);
@@ -84,7 +107,7 @@ export default class Alert extends Vue {
     display: block;
     font-size: 1rem;
     line-height: 1.5;
-    color: #3F3356;
+    color: #3f3356;
   }
 
   &-title {
@@ -96,16 +119,13 @@ export default class Alert extends Vue {
   }
 
   &-success {
-    background-color: $green-disabled;
     border-color: $green;
-
     .alert-icon {
       color: $green;
     }
   }
 
   &-info {
-    background-color: $blue-disabled;
     border-color: $blue;
 
     .alert-icon {
@@ -114,18 +134,15 @@ export default class Alert extends Vue {
   }
 
   &-warning {
-    background-color: $yellow-disabled;
-    border-color: $yellow;
+    border-color: $orange;
 
     .alert-icon {
-      color: $yellow;
+      color: $orange;
     }
   }
 
   &-error {
-    background-color: $red-disabled;
     border-color: $red;
-
     .alert-icon {
       color: $red;
     }
