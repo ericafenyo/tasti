@@ -29,22 +29,17 @@
   */
 
 export enum Status {
-  Loading,
   Success,
   Error
 }
 
 export class Result {
-  status: Status;
+  status: number;
   data?: any;
   private constructor(status: Status, data?: any) {
     this.status = status;
     this.data = data;
   }
 
-  static Loading = () => new Result(Status.Loading);
-
-  static Success = <T>(data: T) => new Result(Status.Success, data);
-
-  static Error = (data: string) => new Result(Status.Error, data);
+  static create = (status: number, data: any) => new Result(status, data);
 }
