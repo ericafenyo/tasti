@@ -28,6 +28,11 @@ export default class InputText extends Vue {
   onModelChanged(value) {
     this.$emit("on-input", { value, name: this.name });
   }
+
+  @Watch("value", { immediate: true })
+  onValueChanged(value) {
+    this.model = value;
+  }
 }
 </script>
 
