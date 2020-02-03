@@ -29,7 +29,6 @@ import { AxiosPromise, AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { Result } from '../../data/Result';
 import { async } from 'rxjs/internal/scheduler/async';
-import { HttpStatus } from '@/enums';
 
 export interface UserService {
   createAccount: (user: any) => AxiosPromise<any>;
@@ -65,19 +64,15 @@ export class UserServiceImpl implements UserService {
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    return new Promise((resolve) => {
-      http.post('/auth/login', { username, password })
-        .then(({ status, data }) => {
-          resolve(Result.create(status, data));
-        })
-        .catch((error) => {
-          if (error.response) {
-            const { status, data } = error.response;
-            resolve(Result.create(status, data));
-          } else {
-            resolve(Result.create(HttpStatus.SERVICE_UNAVAILABLE, 'Service not available'));
-          }
-        });
+    // TODO: Encrypt password before sending
+    return new Promise(async (resolve) => {
+      try {
+        const { status, data } = await http.post('/auth/login', { username, password });
+        resolve(Result.create(status, data));
+      } catch (error) {
+        const { status, data } = error.response;
+        resolve(Result.create(status, data));
+      }
     });
   }
 }
