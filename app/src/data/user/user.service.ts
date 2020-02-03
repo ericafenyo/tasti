@@ -28,11 +28,12 @@ import { http, invokeHttpRequest, authHttp } from '../ConnectionHelper';
 import { AxiosPromise, AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { Result } from '../../data/Result';
+import { async } from 'rxjs/internal/scheduler/async';
 
 export interface UserService {
   createAccount: (user: any) => AxiosPromise<any>;
 
-  authenticate: (username: string, password: string) => AxiosPromise<any>;
+  authenticate: (username: string, password: string) => Promise<Result>;
 
   profile: () => AxiosPromise<any>;
 
@@ -62,8 +63,16 @@ export class UserServiceImpl implements UserService {
     return await http.post('/users/new', user);
   }
 
-  async authenticate(username: string, password: string): Promise<AxiosResponse<any>> {
+  authenticate(username: string, password: string): Promise<Result> {
     // TODO: Encrypt password before sending
-    return await http.post('/auth/login', { username, password });
+    return new Promise(async (resolve) => {
+      try {
+        const { status, data } = await http.post('/auth/login', { username, password });
+        resolve(Result.create(status, data));
+      } catch (error) {
+        const { status, data } = error.response;
+        resolve(Result.create(status, data));
+      }
+    });
   }
 }
