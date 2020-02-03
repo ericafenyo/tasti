@@ -10,7 +10,12 @@
       v-model="model"
       ref="inputPassword"
     />
-    <Icon :class="{'icon-inactive' : !isVisible}" :name="computeIcon" @on-click="toggleVisibility" />
+    <Icon
+      :size="24"
+      :class="{'icon-inactive' : !isVisible}"
+      :name="computeIcon"
+      @click.native="toggleVisibility"
+    />
   </span>
 </template>
 
@@ -38,12 +43,19 @@ export default class InputText extends Vue {
   }
 
   toggleVisibility(event) {
+    console.log("zglzrhgjrz");
+
     this.isVisible = !this.isVisible;
   }
 
   @Watch("model")
   onModelChanged(value) {
     this.$emit("on-input", { value, name: this.name });
+  }
+
+  @Watch("value", { immediate: true })
+  onValueChanged(value) {
+    this.model = value;
   }
 }
 </script>

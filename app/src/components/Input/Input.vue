@@ -9,6 +9,7 @@
       :name="name"
       :className="className"
       :required="required"
+      :value="value"
       @on-input="(inputData) => $emit('on-input', inputData)"
     />
     <span
@@ -19,11 +20,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 
 import InputText from "./InputText.vue";
 import InputPassword from "./InputPassword.vue";
 import BaseInput from "./BaseInput.vue";
+import { watch } from "fs";
 
 @Component({
   components: {
@@ -32,8 +34,6 @@ import BaseInput from "./BaseInput.vue";
   }
 })
 export default class Input extends BaseInput {
-
-
   capitalize(value: string) {
     console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
