@@ -12,9 +12,6 @@
       :name="name"
       :className="className"
       :required="required"
-      :hasAction="hasAction"
-      :actionRoute="actionRoute"
-      :actionText="actionText"
       :value="value"
       @on-input="(inputData) => $emit('on-input', inputData)"
     />
@@ -40,15 +37,6 @@ import { watch } from "fs";
   }
 })
 export default class Input extends BaseInput {
-  @Prop({ type: Boolean, default: false })
-  hasAction: boolean;
-
-  @Prop({ type: String, default: "" })
-  actionText: string;
-
-  @Prop({ type: String, default: "" })
-  actionRoute: string;
-
   capitalize(value: string) {
     console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
