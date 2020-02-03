@@ -4,5 +4,6 @@ export const Actions = {
   GET_FOLLOWING: 'getFollowing',
   GET_FOLLOWERS: 'getFollowers',
   CREATE_RECIPE: 'createRecipe',
-  CREATE_USER: 'createUser'
+  CREATE_USER: 'createUser',
+  AUTHENTICATE: 'authenticate'
 };
