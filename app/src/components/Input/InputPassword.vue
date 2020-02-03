@@ -11,8 +11,8 @@
       ref="inputPassword"
     />
     <Icon
-      :size="20"
-      :class="[(isVisible? 'icon-active' :'icon-inactive' )]"
+      :size="24"
+      :class="{'icon-inactive' : !isVisible}"
       :name="computeIcon"
       @click.native="toggleVisibility"
     />
@@ -43,6 +43,8 @@ export default class InputText extends Vue {
   }
 
   toggleVisibility(event) {
+    console.log("zglzrhgjrz");
+
     this.isVisible = !this.isVisible;
   }
 
