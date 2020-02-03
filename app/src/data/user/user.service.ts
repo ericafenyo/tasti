@@ -35,11 +35,23 @@ export interface UserService {
   authenticate: (username: string, password: string) => AxiosPromise<any>;
 
   profile: () => AxiosPromise<any>;
+
+  /**
+   * 
+   */
+  followers: (userId: string) => AxiosPromise<any>;
 }
 
 export class UserServiceImpl implements UserService {
   profile() {
     return authHttp.get('users');
+  }
+
+  followers(userId: string) {
+    if (!userId) {
+      throw 'Log out, user id is null';
+    }
+    return authHttp.get(`users/${userId}/followers`);
   }
 
   /**
