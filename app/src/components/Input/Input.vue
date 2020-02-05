@@ -1,6 +1,9 @@
 <template>
   <div class="input">
-    <label :for="name" class="input-label">{{label}}</label>
+    <div class="flex justify-between">
+      <label :for="name" class="input-label">{{label}}</label>
+      <Link size="small" v-if="hasAction" :text="actionText" :to="actionRoute" />
+    </div>
     <component
       :is="computeComponent"
       :id="name"
@@ -9,6 +12,9 @@
       :name="name"
       :className="className"
       :required="required"
+      :hasAction="hasAction"
+      :actionRoute="actionRoute"
+      :actionText="actionText"
       :value="value"
       @on-input="(inputData) => $emit('on-input', inputData)"
     />
@@ -34,6 +40,15 @@ import { watch } from "fs";
   }
 })
 export default class Input extends BaseInput {
+  @Prop({ type: Boolean, default: false })
+  hasAction: boolean;
+
+  @Prop({ type: String, default: "" })
+  actionText: string;
+
+  @Prop({ type: String, default: "" })
+  actionRoute: string;
+
   capitalize(value: string) {
     console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
@@ -75,20 +90,20 @@ export default class Input extends BaseInput {
   /deep/ &-element {
     font-family: $font;
     height: 48px;
-    background-color: $color-surface;
+    background-color: rgba($color-surface, 0.6);
     font-size: 1rem;
     color: $color-primary-text;
-    border: 0;
-    box-shadow: inset 0 0 0 0px $color-border;
+    border: solid 1px $color-border;
     padding-left: 1rem;
     padding-right: 3rem;
-    border-radius: 3px;
+    border-radius: 6px;
     width: 100%;
     z-index: 0;
     transition: all 0.2s;
 
     &:focus {
-      box-shadow: inset 0 0 0px 2px $color-accent;
+      // box-shadow: inset 0 0 0px 2px $color-accent;
+      background-color: $white;
     }
 
     &.input-error {
