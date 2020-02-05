@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-horizontal">
     <div v-if="isVisible" class="alert" :class="composeAlertClasses">
-      <Icon :name="computeIcon" class="alert-icon" :size="20" />
+      <Icon :name="computeIcon" class="alert-icon" :size="18" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
       <Icon class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
