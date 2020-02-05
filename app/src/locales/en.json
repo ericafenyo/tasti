@@ -22,5 +22,9 @@
   "invalid-credentials": {
     "type": "error",
     "message": "Your email or password is incorrect"
+  },
+  "service-unavailable": {
+    "type": "error",
+    "message": "Service unavailable; please try again later."
   }
 }
