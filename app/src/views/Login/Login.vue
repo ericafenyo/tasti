@@ -1,43 +1,48 @@
 <template>
   <section class="section-no-header background-surface">
     <div class="login card-module">
-      <div class="container">
-        <Headline text="Login To Your Account" :level="3" class="mb-5" />
-        <Alert
-          :visible="alertVisible"
-          :type="alertType"
-          :message="alertMessage"
-          @on-dismiss="showAlert({ visible: false })"
-        />
-        <portal to="notification-outlet">
-          <Notice :visible="true" />
-        </portal>
-        <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
-          <div class="form-item">
-            <Input
-              label="Email Address"
-              type="text"
-              name="email"
-              :className="[{'input-error': $v.email.$error}]"
-              placeholder="name@example.com"
-              :value="email"
-              @on-input="onInput"
-            />
-          </div>
-          <div class="form-item">
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              :value="password"
-              :className="[{'input-error': $v.password.$error}]"
-              placeholder="Enter 8 or more characters"
-              @on-input="onInput"
-            />
-          </div>
-          <Button :disabled="$v.$invalid" size="large" text="Login" />
-        </form>
-      </div>
+      <Headline text="Login To Your Account" :level="2" class="mb-8" />
+      <Alert
+        :visible="alertVisible"
+        :type="alertType"
+        :message="alertMessage"
+        @on-dismiss="showAlert({ visible: false })"
+      />
+      <portal to="notification-outlet">
+        <Notice :visible="true" />
+      </portal>
+      <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
+        <div class="form-item">
+          <Input
+            label="Email Address"
+            type="text"
+            name="email"
+            :className="[{'input-error': $v.email.$error}]"
+            placeholder="name@example.com"
+            :value="email"
+            @on-input="onInput"
+          />
+        </div>
+        <div class="form-item">
+          <Input
+            label="Password"
+            type="password"
+            name="password"
+            :hasAction="true"
+            :actionText="$t('forgot-password')"
+            :actionRoute="'/forgot-password'"
+            :value="password"
+            :className="[{'input-error': $v.password.$error}]"
+            placeholder="Enter 8 or more characters"
+            @on-input="onInput"
+          />
+        </div>
+        <Button :disabled="$v.$invalid" size="large" :text="$t('login')" />
+        <div class="mt-3 text-center">
+          <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
+          <Link :text="$t('sign-up')" to="/join" />
+        </div>
+      </form>
     </div>
   </section>
 </template>
@@ -97,9 +102,8 @@ export default class Login extends Vue {
     password: { required }
   };
 
-  async onSubmit(event) {
+  async onSubmit() {
     const { $invalid } = this.$v;
-    console.log(event);
 
     if (!$invalid) {
       const response: Result = await this.$store.dispatch(
@@ -125,6 +129,17 @@ export default class Login extends Vue {
           message: alertObject.message,
           visible: true
         });
+      } else if (response.status === HttpStatus.SERVICE_UNAVAILABLE) {
+        // reset form inputs
+        this.resetForm();
+
+        // Show alert
+        const alertObject: any = this.$t(AlertKeys.SERVICE_UNAVAILABLE);
+        this.showAlert({
+          type: alertObject.type,
+          message: alertObject.message,
+          visible: true
+        });
       }
     }
   }
@@ -138,6 +153,8 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
+
   max-width: 432px;
   margin: 0 auto;
   background-color: $white;
