@@ -25,7 +25,6 @@
 .card-module {
   background: $white;
   border-radius: 6px;
-  border: 1px solid $color-border;
 }
 
 .form-frame {
@@ -82,4 +81,9 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
   }
+}
+
+.text-body {
+  font-size: 1rem;
+  color: $color-primary-text;
 }
