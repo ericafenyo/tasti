@@ -5,10 +5,14 @@
   "cancel": "Cancel",
   "create": "Create",
   "warning": "Warning",
+  "forgot-password": "Forgot password",
   "sign-up-error": "Sorry, we are unable to complete the sign-up process. Please try again later.",
   "http-error": {
     "duplicate-email": "User email already exist"
   },
+  "no-account-create-one": "Don't have an account?",
+  "sign-up": "Sign up",
+  "login": "Login",
   "profile-tabs": [
     { "text": "Recipes", "key": "recipes" },
     { "text": "Favorites", "key": "favorites" },
@@ -18,5 +22,9 @@
   "invalid-credentials": {
     "type": "error",
     "message": "Your email or password is incorrect"
+  },
+  "service-unavailable": {
+    "type": "error",
+    "message": "Service unavailable; please try again later."
   }
 }
