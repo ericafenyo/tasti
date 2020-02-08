@@ -6,15 +6,7 @@
     <div v-if="!isLoading" class="layout h-full">
       <aside class="aside-content">
         <ProfileStats :args="profile" class="m-4" />
-        <!-- <div class="card-module my-4 mr-3">
-          <ContextMenu :items="menuItems" @on-click="onMenuItemClick" />
-        </div>
-        <div @click.prevent="createNewRecipe" class="flex items-center justify-between">
-          <span>New</span>
-          <Icon name="add" />
-        </div>-->
       </aside>
-
       <main class="main-content">
         <div class="m-4">
           <Tabs :items="$t('profile-tabs')" @on-change="loadData" />
@@ -37,7 +29,6 @@ import ContextMenu, {
   ContextMenuItemOption
 } from "../../components/ContextMenu/ContextMenu.vue";
 import Tabs from "../../components/Tabs/Tabs.vue";
-import TabItem from "../../components/Tabs/TabItem.vue";
 import { IconOption } from "../../components/Icons/Icon.vue";
 import { Actions } from "../../store/actions";
 import { Observable } from "rxjs";
@@ -51,8 +42,7 @@ import { Result, Status } from "../../data/Result";
     ContextMenu,
     EditProfile,
     CreateRecipeTemplate,
-    Loader,
-    TabItem
+    Loader
   }
 })
 export default class Profile extends Vue {

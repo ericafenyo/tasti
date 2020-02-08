@@ -1,5 +1,10 @@
 <template>
-  <Modal :isOpen="true" @on-negative="$emit('on-close')" @on-positive="createRecipe" @on-close="$emit('on-close')">
+  <Modal
+    :isOpen="true"
+    @on-negative="$emit('on-close')"
+    @on-positive="createRecipe"
+    @on-close="$emit('on-close')"
+  >
     <div class="new-recipe">
       <fieldset>
         <div class="flex">
@@ -77,7 +82,9 @@ export default class CreateRecipeTemplate extends Vue {
           formData
         );
         console.log(response);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 }
