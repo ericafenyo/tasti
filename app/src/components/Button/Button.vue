@@ -1,13 +1,12 @@
 <template>
   <button
-  
-    :class="['button', computeClass]"
+    :class="['button', computeClass, {'button--loading': loading }]"
     :disabled="disabled"
     @click="$emit('on-click')"
   >
     <i v-if="icon" class="material-icons button-icon">{{icon}}</i>
     <span class="button-text" v-if="!loading">{{text}}</span>
-    <span v-if="loading">
+    <span class="button-loading-indicator" v-if="loading">
       <Loader />
     </span>
   </button>
@@ -43,7 +42,7 @@ export default class Button extends Vue {
   htmlType: string;
 
   get computeClass() {
-    return `button--${this.$props.type} button--${this.$props.size} ${this.$props.icon} `;
+    return `button--${this.$props.type} button--${this.$props.size} ${this.$props.icon}`;
   }
 }
 </script>
@@ -88,11 +87,13 @@ export default class Button extends Vue {
     border-color: $color-accent;
     color: $white;
 
-    &:disabled {
+   
+  }
+
+   &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
-  }
 
   &--secondary {
     background-color: $color-surface;
@@ -111,9 +112,19 @@ export default class Button extends Vue {
     }
   }
 
+  &--loading {
+    opacity: 0.8 !important;
+  }
+
   &--text {
     padding: 0 8px;
     background-color: transparent;
+  }
+
+  &-loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
