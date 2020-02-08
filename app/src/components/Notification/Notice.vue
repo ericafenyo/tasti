@@ -14,15 +14,9 @@
 </template>
 
 <script lang="ts">
-export type NoticeOptions = "success" | "info" | "warning" | "error";
-export type PlacementOptions =
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right";
-
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 import { IconOption } from "../Icons/Icon.vue";
+import { NotificationType, NotificationPlacement } from ".";
 
 @Component
 export default class Notice extends Vue {
@@ -30,7 +24,7 @@ export default class Notice extends Vue {
   className = "";
 
   @Prop({ type: String, default: "success" })
-  type: NoticeOptions;
+  type: NotificationType;
 
   @Prop({ type: String, default: "" })
   title: string;
@@ -42,7 +36,7 @@ export default class Notice extends Vue {
   visible: boolean;
 
   @Prop({ type: String, default: "top-right" })
-  placement: PlacementOptions;
+  placement: NotificationPlacement;
 
   @Emit("onDismiss")
   emitOnDismiss() {}
