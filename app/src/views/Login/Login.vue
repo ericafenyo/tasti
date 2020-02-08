@@ -4,13 +4,10 @@
       <Headline text="Login To Your Account" :level="2" class="mb-8" />
       <Alert
         :visible="alertVisible"
-        :type="alertType"
-        :message="alertMessage"
+        :type="notificationType"
+        :message="notificationMessage"
         @on-dismiss="showAlert({ visible: false })"
       />
-      <portal to="notification-outlet">
-        <Notice :visible="true" />
-      </portal>
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
         <div class="form-item">
           <Input
@@ -37,7 +34,7 @@
             @on-input="onInput"
           />
         </div>
-        <Button :disabled="$v.$invalid" size="large" :text="$t('login')" />
+        <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
         <div class="mt-3 text-center">
           <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
           <Link :text="$t('sign-up')" to="/join" />
@@ -59,9 +56,9 @@ import { HttpStatus, AlertKeys } from "../../enums";
 import { Actions } from "../../store/actions";
 import { Result } from "../../data/Result";
 import {
-  AlertOptions,
-  AlertType
-} from "../../components/Notification/Alert.vue";
+  NotificationOptions,
+  NotificationType
+} from "../../components/Notification";
 
 @Component({
   components: {
@@ -71,19 +68,22 @@ import {
   }
 })
 export default class Login extends Vue {
+  isLoading = false;
+  enableLoading(enable = true) {
+    this.isLoading = enable;
+  }
+
   email: string = "";
   password: string = "";
 
   alertVisible = false;
-  alertMessage = "";
-  alertType = "";
+  notificationMessage = "";
+  notificationType = "";
 
-  showAlert(options?: AlertOptions) {
-    if (options) {
-      this.alertType = options.type;
-      this.alertMessage = options.message;
-      this.alertVisible = options.visible;
-    }
+  showAlert(options: NotificationOptions = { visible: false }) {
+    this.notificationType = options.type;
+    this.notificationMessage = options.message;
+    this.alertVisible = options.visible;
   }
 
   resetForm() {
@@ -99,8 +99,9 @@ export default class Login extends Vue {
 
   async onSubmit() {
     const { $invalid } = this.$v;
-
+    // Start with loading a state
     if (!$invalid) {
+      this.enableLoading();
       const response: Result = await this.$store.dispatch(
         Actions.AUTHENTICATE,
         {
@@ -108,11 +109,13 @@ export default class Login extends Vue {
           password: this.password
         }
       );
-
+      // stop the loading indicator
+      this.enableLoading(false);
       if (response.status === HttpStatus.CREATED) {
-        // Show success notification
+        // reset form inputs
+        this.resetForm();
         // Redirect to the home screen
-        // this.$router.replace("/");
+        this.$router.replace("/");
       } else if (response.status === HttpStatus.UNAUTHORIZED) {
         // reset form inputs
         this.resetForm();
