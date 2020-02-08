@@ -65,22 +65,19 @@ export class UserServiceImpl implements UserService {
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    // TODO: Encrypt password before sending
-    return new Promise(async (resolve) => {
-      try {
-        const { status, data } = await http.post('/auth/login', { username, password });
-        resolve(Result.create(status, data));
-      } catch (error) {
-        let status;
-        let data;
-        if(error.response){
-          const { status, data } = error.response;
+    return new Promise((resolve) => {
+      http.post('/auth/login', { username, password })
+        .then(({ status, data }) => {
           resolve(Result.create(status, data));
-        }else{
-          resolve(Result.create(HttpStatus.SERVICE_UNAVAILABLE, "Service not available"));
-        }
-        
-      }
+        })
+        .catch((error) => {
+          if (error.response) {
+            const { status, data } = error.response;
+            resolve(Result.create(status, data));
+          } else {
+            resolve(Result.create(HttpStatus.SERVICE_UNAVAILABLE, 'Service not available'));
+          }
+        });
     });
   }
 }
