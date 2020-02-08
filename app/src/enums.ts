@@ -5,5 +5,6 @@ export enum HttpStatus {
 }
 export enum AlertKeys {
   INVALID_CREDENTIALS = 'invalid-credentials',
-  SERVICE_UNAVAILABLE = 'service-unavailable'
+  SERVICE_UNAVAILABLE = 'service-unavailable',
+  LOGIN_SUCCESSFUL = 'login_successful'
 }
