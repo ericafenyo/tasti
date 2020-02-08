@@ -29,6 +29,8 @@ export default class Alert extends Vue {
       return "warning";
     } else if (type === "error") {
       return "critical";
+    } else {
+      return "confirm";
     }
   }
 

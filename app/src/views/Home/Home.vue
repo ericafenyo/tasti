@@ -71,7 +71,9 @@ export default class Home extends Vue {
       this.enableLoading(false);
       this.recipes = response;
       console.log(response);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>

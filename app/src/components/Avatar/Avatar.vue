@@ -61,7 +61,6 @@ export default class Avatar extends Vue {
   }
 
   get className() {
-    console.log(randomColor());
     let classes = "";
     const { rounded, inline } = this;
     rounded && (classes += " avatar--rounded");
@@ -70,13 +69,7 @@ export default class Avatar extends Vue {
   }
 
   get background() {
-    if (!this.hasImage) {
-      return randomColor();
-      // return this.randomBackgroundColor(
-      //   this.username.length,
-      //   this.backgroundColors
-      // );
-    }
+    return randomColor();
   }
 
   initial(username) {
