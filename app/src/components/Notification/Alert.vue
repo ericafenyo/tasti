@@ -10,17 +10,9 @@
 </template>
 
 <script lang="ts">
-export type AlertType = "success" | "info" | "warning" | "error";
-
-export interface AlertOptions {
-  type?: AlertType;
-  title?: string;
-  message?: string;
-  visible?: boolean;
-}
-
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 import { IconOption } from "../Icons/Icon.vue";
+import { NotificationType } from ".";
 
 @Component
 export default class Alert extends Vue {
@@ -41,7 +33,7 @@ export default class Alert extends Vue {
   }
 
   @Prop({ type: String, default: "success" })
-  type: AlertType;
+  type: NotificationType;
 
   @Prop({ type: String, default: "" })
   title: string;
