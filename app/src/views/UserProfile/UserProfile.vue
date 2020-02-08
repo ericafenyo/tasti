@@ -78,14 +78,10 @@ export default class UserProfile extends Vue {
 
     response.subscribe(result => {
       switch (result.status) {
-        case Status.Loading:
-          this.showLoading();
-          break;
         case Status.Success:
-
+          break;
         case Status.Error:
           this.handleError();
-        default:
           break;
       }
     });
