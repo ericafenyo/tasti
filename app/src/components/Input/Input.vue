@@ -69,6 +69,7 @@ export default class Input extends BaseInput {
       const [inputError] = this.className;
       return inputError["input-error"];
     }
+    return false;
   }
 }
 </script>
