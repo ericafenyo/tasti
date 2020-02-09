@@ -1,18 +1,5 @@
-import {
-  Controller,
-  Post,
-  Request,
-  Get,
-  ServiceUnavailableException,
-  Param,
-  Patch,
-  Delete,
-  ConflictException,
-  UseGuards,
-  Put
-} from '@nestjs/common';
+import { Controller, Post, Request, Get, Param, Patch, Delete, UseGuards, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import { MysqlError } from '../enums/mysql.error.enum';
 import { RecipeService } from '../recipe/recipe.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthType } from 'src/enums';
@@ -20,16 +7,6 @@ import { AuthType } from 'src/enums';
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService, private recipeService: RecipeService) {}
-
-  handleSqlError(error: any) {
-    switch (error.errno) {
-      case MysqlError.DUPLICATE_ENTRY:
-        throw new ConflictException('User email already exist');
-
-      default:
-        throw new ServiceUnavailableException();
-    }
-  }
 
   /**
    * Get a user's profile information.
@@ -76,19 +53,9 @@ export class UserController {
     return this.userService.updateProfile(profileId, user.id, body);
   }
 
-  @Post('/new')
+  @Post('/create')
   async createAccount(@Request() request) {
-    try {
-      const user = await this.userService.create(request.body);
-      if (!user) {
-        throw new ServiceUnavailableException();
-      }
-      return user;
-    } catch (error) {
-      if (error.sql && error.errno) {
-        this.handleSqlError(error);
-      }
-    }
+    return await this.userService.create(request.body);
   }
 
   // User recipes

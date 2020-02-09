@@ -1,15 +1,4 @@
-import {
-  Entity,
-  Column,
-  OneToMany,
-  OneToOne,
-  JoinColumn,
-  RelationId,
-  RelationCount,
-  ManyToMany,
-  JoinTable,
-  ManyToOne
-} from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne, RelationCount } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
 import { Exclude } from 'class-transformer';
@@ -36,13 +25,5 @@ export class User extends BaseFields {
   recipeCount: number;
 
   @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
-  @JoinColumn({ name: 'profile_id' })
   profile: Profile;
-
-  @ManyToOne(() => User, (user) => user.recipes)
-  // @JoinTable()
-  favorites: Recipe[];
-
-  @RelationId((user: User) => user.profile)
-  profileId: string;
 }
