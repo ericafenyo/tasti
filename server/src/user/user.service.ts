@@ -1,24 +1,34 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, NotFoundException, ConflictException, ServiceUnavailableException } from '@nestjs/common';
+import { InjectRepository, InjectEntityManager, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Connection, EntityManager } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
 import { Validator } from 'class-validator';
+import { MysqlError } from 'src/enums/mysql.error.enum';
 
 // TODO: Inject this as a dependency
 const validator = new Validator();
 
 const bcrypt = require('bcrypt');
-const saltRounds = 20;
+const saltRounds = 14;
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Profile) private profileRepository: Repository<Profile>
+    @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectConnection() private connection: Connection
   ) {}
+
+  handleError(error: any) {
+    if (error.errno && error.errno === MysqlError.DUPLICATE_ENTRY) {
+      throw new ConflictException('User email already exist');
+    } else {
+      return error;
+    }
+  }
 
   /**
    * Updates the user's profile information
@@ -113,17 +123,36 @@ export class UserService {
     return this.userRepository.find();
   }
 
+  /**
+   * Creates a new User resource. 
+   * In addition, a user profile is generated with addition information.
+   * @param { UserDto } userDto - an object containing user information
+   */
   async create(userDto: UserDto) {
-    const profileObj = { name: `${userDto.firstName} ${userDto.lastName}` };
-    const profileEntity = this.profileRepository.create(profileObj);
-    const profile = await this.profileRepository.save(profileEntity);
-    const { password, ...result } = userDto;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = this.userRepository.create({ password: hashedPassword, ...result, profile });
+    return this.connection.transaction(async (manager) => {
+      try {
+        // Separate and encrypt the user password using the bcrypt library.
+        // The idea is not to store the original password but a hashed version using complex algorithms
+        const { password, ...result } = userDto;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // build the user entity from the above objects
+        const user = this.userRepository.create({ password: hashedPassword, ...result });
+        // finally save the user entity
+        const savedUser = await manager.save(user);
 
-    return await this.userRepository.save(user);
+        // Build a profile entity
+        const profileObj = { name: `${userDto.firstName} ${userDto.lastName}` };
+        const profile = this.profileRepository.create({ ...profileObj, user: savedUser });
+        // finally save the profile entity
+        const savedProfile = await manager.save(profile);
 
-    // const { id, createdAt, email } = await this.userRepository.save(user);
-    // return { id, createdAt, email };
+        // Return relevant information
+        const { id, joinedAt, user: { email } } = savedProfile;
+        return { id, createdAt: joinedAt, email };
+      } catch (error) {
+        console.log('Error while creating a user ', error);
+        this.handleError(error);
+      }
+    });
   }
 }
