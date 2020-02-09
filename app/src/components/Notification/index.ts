@@ -24,6 +24,7 @@
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export interface NotificationOptions {
+  kind?: Notification;
   type?: NotificationType;
   title?: string;
   message?: string;
@@ -32,3 +33,8 @@ export interface NotificationOptions {
 }
 
 export type NotificationPlacement = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+export enum Notification {
+  ALERT,
+  NOTICE
+}
