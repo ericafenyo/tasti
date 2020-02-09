@@ -1,14 +1,10 @@
 import Vue from 'vue';
 import VuxRx from 'vue-rx';
 import PortalVue from 'portal-vue';
-
-// Vee-validate
-import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
-import { required, email } from 'vee-validate/dist/rules';
 import Vuelidate from 'vuelidate';
 
 Vue.use(VuxRx);
-Vue.use(Vuelidate);
+Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
 
 import router from './router';
@@ -54,26 +50,6 @@ Vue.component('Modal', Modal);
 Vue.component('Loader', Loader);
 Vue.component('Headline', Headline);
 Vue.component('Avatar', Avatar);
-// Add the required rule
-extend('required', {
-  validate: required.validate,
-  message: (field) => `The ${field} field is required`
-});
-
-// Add the email rule
-extend('email', {
-  validate: email.validate,
-  message: 'The {_field_} field must be a valid email'
-});
-
-// Custom  vee-validate rule
-extend('checkbox', {
-  validate: (value) => value
-});
-
-// // Register Component globally
-Vue.component('ValidationProvider', ValidationProvider);
-Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.config.productionTip = false;
 
