@@ -3,9 +3,9 @@
     <div class="login card-module">
       <Headline text="Login To Your Account" :level="2" class="mb-8" />
       <Alert
-        :visible="alertVisible"
-        :type="notificationType"
-        :message="notificationMessage"
+        :visible="alertOptions.visible"
+        :type="alertOptions.type"
+        :message="alertOptions.message"
         @on-dismiss="showAlert({ visible: false })"
       />
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
@@ -52,7 +52,7 @@ import { required } from "vuelidate/lib/validators";
 import Headline from "@/components/Headline/Headline.vue";
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
-import { HttpStatus, AlertKeys } from "../../enums";
+import { HttpStatus } from "../../enums";
 import { Actions } from "../../store/actions";
 import { Result } from "../../data/Result";
 import {
@@ -69,21 +69,13 @@ import {
 })
 export default class Login extends Vue {
   isLoading = false;
-  enableLoading(enable = true) {
-    this.isLoading = enable;
-  }
+  alertOptions: NotificationOptions = {};
 
   email: string = "";
   password: string = "";
 
-  alertVisible = false;
-  notificationMessage = "";
-  notificationType = "";
-
   showAlert(options: NotificationOptions = { visible: false }) {
-    this.notificationType = options.type;
-    this.notificationMessage = options.message;
-    this.alertVisible = options.visible;
+    this.alertOptions = options;
   }
 
   resetForm() {
@@ -99,9 +91,9 @@ export default class Login extends Vue {
 
   async onSubmit() {
     const { $invalid } = this.$v;
-    // Start with loading a state
     if (!$invalid) {
-      this.enableLoading();
+      // Start with loading a state
+      this.isLoading = true;
       const response: Result = await this.$store.dispatch(
         Actions.AUTHENTICATE,
         {
@@ -110,7 +102,7 @@ export default class Login extends Vue {
         }
       );
       // stop the loading indicator
-      this.enableLoading(false);
+      this.isLoading = false;
       if (response.status === HttpStatus.CREATED) {
         // reset form inputs
         this.resetForm();
@@ -118,24 +110,18 @@ export default class Login extends Vue {
         this.$router.replace("/");
       } else if (response.status === HttpStatus.UNAUTHORIZED) {
         // reset form inputs
-        this.resetForm();
-
         // Show alert
-        const alertObject: any = this.$t(AlertKeys.INVALID_CREDENTIALS);
         this.showAlert({
-          type: alertObject.type,
-          message: alertObject.message,
+          type: "error",
+          message: this.$tc("http-error.invalid-credentials"),
           visible: true
         });
       } else if (response.status === HttpStatus.SERVICE_UNAVAILABLE) {
         // reset form inputs
-        this.resetForm();
-
         // Show alert
-        const alertObject: any = this.$t(AlertKeys.SERVICE_UNAVAILABLE);
         this.showAlert({
-          type: alertObject.type,
-          message: alertObject.message,
+          type: "error",
+          message: this.$tc("http-error.service-unavailable"),
           visible: true
         });
       }
