@@ -131,6 +131,12 @@ export default class Login extends Vue {
   onInput({ value, name }) {
     this[name] = value;
   }
+
+  mounted() {
+    if (this.$route.query.username) {
+      this.email = this.$route.query.username.toString();
+    }
+  }
 }
 </script>
 
