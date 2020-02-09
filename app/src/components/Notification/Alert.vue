@@ -4,7 +4,7 @@
       <Icon :name="computeIcon" class="alert-icon" :size="18" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
-      <Icon class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
+      <Icon v-if="closable" class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
     </div>
   </transition>
 </template>
@@ -45,6 +45,9 @@ export default class Alert extends Vue {
 
   @Prop({ type: Boolean, default: false })
   visible: boolean;
+
+  @Prop({ type: Boolean, default: true })
+  closable: boolean;
 
   @Emit("on-dismiss")
   emitOnDismiss() {}
