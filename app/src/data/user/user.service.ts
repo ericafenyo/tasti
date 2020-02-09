@@ -24,7 +24,7 @@
  * Contains some helper functions for accessing web services.
  */
 
-import { http, invokeHttpRequest, authHttp } from '../ConnectionHelper';
+import { http, buildRequest, authHttp } from '../ConnectionHelper';
 import { AxiosPromise, AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { Result } from '../../data/Result';
@@ -32,7 +32,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { HttpStatus } from '@/enums';
 
 export interface UserService {
-  createAccount: (user: any) => AxiosPromise<any>;
+  create: (user: any) => Promise<Result>;
 
   authenticate: (username: string, password: string) => Promise<Result>;
 
@@ -57,27 +57,14 @@ export class UserServiceImpl implements UserService {
   }
 
   /**
-   * 
-   * @param user
+   * Creates a new user account
+   * @param user a javaScript object containing user related resources 
    */
-  async createAccount(user: any) {
-    return await http.post('/users/new', user);
+  create(user: any): Promise<Result> {
+    return buildRequest(() => http.post('/users/create', user));
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    return new Promise((resolve) => {
-      http.post('/auth/login', { username, password })
-        .then(({ status, data }) => {
-          resolve(Result.create(status, data));
-        })
-        .catch((error) => {
-          if (error.response) {
-            const { status, data } = error.response;
-            resolve(Result.create(status, data));
-          } else {
-            resolve(Result.create(HttpStatus.SERVICE_UNAVAILABLE, 'Service not available'));
-          }
-        });
-    });
+    return buildRequest(() => http.post('/auth/login', { username, password }));
   }
 }
