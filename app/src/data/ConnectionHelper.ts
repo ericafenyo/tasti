@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { Observable, from } from 'rxjs';
 import { Result } from './Result';
+import { HttpStatus } from '@/enums';
 
 // The API server URL that will be used for the HTTP request.
 const BASE_URL = 'http://localhost:2700/';
@@ -18,20 +19,28 @@ export const authHttp: AxiosInstance = axios.create({
   }
 });
 
-// TODO: Pass object options
-export const invokeHttpRequest = (block: () => Promise<any>): Observable<Result> =>
-  new Observable((observer) => {
-    observer.next(Result.Loading());
+const handleError = (error: any) => {
+  if (error.response) {
+    return error.response;
+  }
+
+  return { status: HttpStatus.SERVICE_UNAVAILABLE, data: 'Service not available' };
+};
+
+/**
+ * Wraps data in a {@link Result} object
+ * @param {Function} block a function that returns a promise.
+ * 
+ * @returns returns a {@link Result} object.
+ */
+export const buildRequest = (block: () => Promise<any>): Promise<Result> =>
+  new Promise((resolve) => {
     block()
-      .then((response) => {
-        console.log(response);
-        
-        observer.next(Result.Success(response.data));
-        observer.complete();
+      .then(({ status, data }) => {
+        resolve(Result.create(status, data));
       })
       .catch((error) => {
-        console.error(error)
-        observer.next(Result.Error(error));
-        observer.complete();
+        const { status, data } = handleError(error);
+        resolve(Result.create(status, data));
       });
   });
