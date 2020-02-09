@@ -8,7 +8,8 @@ import {
   ManyToMany,
   JoinTable,
   RelationCount,
-  ManyToOne
+  JoinColumn,
+  RelationId
 } from 'typeorm';
 import { User } from 'src/user/user.entity';
 
@@ -31,7 +32,11 @@ export class Profile {
   occupation: string;
 
   @OneToOne(() => User, (user) => user.profile)
+  @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @RelationId((profile: Profile) => profile.user)
+  userId: string;
 
   @ManyToMany(() => Profile, (profile) => profile.following)
   @JoinTable()

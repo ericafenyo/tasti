@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
 
   actions: {
     createUser({ commit }, userInfo: object) {
-      return User.createAccount(userInfo);
+      return User.create(userInfo);
     },
 
     async authenticate({ commit }, { username, password }) {
