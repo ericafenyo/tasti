@@ -1,9 +1,7 @@
 <template>
   <label class="checkbox-wrapper">
     <span class="checkbox">
-      <ValidationProvider name="checkbox" rules="checkbox" slim>
-        <input class="checkbox-input" type="checkbox" v-model="checked" />
-      </ValidationProvider>
+      <input class="checkbox-input" type="checkbox" v-model="checked" />
       <div class="checkbox-inner" />
       <svg class="_1ad56513" height="6px" version="1.1" viewBox="0 0 8 6" width="8px">
         <defs />
