@@ -7,6 +7,7 @@
   "warning": "Warning",
   "create-account": "Create Account",
   "forgot-password": "Forgot password",
+  "forgot-your-password": "Forgot your password?",
   "sign-up-error": "Sorry, we are unable to complete the sign-up process. Please try again later.",
   "http-error": {
     "duplicate-email": "User email already exist",
@@ -23,6 +24,32 @@
     { "text": "Followers", "key": "followers" },
     { "text": "Following", "key": "following" }
   ],
+  "registration_successful": "Service unavailable; please try again later.",
+  "invalid-credentials": {
+    "type": "error",
+    "message": "Your email or password is incorrect"
+  },
+  "service-unavailable": {
+    "type": "error",
+    "message": "Service unavailable; please try again later."
+  },
+  "login_successful": {
+    "type": "success",
+    "message": "Service unavailable; please try again later."
+  },
+  "request-password-reset": "We’ll help you reset it and get you back on track.",
+  "request-password-reset-success": "If you have an account, we'll email you a reset link.",
+  "enter-new-password": "Enter your new password",
+  "enter-8-chars-password": "Please make sure your password has at least 8 characters",
+  "password-reset-success": "Your password was successfully updated.",
 
-  "registration_successful": "Service unavailable; please try again later."
+  "action": {
+    "reset-password": "Reset Password",
+    "set-new-password": "Set new password"
+  },
+  "label": {
+    "password": "Password",
+    "email": "Email",
+    "confirm-password": "Confirm password"
+  }
 }
