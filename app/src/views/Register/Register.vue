@@ -169,7 +169,10 @@ export default class Register extends Vue {
           this.resetForm();
 
           // Redirects to the login page
-          this.$router.replace("/login");
+          this.$router.replace({
+            path: "/login",
+            query: { username: response.data.email }
+          });
           break;
         case HttpStatus.SERVICE_UNAVAILABLE:
           // Notice the user about the error.
