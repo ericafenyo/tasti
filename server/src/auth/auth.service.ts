@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
+import { Validator } from 'class-validator';
+import AuthManager from './AuthManager';
+
+// TODO: Inject this as a dependency
+const validator = new Validator();
 
 @Injectable()
 export class AuthService {
@@ -26,5 +31,20 @@ export class AuthService {
 
   async login({ email, sub }) {
     return { id: sub, access_token: this.jwtService.sign({ email, sub }) };
+  }
+
+  /**
+   * Sends a password-reset link to the given email if it already exist
+   * in the database.
+   * @param { String } email an email address
+   */
+  async requestPasswordReset(email: string) {
+   // Retrive the user email from the datebase;
+  //  const storedEmail = await this.userService.getEmail(email);
+
+   // The the account exists, email a reset link  
+  //  if(validator.isNotEmpty(storedEmail)){
+     AuthManager.sendSecureEmil(email);
+  //  }
   }
 }
