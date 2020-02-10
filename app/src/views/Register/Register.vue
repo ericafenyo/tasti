@@ -78,7 +78,7 @@
         />
         <div class="mt-3 text-center">
           <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
-          <Link :text="$t('login')" to="/login" />
+          <Link :text="$t('login')" to="/auth/sign-in" />
         </div>
       </form>
     </div>
@@ -170,7 +170,7 @@ export default class Register extends Vue {
 
           // Redirects to the login page
           this.$router.replace({
-            path: "/login",
+            path: "/auth/sign-in",
             query: { username: response.data.email }
           });
           break;
