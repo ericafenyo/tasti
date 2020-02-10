@@ -1,0 +1,42 @@
+
+import nodemailer =  require('nodemailer');
+
+class AuthManager {
+  async sendSecureEmil(email: string) {
+  // create reusable transporter object using the default SMTP transport
+  const  transporter = nodemailer.createTransport({
+    service: process.env.MAILER_EMAIL_ID,
+    auth: {
+      user:process.env.MAILER_EMAIL_ID,
+      pass: process.env.MAILER_PASSWORD
+    }
+  });
+
+  const token = this.getToken()
+
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: '"Tasti" <no-reply@example.com>',
+    to: "tojeh64157@xmailsme.com", 
+    subject: "Reset Your Password",
+    html: `
+        <div>
+            <p>Follow the link below to unlock your account. If you didn’t request a reset, you can safely ignore this email.</p>
+            </br>
+            <div>
+                <a href="#">Link</a>
+            </div>
+            </br>
+            <b>Why do I need a new password?</b>
+            <p>To keep every account secure, we do not store passwords. Since we can’t look up your current password, we
+            generate a unique link to reset it instead.</p>
+        </div>
+    ` // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  }
+}
+
+export default new AuthManager();
