@@ -27,7 +27,7 @@
             name="password"
             :hasAction="true"
             :actionText="$t('forgot-password')"
-            :actionRoute="'/forgot-password'"
+            :actionRoute="'/auth/password/request-reset'"
             :value="password"
             :className="[{'input-error': $v.password.$error}]"
             placeholder="Enter 8 or more characters"
@@ -37,7 +37,7 @@
         <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
         <div class="mt-3 text-center">
           <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
-          <Link :text="$t('sign-up')" to="/join" />
+          <Link :text="$t('sign-up')" to="/auth/sign-up" />
         </div>
       </form>
     </div>

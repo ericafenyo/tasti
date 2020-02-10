@@ -18,7 +18,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/auth/login',
+      path: '/auth/sign-in',
       component: Login
     },
     {
