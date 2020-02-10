@@ -16,6 +16,9 @@ const saltRounds = 14;
 
 @Injectable()
 export class UserService {
+  async getEmail(email: string) {
+   return ""
+  }
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
