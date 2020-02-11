@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
@@ -10,7 +10,7 @@ const validator = new Validator();
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwtService: JwtService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) { }
 
   async validateUser(username: string, userPassword: string) {
     try {
@@ -26,7 +26,7 @@ export class AuthService {
       }
 
       return null;
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async login({ email, sub }) {
@@ -39,12 +39,19 @@ export class AuthService {
    * @param { String } email an email address
    */
   async requestPasswordReset(email: string) {
-   // Retrive the user email from the datebase;
-  //  const storedEmail = await this.userService.getEmail(email);
+    if (!email) {
+      throw new BadRequestException('Email address is required');
+    }
 
-   // The the account exists, email a reset link  
-  //  if(validator.isNotEmpty(storedEmail)){
-     AuthManager.sendSecureEmil(email);
-  //  }
+    // Retrive the user's email from the datebase;
+    const storedEmail = await this.userService.getEmail(email);
+    console.log(storedEmail);
+    
+    if (validator.isNotEmpty(storedEmail) && validator.equals(storedEmail.email, email)) {
+      // The the account exists, email a reset link 
+      const messageId = await AuthManager.sendSecureEmil(email);
+      return { messageId: messageId}
+    }
+    throw new NotFoundException('Account does not exist');
   }
 }

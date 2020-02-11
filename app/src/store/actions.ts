@@ -5,5 +5,6 @@ export const Actions = {
   GET_FOLLOWERS: 'getFollowers',
   CREATE_RECIPE: 'createRecipe',
   CREATE_USER: 'createUser',
-  AUTHENTICATE: 'authenticate'
+  AUTHENTICATE: 'authenticate',
+  REQUEST_PASSWORD_RESET: 'requestPasswordReset'
 };

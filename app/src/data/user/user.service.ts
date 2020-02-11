@@ -42,6 +42,8 @@ export interface UserService {
    * 
    */
   followers: (userId: string) => AxiosPromise<any>;
+
+  requestPasswordReset: (userEmail: string) => Promise<Result>;
 }
 
 export class UserServiceImpl implements UserService {
@@ -66,5 +68,9 @@ export class UserServiceImpl implements UserService {
 
   authenticate(username: string, password: string): Promise<Result> {
     return buildRequest(() => http.post('/auth/login', { username, password }));
+  }
+
+  requestPasswordReset(email: string): Promise<Result> {
+    return buildRequest(() => http.post('/auth/password/request-reset', { email }));
   }
 }
