@@ -22,7 +22,6 @@ export class AppController {
 
   @Post('auth/password/request-reset')
   async requestPasswordReset(@Body('email') userEmail: string){
-    this.authService.requestPasswordReset(userEmail)
-  
+    return await this.authService.requestPasswordReset(userEmail)
   }
 }

@@ -53,6 +53,10 @@ export const store = new Vuex.Store({
 
     getFollowers({ state }) {
       return User.followers(state.userId);
+    },
+
+    requestPasswordReset(_, request){
+      return User.requestPasswordReset(request)
     }
   }
 });

@@ -16,8 +16,13 @@ const saltRounds = 14;
 
 @Injectable()
 export class UserService {
-  async getEmail(email: string) {
-   return ""
+   async getEmail(email: string) {
+     console.log(email);
+     
+    return this.userRepository.findOne({
+     select: ['email'],
+     where: {email}
+   })
   }
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
