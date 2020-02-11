@@ -17,8 +17,8 @@
         <Button
           :loading="isLoading"
           :disabled="$v.$invalid"
-          size="large"
           :text="$t('action.reset-password')"
+          size="large"
         />
       </form>
     </div>
@@ -29,6 +29,8 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
 import { required, email } from "vuelidate/lib/validators";
+import { Result } from "../../data/Result";
+import { Actions } from "../../store/actions";
 
 @Component
 export default class RequestPasswordReset extends Vue {
@@ -48,7 +50,19 @@ export default class RequestPasswordReset extends Vue {
     email: { required, email }
   };
 
-  onSubmit() {}
+  async onSubmit(event) {
+    const { $invalid } = this.$v;
+    if (!$invalid) {
+      this.isLoading = true;
+      const response: Result = await this.$store.dispatch(
+        Actions.REQUEST_PASSWORD_RESET,
+        this.email
+      );
+
+      // stop the loading indicator
+      this.isLoading = false;
+    }
+  }
 }
 </script>
 
@@ -58,6 +72,6 @@ export default class RequestPasswordReset extends Vue {
   max-width: 460px;
   margin: 0 auto;
   background-color: $white;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem;
 }
 </style>
