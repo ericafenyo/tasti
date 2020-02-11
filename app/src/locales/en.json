@@ -42,7 +42,7 @@
   "enter-new-password": "Enter your new password",
   "enter-8-chars-password": "Please make sure your password has at least 8 characters",
   "password-reset-success": "Your password was successfully updated.",
-
+  "request-password-reset-expired": "Your password reset request has expired.",
   "action": {
     "reset-password": "Reset Password",
     "set-new-password": "Set new password"
