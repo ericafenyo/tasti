@@ -24,6 +24,9 @@
     { "text": "Followers", "key": "followers" },
     { "text": "Following", "key": "following" }
   ],
+  "just-remembered": "Just remembered?",
+  "let-us-create-your-account": "Let's create your account",
+
   "registration_successful": "Service unavailable; please try again later.",
   "invalid-credentials": {
     "type": "error",

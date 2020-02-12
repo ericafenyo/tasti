@@ -2,10 +2,12 @@
   <section class="section-no-header background-surface">
     <div class="login card-module">
       <Headline text="Login To Your Account" :level="2" class="mb-8" />
+        <!-- :visible="alertOptions.visible" -->
       <Alert
-        :visible="alertOptions.visible"
-        :type="alertOptions.type"
-        :message="alertOptions.message"
+        :visible="true"
+        type="info"
+        :closable="false"
+        :message="$t('request-password-reset-success')"
         @on-dismiss="showAlert({ visible: false })"
       />
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
