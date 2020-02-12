@@ -5,6 +5,9 @@ import uuid = require('uuid/v4');
 import { UnauthorizedException } from '@nestjs/common';
 
 class AuthManager {
+  decodeToken(token: string) {
+    return jwt.decode(token)
+  }
   async sendSecureEmil(email: string, hashedPassword: string) {
     const secret = process.env.PASSWORD_RESET_SECRET || 'secret';
     const secretComposite = `${secret}${hashedPassword}`;
@@ -52,6 +55,8 @@ class AuthManager {
   }
 
   verifyResetToken(token: string, hashedPassword: string) {
+    console.log("tokennnnn", token, hashedPassword);
+
     const secret = process.env.PASSWORD_RESET_SECRET || 'secret';
     const secretComposite = `${secret}${hashedPassword}`;
     try {

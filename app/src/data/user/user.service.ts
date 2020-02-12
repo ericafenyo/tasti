@@ -25,13 +25,15 @@
  */
 
 import { http, buildRequest, authHttp } from '../ConnectionHelper';
-import { AxiosPromise, AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
+import { AxiosPromise, AxiosResponse, AxiosRequestConfig } from 'axios';
+import { Observable, config } from 'rxjs';
 import { Result } from '../../data/Result';
 import { async } from 'rxjs/internal/scheduler/async';
 import { HttpStatus } from '@/enums';
 
 export interface UserService {
+  resetPassword(request: any, token: string): Promise<Result>;
+
   create: (user: any) => Promise<Result>;
 
   authenticate: (username: string, password: string) => Promise<Result>;
@@ -47,6 +49,13 @@ export interface UserService {
 }
 
 export class UserServiceImpl implements UserService {
+  resetPassword(request: any, token: string) {
+    const config: AxiosRequestConfig = {
+      params: { token }
+    }
+    return buildRequest(() => http.post('/auth/login', request, config));
+  }
+
   profile() {
     return authHttp.get('users');
   }
