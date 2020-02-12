@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException, ConflictException, ServiceUnavailableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  ForbiddenException,
+  BadRequestException
+} from '@nestjs/common';
 import { InjectRepository, InjectEntityManager, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository, Connection, EntityManager } from 'typeorm';
@@ -16,13 +22,54 @@ const saltRounds = 14;
 
 @Injectable()
 export class UserService {
-   async getEmail(email: string) {
-     console.log(email);
-     
-    return this.userRepository.findOne({
-     select: ['email'],
-     where: {email}
-   })
+  /**
+   * 
+   * @param email 
+   * @param password 
+   */
+  async resetPassword(email: string, password: string) {
+    // Retrieves the use's old password using the provided email
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .select('password')
+      .addSelect('user.password')
+      .where('email = :email', { email })
+      .getOne();
+
+    // Throw an error if no record is found for the email address
+    if (validator.isEmpty(user.password)) {
+      throw new BadRequestException('No account found for this email address');
+    }
+
+    // Throw an error if the user enters the same password as the new reset password
+    const passwordMatched = await bcrypt.compare(password, user.password);
+    if (passwordMatched) {
+      throw new ForbiddenException('You cannot user an old password');
+    }
+
+    // Proceed and prepare the password to be inserted into the database.
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const updated =
+      (await this.userRepository
+        .createQueryBuilder('user')
+        .update()
+        .set({ password: hashedPassword })
+        .where('user.email=:email', { email })
+        .execute()) || {};
+
+    if (validator.isNotEmptyObject(updated)) {
+      return { updatedAt: new Date().toISOString() };
+    }
+  }
+
+  async getSimpleUser(email: string) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .select('password, email')
+      .addSelect('user.password')
+      .where('email = :email', { email })
+      .getOne();
   }
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
