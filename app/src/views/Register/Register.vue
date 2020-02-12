@@ -1,7 +1,7 @@
 <template>
   <section class="section-no-header background-surface">
     <div class="register">
-      <Headline text="Create a Free Account" :level="3" />
+      <Headline :text="$t('let-us-create-your-account')" :level="3" />
       <Alert
         :message="alertOptions.message"
         :type="alertOptions.type"

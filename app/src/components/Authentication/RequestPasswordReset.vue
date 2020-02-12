@@ -18,8 +18,14 @@
           :loading="isLoading"
           :disabled="$v.$invalid"
           :text="$t('action.reset-password')"
+          class="w-full"
           size="large"
         />
+
+        <div class="mt-3 text-center">
+          <span class="text-body mr-2">{{$t('just-remembered')}}</span>
+          <Link :text="$t('login')" to="/auth/sign-in" />
+        </div>
       </form>
     </div>
   </section>
@@ -31,6 +37,7 @@ import { Validate, Validations } from "vuelidate-property-decorators";
 import { required, email } from "vuelidate/lib/validators";
 import { Result } from "../../data/Result";
 import { Actions } from "../../store/actions";
+import { HttpStatus } from "../../enums";
 
 @Component
 export default class RequestPasswordReset extends Vue {
@@ -59,6 +66,14 @@ export default class RequestPasswordReset extends Vue {
         this.email
       );
 
+      if (
+        response.status == HttpStatus.CREATED ||
+        response.status == HttpStatus.NOT_FOUND
+      ) {
+        // Redirect to the login page with a message
+        this.$router.replace('/auth/sign-in')
+      }
+
       // stop the loading indicator
       this.isLoading = false;
     }
@@ -69,7 +84,8 @@ export default class RequestPasswordReset extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .request-reset {
-  max-width: 460px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
+  max-width: 432px;
   margin: 0 auto;
   background-color: $white;
   padding: 1.5rem;
