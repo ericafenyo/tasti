@@ -2,7 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { Validator } from 'class-validator';
+import { Validator, IsNotEmptyObject } from 'class-validator';
 import AuthManager from './AuthManager';
 
 // TODO: Inject this as a dependency
@@ -10,7 +10,24 @@ const validator = new Validator();
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private jwtService: JwtService) { }
+  constructor(private userService: UserService, private jwtService: JwtService) {}
+
+  async resetPassword(password: string, confirmedPassword: string, token: string) {
+    
+    if (!validator.equals(password, confirmedPassword)) {
+      throw new BadRequestException('The passwords did not match');
+    } else if (validator.isEmpty(token)) {
+      throw new BadRequestException('token cannot be empty');
+    }
+
+    //TODO: resume from here
+    this.userService.getSimpleUser("")
+
+    const decodedToken: any = AuthManager.verifyResetToken(token, "");
+    if (validator.isNotEmptyObject(decodedToken)) {
+      return this.userService.resetPassword(decodedToken.sub, password);
+    }
+  }
 
   async validateUser(username: string, userPassword: string) {
     try {
@@ -26,7 +43,7 @@ export class AuthService {
       }
 
       return null;
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async login({ email, sub }) {
@@ -43,14 +60,14 @@ export class AuthService {
       throw new BadRequestException('Email address is required');
     }
 
-    // Retrive the user's email from the datebase;
-    const storedEmail = await this.userService.getEmail(email);
-    console.log(storedEmail);
-    
-    if (validator.isNotEmpty(storedEmail) && validator.equals(storedEmail.email, email)) {
-      // The the account exists, email a reset link 
-      const messageId = await AuthManager.sendSecureEmil(email);
-      return { messageId: messageId}
+    // Retrieve the user's email from the datebase;
+    const user = await this.userService.getSimpleUser(email);
+    console.log(user);
+
+    if (validator.isNotEmpty(user) && validator.equals(user.email, email)) {
+      // The the account exists, email a reset link
+      const messageId = await AuthManager.sendSecureEmil(email, user.password);
+      return { messageId: messageId };
     }
     throw new NotFoundException('Account does not exist');
   }
