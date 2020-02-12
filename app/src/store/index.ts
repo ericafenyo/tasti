@@ -13,7 +13,7 @@ const initialState = {
 };
 
 export const store = new Vuex.Store({
-  plugins: [ createPersistedState() ],
+  plugins: [createPersistedState()],
   state: initialState,
 
   mutations: {
@@ -55,8 +55,12 @@ export const store = new Vuex.Store({
       return User.followers(state.userId);
     },
 
-    requestPasswordReset(_, request){
+    requestPasswordReset(_, request) {
       return User.requestPasswordReset(request)
+    },
+
+    resetPassword(_, { request, token }) {
+      return User.resetPassword(request, token);
     }
   }
 });

@@ -66,7 +66,6 @@ export class UserService {
   async getSimpleUser(email: string) {
     return await this.userRepository
       .createQueryBuilder('user')
-      .select('password, email')
       .addSelect('user.password')
       .where('email = :email', { email })
       .getOne();

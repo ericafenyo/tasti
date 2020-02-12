@@ -18,15 +18,15 @@
             :label="$t('label.confirm-password')"
             :value="confirmPassword"
             type="password"
-            name="confirm-password"
+            name="confirmPassword"
             @on-input="onInput"
           />
         </div>
         <Button
           :loading="isLoading"
           :disabled="$v.$invalid"
-          size="large"
           :text="$t('action.set-new-password')"
+          size="large"
         />
       </form>
     </div>
@@ -36,6 +36,8 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
 import { required, sameAs } from "vuelidate/lib/validators";
+import { Result } from "../../data/Result";
+import { Actions } from "../../store/actions";
 
 @Component
 export default class ResetPassword extends Vue {
@@ -56,12 +58,35 @@ export default class ResetPassword extends Vue {
   @Validations()
   validations = {
     password: { required },
-    confirmPassword: {
-      required
-    }
+    confirmPassword: { required }
   };
 
-  onSubmit() {}
+  async onSubmit() {
+    //Show successful sign up
+    const { $invalid } = this.$v;
+    // Force the validation of form
+    if (!$invalid) {
+      // Begin with a loading state
+      // this.isLoading = true;
+      const requestModel = {
+        request: {
+          password: this.password,
+          confirmPassword: this.confirmPassword
+        },
+        token: this.$route.query.token
+      };
+
+      console.log(this.$route);
+
+      const response: Result = await this.$store.dispatch(
+        Actions.PASSWORD_RESET,
+        requestModel
+      );
+
+      console.log(response);
+      
+    }
+  }
 }
 </script>
 
