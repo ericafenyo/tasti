@@ -4,7 +4,13 @@
       <Icon :name="computeIcon" class="alert-icon" :size="18" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
-      <Icon v-if="closable" class="alert-action-close" name="close" :size="20" @click.native="onDismiss" />
+      <Icon
+        v-if="closable"
+        class="alert-action-close"
+        name="close"
+        :size="20"
+        @click.native="onDismiss"
+      />
     </div>
   </transition>
 </template>
@@ -74,9 +80,9 @@ export default class Alert extends Vue {
 .alert {
   position: relative;
   border-left: 4px solid;
-  padding-top: 16px;
-  padding: 16px 48px;
+  padding: 8px 48px;
   margin-bottom: 24px;
+
   border-radius: 4px;
   background-color: $color-surface;
 
@@ -109,10 +115,12 @@ export default class Alert extends Vue {
 
   &-title {
     margin-bottom: 8px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &-message {
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   &-success {
