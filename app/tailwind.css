@@ -1,4 +1,4 @@
-@tailwind utilities;
+/* @tailwind utilities;
 
 .image-fluid {
   width: 100%;
@@ -13,16 +13,9 @@
 .section-no-header {
   padding-top: 56px;
   height: 100%;
-
-  @include laptop {
-    padding-top: 64px;
-  }
-}
-
-.background-surface {
-  background-color: $color-surface;
 }
 
 .border-rounded {
   border: 1px solid #ecebed;
 }
+*/
