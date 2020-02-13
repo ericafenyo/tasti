@@ -73,13 +73,14 @@ export default class ResetPassword extends Vue {
           password: this.password,
           confirmPassword: this.confirmPassword
         },
-        token: this.$route.query.token
+        token: this.$route.query.token,
+        email: this.$route.query.email
       };
 
       console.log(this.$route);
 
       const response: Result = await this.$store.dispatch(
-        Actions.PASSWORD_RESET,
+        Actions.RESET_PASSWORD,
         requestModel
       );
 
