@@ -1,24 +1,26 @@
 import nodemailer = require('nodemailer');
-import crypto = require('crypto');
 import jwt = require('jsonwebtoken');
-import uuid = require('uuid/v4');
 import { UnauthorizedException } from '@nestjs/common';
 
 class AuthManager {
-  decodeToken(token: string) {
-    return jwt.decode(token)
-  }
+  /**
+   * Sents a password reset link to the user using the provided email address. 
+   * @param email - the user's email address
+   * @param hashedPassword the use's old hashed password
+   * 
+   * @returns - a JavaScript object containing the id of the sent message.
+   */
+  // Todo: Move this to a seperate mail service
   async sendSecureEmil(email: string, hashedPassword: string) {
     const secret = process.env.PASSWORD_RESET_SECRET || 'secret';
     const secretComposite = `${secret}${hashedPassword}`;
     const token = jwt.sign({}, secretComposite, {
       issuer: 'example.io',
       audience: 'reset-password',
-      expiresIn: '3600s',
-      subject: email
+      expiresIn: '3600s'
     });
 
-    const passwordResetLink = `http://localhost:8080/auth/password/reset?token=${token}`;
+    const passwordResetLink = `http://localhost:8080/auth/password/reset?email=${email}&token=${token}`;
 
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
@@ -39,7 +41,7 @@ class AuthManager {
             <p>Follow the link below to unlock your account. If you didn’t request a reset, you can safely ignore this email.</p>
             </br>
             <div>
-                <p><a href="${passwordResetLink}" target="_blank" rel="noopener">${passwordResetLink} </a></p>
+                <p><a href="${passwordResetLink}" target="_blank" rel="noreferrer">${passwordResetLink}</a></p>
             </div>
             </br>
             <b>Why do I need a new password?</b>
@@ -51,13 +53,24 @@ class AuthManager {
 
     console.log('Message sent: %s', info.messageId);
     return info.messageId;
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   }
 
+  /**
+   * Confirm the validity of a JWT token issued by the server.
+   * @param { String } token - a JWT token
+   * @param { String } hashedPassword - hash of the user's password 
+   * 
+   * @returns - the decode token in a JSON format if the token is valid.
+   * @throws - an {@link UnauthorizedException}
+   */
   verifyResetToken(token: string, hashedPassword: string) {
     console.log("tokennnnn", token, hashedPassword);
 
     const secret = process.env.PASSWORD_RESET_SECRET || 'secret';
+    /* 
+     We used the old hashed password to compose the final JWT secret preventing the user to reset his/her password multiple time with the same
+     token. This is because every hashed password is different making the token invalid.
+     */
     const secretComposite = `${secret}${hashedPassword}`;
     try {
       return jwt.verify(token, secretComposite, {
@@ -65,6 +78,7 @@ class AuthManager {
         audience: 'reset-password'
       });
     } catch (error) {
+      // Verification error
       console.log('Error during jwt verification ', error);
       throw new UnauthorizedException('Invalid token');
     }

@@ -12,27 +12,24 @@ const validator = new Validator();
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) { }
 
-  async resetPassword(password: string, confirmedPassword: string, token: string) {
-
+  async resetPassword(email: string, password: string, confirmedPassword: string, token: string) {
     if (!validator.equals(password, confirmedPassword)) {
       throw new BadRequestException('The passwords did not match');
     } else if (validator.isEmpty(token)) {
       throw new BadRequestException('token cannot be empty');
     }
-
-    // Obtain user email from the token
-    // TODO: use a `resetid` to retieve the email/token in order not to expose sensitive info 
-    const decodedToken = AuthManager.decodeToken(token)
-    if (!validator.isNotEmptyObject(decodedToken) && !decodedToken.sub) {
-      throw new UnauthorizedException('Invalid token');
+    else if (validator.isEmpty(email)) {
+      throw new BadRequestException('email cannot be empty');
     }
 
+    // Obtain user email from the token
     // Retrieve the user using the email
-    const user = await this.userService.getSimpleUser(decodedToken.sub)
-
+    const user = await this.userService.getSimpleUser(email)
+    console.log(user);
+    
     const verifiedToken: any = AuthManager.verifyResetToken(token, user.password);
     if (validator.isNotEmptyObject(verifiedToken)) {
-      return this.userService.resetPassword(verifiedToken.sub, password);
+      return this.userService.resetPassword(email, password);
     }
   }
 
@@ -57,9 +54,8 @@ export class AuthService {
   }
 
   /**
-   * Sends a password-reset link to the given email if it already exist
-   * in the database.
-   * @param { String } email an email address
+   * Sends a password-reset link to the provided email.
+   * @param { String } email - the user's email address
    */
   async requestPasswordReset(email: string) {
     if (!email) {
@@ -68,13 +64,12 @@ export class AuthService {
 
     // Retrieve the user's email from the datebase;
     const user = await this.userService.getSimpleUser(email);
-    console.log(user);
 
-    if (validator.isNotEmpty(user) && validator.equals(user.email, email)) {
-      // The the account exists, email a reset link
+    if (validator.isNotEmpty(user) && validator.isNotEmptyObject(user)) {
+      // Email a reset link
       const messageId = await AuthManager.sendSecureEmil(email, user.password);
-      return { messageId: messageId };
+      return { messageId: messageId, sentAt: new Date().toISOString() };
     }
-    throw new NotFoundException('Account does not exist');
+    throw new NotFoundException('No resource found for this account');
   }
 }

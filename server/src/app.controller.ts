@@ -5,7 +5,7 @@ import ResetPasswordDto from './auth/reset-password.dto';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @UseGuards(AuthGuard('local'))
   @Post('auth/login')
@@ -25,7 +25,9 @@ export class AppController {
   }
 
   @Post('auth/password/reset')
-  async resetPassword(@Body() request: ResetPasswordDto, @Query('token') token: string) {
-    return await this.authService.resetPassword(request.password, request.confirmPassword, token);
+  async resetPassword(@Body() request: ResetPasswordDto, @Query() query: any) {
+    const { token, email} = query;
+    const {password, confirmPassword } = request;
+    return await this.authService.resetPassword(email, password, confirmPassword, token);
   }
 }
