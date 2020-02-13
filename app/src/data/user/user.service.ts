@@ -32,7 +32,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { HttpStatus } from '@/enums';
 
 export interface UserService {
-  resetPassword(request: any, token: string): Promise<Result>;
+  resetPassword(request: any, email: string, token: string): Promise<Result>;
 
   create: (user: any) => Promise<Result>;
 
@@ -49,11 +49,11 @@ export interface UserService {
 }
 
 export class UserServiceImpl implements UserService {
-  resetPassword(request: any, token: string) {
+  resetPassword(request: any, email: string, token: string) {
     const config: AxiosRequestConfig = {
-      params: { token }
+      params: { token, email }
     }
-    return buildRequest(() => http.post('/auth/login', request, config));
+    return buildRequest(() => http.post('/auth/password/reset', request, config));
   }
 
   profile() {

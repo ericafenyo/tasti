@@ -59,8 +59,8 @@ export const store = new Vuex.Store({
       return User.requestPasswordReset(request)
     },
 
-    resetPassword(_, { request, token }) {
-      return User.resetPassword(request, token);
+    resetPassword(_, { request, token, email }) {
+      return User.resetPassword(request, email, token);
     }
   }
 });
