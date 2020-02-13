@@ -1,6 +1,5 @@
-/* csslint ignore:start */
-@tailwind utilities;
-/* csslint ignore:end */
+/* @tailwind utilities;
+
 .image-fluid {
   width: 100%;
   height: 100%;
@@ -19,3 +18,4 @@
 .border-rounded {
   border: 1px solid #ecebed;
 }
+*/
