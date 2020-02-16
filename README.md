@@ -21,7 +21,11 @@ Tasti is a recipe app that allows users to create, browse, and share recipes wit
 $ git clone https://github.com/ericafenyo/tasti.git
 ```
 
-2.  Start the API server (Backend)
+2.  Add the necessary environment variables.
+Make a copy of the `.env.sample` file in each folder (app and server), rename them to `.env` and fill in the required values.
+
+
+3.  Start the API server (Backend)
 
 ```bash
 # Change directory to server
@@ -31,10 +35,10 @@ $ cd server
 $ npm install
 
 # start the server
-$ npm run start
+$ npm run start:dev
 ```
 
-Starting the client-server (Frontend)
+4. Starting the client-server (Frontend)
 
 ```bash
 # Change directory to app
