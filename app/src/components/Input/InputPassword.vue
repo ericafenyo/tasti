@@ -60,6 +60,7 @@ export default class InputText extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+
 .input-password {
   position: relative;
 
@@ -76,7 +77,7 @@ export default class InputText extends Vue {
   }
 
   .icon-active {
-    color: #7c7982;
+    color: #1a051d;
   }
 }
 </style>

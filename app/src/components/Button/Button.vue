@@ -55,7 +55,7 @@ export default class Button extends Vue {
   font-family: $font;
   padding: 0 1em;
   min-width: 80px;
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
   border: 1.5px solid transparent;
   cursor: pointer;

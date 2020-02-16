@@ -1,5 +1,6 @@
 /** == font family== **/
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap');
 
 $font: 'Roboto',
 sans-serif;
@@ -38,8 +39,8 @@ $color-tertiary-text: #9ea0a5;
 $color-border: #ecebed;
 
 /** == theme colors == **/
-$color-surface: #f1f3f8;
-// $color-surface: #ecedef;
+// $color-surface: #f1f3f8;
+$color-surface: #fbfbfb;
 $color-accent: #6979f8;
 
 /** == break points == **/

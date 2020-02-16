@@ -77,7 +77,38 @@ export default class Input extends BaseInput {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 
+@mixin InputPlaceholderStyle {
+  // ::-webkit-input-placeholder {
+  //   /* WebKit, Blink, Edge */
+  //   color: #d0c9d6;
+  // }
+  // :-moz-placeholder {
+  //   /* Mozilla Firefox 4 to 18 */
+  //   color: #d0c9d6;
+  //   opacity: 1;
+  // }
+  // ::-moz-placeholder {
+  //   /* Mozilla Firefox 19+ */
+  //   color: #d0c9d6;
+  //   opacity: 1;
+  // }
+  // :-ms-input-placeholder {
+  //   /* Internet Explorer 10-11 */
+  //   color: #d0c9d6;
+  // }
+  // ::-ms-input-placeholder {
+  //   /* Microsoft Edge */
+  //   color: #d0c9d6;
+  // }
+
+  ::placeholder {
+    /* Most modern browsers support this now. */
+    color: rgba($color: #000000, $alpha: .5);
+  }
+}
+
 .input {
+  @include InputPlaceholderStyle;
   display: flex;
   flex-direction: column;
 
@@ -91,7 +122,9 @@ export default class Input extends BaseInput {
   /deep/ &-element {
     font-family: $font;
     height: 48px;
-    background-color: rgba($color-surface, 0.6);
+    // background-color: rgba($color-surface, 0.6);
+    background-color: rgba($white, 0.4);
+    box-shadow: 0 7px 64px 0 rgba(0, 0, 0, 0.07);
     font-size: 1rem;
     color: $color-primary-text;
     border: solid 1px $color-border;
@@ -105,6 +138,7 @@ export default class Input extends BaseInput {
     &:focus {
       // box-shadow: inset 0 0 0px 2px $color-accent;
       background-color: $white;
+      border-color: rgba($color-primary-text,  .2);
     }
 
     &.input-error {
