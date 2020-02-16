@@ -5,10 +5,19 @@
   "cancel": "Cancel",
   "create": "Create",
   "warning": "Warning",
+  "accept": "Accept",
+  "terms-and-conditions": "Terms and Conditions",
   "create-account": "Create Account",
   "forgot-password": "Forgot password",
   "forgot-your-password": "Forgot your password?",
-  "sign-up-error": "Sorry, we are unable to complete the sign-up process. Please try again later.",
+  "sign-up-success": {
+    "type": "success",
+    "message": "Thank you for your registration! Your account is now ready to use."
+  },
+  "sign-up-error": {
+    "type": "error",
+    "message": "Sorry, we are unable to complete the sign-up process. Please try again later."
+  },
   "http-error": {
     "duplicate-email": "User email already exist",
     "invalid-credentials": "Your email or password is incorrect",
@@ -27,7 +36,6 @@
   "just-remembered": "Just remembered?",
   "let-us-create-your-account": "Let's create your account",
 
-  "registration_successful": "Service unavailable; please try again later.",
   "invalid-credentials": {
     "type": "error",
     "message": "Your email or password is incorrect"
@@ -41,11 +49,20 @@
     "message": "Service unavailable; please try again later."
   },
   "request-password-reset": "We’ll help you reset it and get you back on track.",
-  "request-password-reset-success": "If you have an account, we'll email you a reset link.",
+  "request-password-reset-success": {
+    "type": "info",
+    "message": "If you have an account, we'll email you a reset link."
+  },
   "enter-new-password": "Enter your new password",
   "enter-8-chars-password": "Please make sure your password has at least 8 characters",
-  "password-reset-success": "Your password was successfully updated.",
-  "request-password-reset-expired": "Your password reset request has expired.",
+  "password-reset-success": {
+    "type": "success",
+    "message": "Your password was successfully updated."
+  },
+  "request-password-reset-expired": {
+    "type": "error",
+    "message": "Your password reset request has expired or is invalid."
+  },
   "action": {
     "reset-password": "Reset Password",
     "set-new-password": "Set new password"
