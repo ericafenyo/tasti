@@ -24,6 +24,7 @@
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export interface NotificationOptions {
+  closable?: boolean;
   kind?: Notification;
   type?: NotificationType;
   title?: string;

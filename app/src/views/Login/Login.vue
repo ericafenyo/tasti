@@ -2,7 +2,6 @@
   <section class="section-no-header background-surface">
     <div class="login">
       <Headline text="Login To Your Account" :level="2" class="mb-8" />
-      <!-- :visible="options.visible" -->
       <Alert
         :visible="options.visible"
         :type="options.type"
@@ -10,14 +9,14 @@
         :message="options.message"
         @on-dismiss="showAlert({ visible: false })"
       />
-      <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
+      <form @submit.prevent="onSubmit" novalidate="true">
         <div class="form-item">
           <Input
-            label="Email Address"
             type="text"
             name="email"
+            :placeholder="$t('email-placeholder')"
+            :label="$t('label.email')"
             :className="[{'input-error': $v.email.$error}]"
-            placeholder="name@example.com"
             :value="email"
             @on-input="onInput"
           />
@@ -27,12 +26,12 @@
             label="Password"
             type="password"
             name="password"
+            :placeholder="$t('password-placeholder')"
             :hasAction="true"
             :actionText="$t('forgot-password')"
             :actionRoute="'/auth/password/request-reset'"
             :value="password"
             :className="[{'input-error': $v.password.$error}]"
-            placeholder="Enter 8 or more characters"
             @on-input="onInput"
           />
         </div>
@@ -52,7 +51,6 @@ import { Validate, Validations } from "vuelidate-property-decorators";
 import { required } from "vuelidate/lib/validators";
 import isEmpty from "lodash/isEmpty";
 
-import Headline from "@/components/Headline/Headline.vue";
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
 import { mapState } from "vuex";
@@ -64,19 +62,19 @@ import {
   NotificationType
 } from "../../components/Notification";
 
-@Component({
-  components: {
-    Headline,
-    Input,
-    Button
-  }
-})
+@Component
 export default class Login extends Vue {
-  isLoading = false;
+  isLoading: boolean = false;
   options: NotificationOptions = {};
 
   email: string = "";
   password: string = "";
+
+  @Validations()
+  validations = {
+    email: { required },
+    password: { required }
+  };
 
   @Prop({ type: String, default: "" })
   notificationKey: string;
@@ -92,12 +90,6 @@ export default class Login extends Vue {
     this.email = "";
     this.password = "";
   }
-
-  @Validations()
-  validations = {
-    email: { required },
-    password: { required }
-  };
 
   async onSubmit() {
     const { $invalid } = this.$v;
@@ -163,7 +155,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
-  max-width: 432px;
+  max-width: 420px;
   margin: 0 auto;
   padding: 2rem 0;
 
