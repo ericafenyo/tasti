@@ -1,13 +1,13 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="login card-module">
+    <div class="login">
       <Headline text="Login To Your Account" :level="2" class="mb-8" />
-        <!-- :visible="alertOptions.visible" -->
+      <!-- :visible="options.visible" -->
       <Alert
-        :visible="true"
-        type="info"
-        :closable="false"
-        :message="$t('request-password-reset-success')"
+        :visible="options.visible"
+        :type="options.type"
+        :closable="options.closable"
+        :message="options.message"
         @on-dismiss="showAlert({ visible: false })"
       />
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
@@ -50,10 +50,12 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
 import { required } from "vuelidate/lib/validators";
+import isEmpty from "lodash/isEmpty";
 
 import Headline from "@/components/Headline/Headline.vue";
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
+import { mapState } from "vuex";
 import { HttpStatus } from "../../enums";
 import { Actions } from "../../store/actions";
 import { Result } from "../../data/Result";
@@ -71,13 +73,19 @@ import {
 })
 export default class Login extends Vue {
   isLoading = false;
-  alertOptions: NotificationOptions = {};
+  options: NotificationOptions = {};
 
   email: string = "";
   password: string = "";
 
+  @Prop({ type: String, default: "" })
+  notificationKey: string;
+
+  @Prop({ type: String, default: "" })
+  username: string;
+
   showAlert(options: NotificationOptions = { visible: false }) {
-    this.alertOptions = options;
+    this.options = options;
   }
 
   resetForm() {
@@ -135,8 +143,18 @@ export default class Login extends Vue {
   }
 
   mounted() {
-    if (this.$route.query.username) {
-      this.email = this.$route.query.username.toString();
+    if (this.notificationKey) {
+      const notification: any = this.$t(this.notificationKey);
+      this.options = {
+        closable: false,
+        visible: true,
+        type: notification.type,
+        message: notification.message
+      };
+    }
+
+    if (this.username) {
+      this.email = this.username;
     }
   }
 }
@@ -145,21 +163,9 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .login {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
-
   max-width: 432px;
   margin: 0 auto;
-  background-color: $white;
   padding: 2rem 0;
-  height: 100%;
-
-  @include phablet {
-    height: initial;
-    padding: 2rem 1.5rem;
-    margin-top: 3rem;
-    border: 1px solid $color-border;
-    border-radius: 6px;
-  }
 
   .button {
     width: 100%;

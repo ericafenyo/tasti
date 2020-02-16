@@ -64,8 +64,8 @@
         <div class="form-item">
           <div class="privacy-agreement">
             <Checkbox>
-              Accept
-              <a href="#">Terms and Conditions</a>
+              <span class="text-body">{{$t('accept')}}</span>
+              <Link :text="$t('terms-and-conditions')" />
             </Checkbox>
           </div>
         </div>
@@ -170,8 +170,11 @@ export default class Register extends Vue {
 
           // Redirects to the login page
           this.$router.replace({
-            path: "/auth/sign-in",
-            query: { username: response.data.email }
+            name: "sign-in",
+            params: {
+              username: response.data.email,
+              notificationKey: "sign-up-success"
+            }
           });
           break;
         case HttpStatus.SERVICE_UNAVAILABLE:
@@ -208,29 +211,13 @@ export default class Register extends Vue {
 @import "@/scss/_resources.scss";
 
 .register {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
-  max-width: 432px;
+  max-width: 420px;
   margin: 0 auto;
-  background-color: $white;
-  padding: 2rem 1.5rem;
   border-radius: 6px;
-  margin-top: 3rem;
-
-  //   @include phablet {
-  //   height: initial;
-  //   margin-top: 3rem;
-  //   border: 1px solid $color-border;
-  //   border-radius: 12px;
-  // }
-
+  padding: 2rem 0;
   form {
     margin-top: 24px;
   }
-
-  // @include laptop {
-  //   padding: 2rem 1rem;
-  //   border: 1px solid $color-border;
-  // }
 }
 
 @include phablet {

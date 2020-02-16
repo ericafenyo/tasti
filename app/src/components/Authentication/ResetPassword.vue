@@ -1,6 +1,6 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="reset-password card-module">
+    <div class="reset-password">
       <Headline :text="$t('enter-new-password')" :level="2" />
       <Alert
         class="mt-3"
@@ -26,6 +26,7 @@
           :loading="isLoading"
           :disabled="$v.$invalid"
           :text="$t('action.set-new-password')"
+          class="w-full"
           size="large"
         />
       </form>
@@ -35,9 +36,11 @@
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
-import { required, sameAs } from "vuelidate/lib/validators";
+import { required, sameAs, minLength } from "vuelidate/lib/validators";
 import { Result } from "../../data/Result";
 import { Actions } from "../../store/actions";
+import { HttpStatus } from "../../enums";
+import isEmpty from "lodash/isEmpty";
 
 @Component
 export default class ResetPassword extends Vue {
@@ -57,8 +60,8 @@ export default class ResetPassword extends Vue {
 
   @Validations()
   validations = {
-    password: { required },
-    confirmPassword: { required }
+    password: { required, minLength: minLength(8) },
+    confirmPassword: { required, sameAs: sameAs("password") }
   };
 
   async onSubmit() {
@@ -67,7 +70,7 @@ export default class ResetPassword extends Vue {
     // Force the validation of form
     if (!$invalid) {
       // Begin with a loading state
-      // this.isLoading = true;
+      this.isLoading = true;
       const requestModel = {
         request: {
           password: this.password,
@@ -77,15 +80,48 @@ export default class ResetPassword extends Vue {
         email: this.$route.query.email
       };
 
-      console.log(this.$route);
-
       const response: Result = await this.$store.dispatch(
         Actions.RESET_PASSWORD,
         requestModel
       );
 
-      console.log(response);
-      
+      // stop the loading indicator
+      this.isLoading = false;
+      switch (response.status) {
+        case HttpStatus.CREATED:
+          // Clear all form fields
+          this.resetForm();
+          // Redirect to the login page with a message
+          this.$router.replace({
+            name: "sign-in",
+            params: {
+              notificationKey: "password-reset-success"
+            }
+          });
+          break;
+
+        case HttpStatus.UNAUTHORIZED:
+          this.$router.replace({
+            name: "sign-in",
+            params: {
+              notificationKey: "request-password-reset-expired"
+            }
+          });
+          break;
+
+        case HttpStatus.BAD_REQUEST:
+          //TODO
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  created() {
+    if (isEmpty(this.$route.query)) {
+      this.$router.replace({ name: "sign-in" });
     }
   }
 }
@@ -95,9 +131,8 @@ export default class ResetPassword extends Vue {
 @import "@/scss/_resources.scss";
 
 .reset-password {
-  max-width: 460px;
+  max-width: 420px;
   margin: 0 auto;
-  background-color: $white;
-  padding: 1.5rem 1rem;
+  padding: 2rem 0rem;
 }
 </style>

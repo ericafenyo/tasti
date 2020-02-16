@@ -1,6 +1,6 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="request-reset card-module">
+    <div class="request-reset">
       <Headline :text="$t('forgot-your-password')" :level="2" />
       <p class="text-body mt-2 mb-8">{{$t('request-password-reset')}}</p>
       <form @submit.prevent="onSubmit" novalidate="true">
@@ -71,9 +71,14 @@ export default class RequestPasswordReset extends Vue {
         response.status == HttpStatus.NOT_FOUND
       ) {
         // Redirect to the login page with a message
-        this.$router.replace('/auth/sign-in')
+        this.$router.replace({
+          name: "sign-in",
+          params: {
+            username: this.email,
+            notificationKey: "request-password-reset-success"
+          }
+        });
       }
-
       // stop the loading indicator
       this.isLoading = false;
     }
@@ -84,10 +89,8 @@ export default class RequestPasswordReset extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .request-reset {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
-  max-width: 432px;
+  max-width: 420px;
   margin: 0 auto;
-  background-color: $white;
-  padding: 1.5rem;
+  padding: 2rem 0;
 }
 </style>

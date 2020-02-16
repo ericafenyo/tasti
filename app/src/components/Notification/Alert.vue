@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-horizontal">
-    <div v-if="isVisible" class="alert" :class="composeAlertClasses">
+    <div v-if="isVisible" :class="['alert', {'alert-closable' : closable}, composeAlertClasses]">
       <Icon :name="computeIcon" class="alert-icon" :size="18" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
@@ -80,7 +80,10 @@ export default class Alert extends Vue {
 .alert {
   position: relative;
   border-left: 4px solid;
-  padding: 8px 48px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 42px;
+  padding-right: 16px;
   margin-bottom: 24px;
 
   border-radius: 4px;
@@ -88,7 +91,7 @@ export default class Alert extends Vue {
 
   &-icon {
     position: absolute;
-    left: 16px;
+    left: 13px;
     margin-top: 2px;
   }
 
@@ -98,7 +101,7 @@ export default class Alert extends Vue {
     color: rgba($black, $alpha-disabled);
     right: 4px;
     padding: 8px;
-    top: 8px;
+    top: 5px;
 
     &:hover {
       color: rgba($black, $alpha-inactive);
@@ -119,12 +122,13 @@ export default class Alert extends Vue {
   }
 
   &-message {
-    font-size: 0.875rem;
+    font-size: 15px;
     font-weight: 500;
   }
 
   &-success {
     border-color: $green;
+    background-color: rgba($green, 0.1);
     .alert-icon {
       color: $green;
     }
@@ -132,6 +136,7 @@ export default class Alert extends Vue {
 
   &-info {
     border-color: $blue;
+    background-color: rgba($blue, 0.1);
 
     .alert-icon {
       color: $blue;
@@ -140,6 +145,7 @@ export default class Alert extends Vue {
 
   &-warning {
     border-color: $orange;
+    background-color: rgba($orange, 0.1);
 
     .alert-icon {
       color: $orange;
@@ -148,9 +154,14 @@ export default class Alert extends Vue {
 
   &-error {
     border-color: $red;
+    background-color: rgba($red, 0.1);
     .alert-icon {
       color: $red;
     }
+  }
+
+  &-closable {
+    padding-right: 40px;
   }
 }
 
