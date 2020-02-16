@@ -1,5 +1,6 @@
 <template>
   <div class="recipes">
+    <NavigationBar class="header-fix" />
     <Portal v-if="isModelOpen" to="notification-outlet">
       <CreateRecipeTemplate @on-close="enableModelVisibility(false)" />
     </Portal>
@@ -7,21 +8,21 @@
       <!-- <button @click="enableModelVisibility">Add</button> -->
     </div>
     <div class="card cursor-pointer" v-for="recipe in recipes" :key="recipe.id">
-        <!-- <div class="card-header">
+      <!-- <div class="card-header">
         <div class="flex">
           <Avatar :style="{width: '20px', height: '20px'}" :src="src" />
           <div :style="{marginLeft: '12px'}">
             <strong class="card-header-overline">Warren Briggs</strong>
           </div>
         </div>
-      </div> -->
+      </div>-->
       <div class="card-body">
         <picture>
           <img class="card-media" :src="recipe.image" alt="Recipe thumbnail" />
         </picture>
         <h2 class="card-body-title" v-text="recipe.name" />
       </div>
-    
+
       <!-- <div class="card-footer">
         <div class="flex pt-3">
           <div class="flex items-center mr-3" :style="{fontSize: '14px',  color: '#3f3356'}">
@@ -33,7 +34,7 @@
             <span>12</span>
           </div>
         </div>
-      </div> -->
+      </div>-->
     </div>
   </div>
 </template>
@@ -43,8 +44,9 @@ import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Actions } from "../../store/actions";
 import { RecipeUiModel } from "../../data/recipe/recipe.model";
 import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
+import NavigationBar from '../../components/NavigationBar/NavigationBar.vue'
 
-@Component({ components: { CreateRecipeTemplate } })
+@Component({ components: { CreateRecipeTemplate, NavigationBar } })
 export default class Home extends Vue {
   src =
     "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80";

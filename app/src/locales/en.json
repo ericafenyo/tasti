@@ -10,6 +10,8 @@
   "create-account": "Create Account",
   "forgot-password": "Forgot password",
   "forgot-your-password": "Forgot your password?",
+  "password-placeholder": "Enter 8 or more characters",
+  "email-placeholder": "name@example.com",
   "sign-up-success": {
     "type": "success",
     "message": "Thank you for your registration! Your account is now ready to use."
@@ -21,7 +23,7 @@
   "http-error": {
     "duplicate-email": "User email already exist",
     "invalid-credentials": "Your email or password is incorrect",
-    "service-unavailable": "Service unavailable; please try again later."
+    "service-unavailable": "Service unavailable, please try again later."
   },
   "no-account-create-one": "Don't have an account?",
   "have-account-login": "Already have an account?",
@@ -42,11 +44,11 @@
   },
   "service-unavailable": {
     "type": "error",
-    "message": "Service unavailable; please try again later."
+    "message": "Service unavailable, please try again later."
   },
   "login_successful": {
     "type": "success",
-    "message": "Service unavailable; please try again later."
+    "message": "Service unavailable, please try again later."
   },
   "request-password-reset": "We’ll help you reset it and get you back on track.",
   "request-password-reset-success": {
@@ -70,6 +72,8 @@
   "label": {
     "password": "Password",
     "email": "Email",
-    "confirm-password": "Confirm password"
+    "confirm-password": "Confirm password",
+    "first-name": "First Name",
+    "last-name": "Last Name"
   }
 }

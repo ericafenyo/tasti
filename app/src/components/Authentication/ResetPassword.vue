@@ -3,11 +3,11 @@
     <div class="reset-password">
       <Headline :text="$t('enter-new-password')" :level="2" />
       <Alert
-        class="mt-3"
         :visible="true"
         :closable="false"
-        type="info"
+        :style="{marginTop: '1rem'}"
         :message="$t('enter-8-chars-password')"
+        type="info"
       />
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
         <div class="form-item">
@@ -26,7 +26,6 @@
           :loading="isLoading"
           :disabled="$v.$invalid"
           :text="$t('action.set-new-password')"
-          class="w-full"
           size="large"
         />
       </form>
@@ -44,10 +43,16 @@ import isEmpty from "lodash/isEmpty";
 
 @Component
 export default class ResetPassword extends Vue {
+  isLoading = false;
+
   password = "";
   confirmPassword = "";
 
-  isLoading = false;
+  @Validations()
+  validations = {
+    password: { required, minLength: minLength(8) },
+    confirmPassword: { required, sameAs: sameAs("password") }
+  };
 
   resetForm() {
     this.password = "";
@@ -57,12 +62,6 @@ export default class ResetPassword extends Vue {
   onInput({ value, name }) {
     this[name] = value;
   }
-
-  @Validations()
-  validations = {
-    password: { required, minLength: minLength(8) },
-    confirmPassword: { required, sameAs: sameAs("password") }
-  };
 
   async onSubmit() {
     //Show successful sign up
@@ -119,6 +118,7 @@ export default class ResetPassword extends Vue {
     }
   }
 
+  // TODO: Replace with router meta
   created() {
     if (isEmpty(this.$route.query)) {
       this.$router.replace({ name: "sign-in" });
@@ -134,5 +134,10 @@ export default class ResetPassword extends Vue {
   max-width: 420px;
   margin: 0 auto;
   padding: 2rem 0rem;
+
+  .button {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
 </style>

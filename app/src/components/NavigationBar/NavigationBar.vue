@@ -6,7 +6,7 @@
         <div class="logo">
           <Icon name="restaurant" color="white" width="20" />
         </div>
-        <SearchBar class="mx-4" />
+        <!-- <SearchBar class="mx-4" /> -->
       </div>
       <div class="inline-flex items-center">
         <!-- <div>
@@ -15,10 +15,10 @@
         </div> -->
         <div class="button-group">
           <span class="button-item">
-               <Button size="small" type="outline" text="Log in" @on-click="() => {$router.push('/login')}" />
+               <Button size="small" type="outline" :text="$t('login')" @on-click="() => {$router.replace({name: 'sign-in'})}" />
           </span>
            <span class="button-item">
-               <Button size="small" text="Sign up" @on-click="() => {$router.push('/join')}"/>
+               <Button size="small" :text="$t('sign-up')" @on-click="() => {$router.replace({name: 'sign-up'})}"/>
           </span>
         </div>
       </div>
