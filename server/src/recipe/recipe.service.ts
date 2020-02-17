@@ -31,7 +31,7 @@ export class RecipeService {
   constructor(
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(User) private userRepository: Repository<User>
-  ) {}
+  ) { }
 
   /**
    * Creates and save a new Recipe Entity into the database.
@@ -44,7 +44,7 @@ export class RecipeService {
       throw new UnauthorizedException();
     }
 
-    const recipe = await this.recipeRepository.create({ ...recipeDto, owner: user });
+    const recipe = this.recipeRepository.create({ ...recipeDto, owner: user });
     const { id, createdAt } = await this.recipeRepository.save(recipe);
     return { id, createdAt };
   }
@@ -56,7 +56,7 @@ export class RecipeService {
   async find(id: string) {
     const recipes = await this.recipeRepository.find({
       where: { user: { id } },
-      relations: [ 'photos', 'ingredients', 'directions', 'metadata', 'owner' ]
+      relations: ['photos', 'ingredients', 'directions', 'metadata', 'owner']
     });
 
     return recipes;
@@ -68,7 +68,7 @@ export class RecipeService {
    */
   async findAll() {
     const recipes = await this.recipeRepository.find({
-      relations: [ 'photos', 'ingredients', 'directions', 'metadata', 'owner','owner.profile' ]
+      relations: ['photos', 'ingredients', 'directions', 'metadata', 'owner', 'owner.profile']
     });
 
     return recipes;

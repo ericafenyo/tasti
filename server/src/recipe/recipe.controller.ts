@@ -31,6 +31,8 @@ export class RecipeController {
       file ? file.key :
       '';
     const recipe: RecipeDto = { name, imagePath };
+    console.log(recipe);
+    
     return await this.recipeService.create(user.id, recipe);
   }
 
