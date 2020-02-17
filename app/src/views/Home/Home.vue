@@ -5,7 +5,9 @@
       <CreateRecipeTemplate @on-close="enableModelVisibility(false)" />
     </Portal>
     <div>
-      <!-- <button @click="enableModelVisibility">Add</button> -->
+      <div class="floacting-action-button" @click="enableModelVisibility">
+        <Icon name="add" size="26px"/>
+      </div> 
     </div>
     <div class="card cursor-pointer" v-for="recipe in recipes" :key="recipe.id">
       <!-- <div class="card-header">
@@ -126,5 +128,18 @@ export default class Home extends Vue {
     width: 100%;
     height: 100%;
   }
+}
+
+.floacting-action-button{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 1px 0px, rgba(0, 0, 0, 0.08) 0px 5px 10px 0px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
 }
 </style>
