@@ -39,8 +39,7 @@ export const store = new Vuex.Store({
     },
 
     createRecipe(_, recipeInfo: RecipeRequestModel) {
-      const response = Recipe.create(recipeInfo);
-      console.log(response);
+      return Recipe.create(recipeInfo);
     },
 
     getProfile() {

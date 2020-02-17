@@ -5,6 +5,6 @@ import { CreatedResponse } from '@/types';
  * ind, create, update, delete, etc.
  */
 export interface Service {
-  create(param?: any): CreatedResponse;
+  create(param?: any): any;
   find(): any;
 }

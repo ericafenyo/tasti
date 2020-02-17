@@ -1,23 +1,18 @@
 import { Service } from '../Service';
-import { invokeHttpRequest, http, authHttp } from '../ConnectionHelper';
-import { CreatedResponse, ObjectLiteral } from '@/types';
-import { AxiosResponse, AxiosPromise } from 'axios';
+import { buildRequest, http, authHttp } from '../ConnectionHelper';
+import { ObjectLiteral } from '@/types';
+import { AxiosPromise } from 'axios';
 import { RecipeUiModel } from './recipe.model';
+import { Result } from '../Result';
 
 export class RecipeService implements Service {
-  create(requestModel: ObjectLiteral): CreatedResponse {
+  create(requestBody: ObjectLiteral) : Promise<Result> {
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     };
-    invokeHttpRequest(() => {
-      return authHttp.post('/recipes', requestModel, config);
-    }).subscribe((result) => {
-      console.log(result);
-    });
-
-    return { id: '', createdAt: '' };
+    return buildRequest(() => authHttp.post('/recipes', requestBody, config));
   }
 
   find(): AxiosPromise<RecipeUiModel> {
