@@ -6,7 +6,18 @@ import { RecipeUiModel } from './recipe.model';
 import { Result } from '../Result';
 
 export class RecipeService implements Service {
-  create(requestBody: ObjectLiteral) : Promise<Result> {
+  /**
+   * Get a single recipe
+   * 
+   * @param {String} id - the id of the recipe to fetch
+   * 
+   * @returns a {@link Result} object containing the http status code and the data. 
+   */
+  findOne(id: string) {
+    return buildRequest(() => authHttp.get(`/recipes/${id}`));
+  }
+
+  create(requestBody: ObjectLiteral): Promise<Result> {
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data'

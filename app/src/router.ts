@@ -8,6 +8,7 @@ import CreateRecipe from './views/CreateRecipe/CreateRecipe.vue';
 import Profile from './views/User/Profile.vue';
 import RequestPasswordReset from './components/Authentication/RequestPasswordReset.vue';
 import ResetPassword from './components/Authentication/ResetPassword.vue';
+import Recipe from './components/Recipe/Recipe.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
     {
       path: '/account/profile',
       component: Profile
+    },
+    {
+      path: '/recipe/:id',
+      name: 'recipe',
+      component: Recipe
     },
     {
       path: '/recipes/new',

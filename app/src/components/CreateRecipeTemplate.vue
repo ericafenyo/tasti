@@ -42,6 +42,7 @@ import { emit } from "cluster";
 import { constants } from "../constants";
 import { Actions } from "../store/actions";
 import { HttpStatus } from "../enums";
+import { Result } from "../data/Result";
 const generator = require("generate-password");
 @Component({
   components: {
@@ -49,7 +50,7 @@ const generator = require("generate-password");
   }
 })
 export default class CreateRecipeTemplate extends Vue {
-  isLoading = true;
+  isLoading = false;
 
   name = "";
   image = null;
@@ -82,25 +83,27 @@ export default class CreateRecipeTemplate extends Vue {
       formData.append("name", this.name);
       formData.append("image", this.image);
 
-      const response = await this.$store.dispatch(
+      const response: Result = await this.$store.dispatch(
         Actions.CREATE_RECIPE,
         formData
       );
 
       // Stop the loading indicator
       this.isLoading = false;
-        switch (response.status) {
+      switch (response.status) {
         case HttpStatus.CREATED:
-     
+          // Navigate to the recipe page
+          this.$router.replace({
+            name: "recipe",
+            params: { id: response.data.id }
+          });
           break;
 
         case HttpStatus.NOT_FOUND:
-      
           break;
 
         case HttpStatus.SERVICE_UNAVAILABLE:
-          // Notice the user about the error.
-         
+        // Notice the user about the error.
       }
     }
   }

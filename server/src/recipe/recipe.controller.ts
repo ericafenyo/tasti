@@ -32,7 +32,7 @@ export class RecipeController {
       '';
     const recipe: RecipeDto = { name, imagePath };
     console.log(recipe);
-    
+
     return await this.recipeService.create(user.id, recipe);
   }
 
@@ -42,8 +42,8 @@ export class RecipeController {
   }
 
   @Get(':id')
-  async getRecipeId(@Param('id') userId: string) {
-    return await this.recipeService.find(userId);
+  async getRecipeById(@Param('id') recipeId: string) {
+    return await this.recipeService.findOne(recipeId);
   }
 
   @Get()

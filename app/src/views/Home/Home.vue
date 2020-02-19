@@ -6,10 +6,15 @@
     </Portal>
     <div>
       <div class="floacting-action-button" @click="enableModelVisibility">
-        <Icon name="add" size="26px"/>
-      </div> 
+        <Icon name="add" size="26px" />
+      </div>
     </div>
-    <div class="card cursor-pointer" v-for="recipe in recipes" :key="recipe.id">
+    <div
+      class="card cursor-pointer"
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      @click="viewDetails(recipe.id)"
+    >
       <!-- <div class="card-header">
         <div class="flex">
           <Avatar :style="{width: '20px', height: '20px'}" :src="src" />
@@ -46,7 +51,7 @@ import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Actions } from "../../store/actions";
 import { RecipeUiModel } from "../../data/recipe/recipe.model";
 import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
-import NavigationBar from '../../components/NavigationBar/NavigationBar.vue'
+import NavigationBar from "../../components/NavigationBar/NavigationBar.vue";
 
 @Component({ components: { CreateRecipeTemplate, NavigationBar } })
 export default class Home extends Vue {
@@ -67,6 +72,13 @@ export default class Home extends Vue {
 
   showAddRecipe() {
     this.showDialog = true;
+  }
+
+  viewDetails(id) {
+    this.$router.replace({
+      name: "recipe",
+      params: { id }
+    });
   }
 
   async mounted() {
@@ -130,8 +142,9 @@ export default class Home extends Vue {
   }
 }
 
-.floacting-action-button{
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 1px 0px, rgba(0, 0, 0, 0.08) 0px 5px 10px 0px;
+.floacting-action-button {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 1px 0px,
+    rgba(0, 0, 0, 0.08) 0px 5px 10px 0px;
   border-radius: 50%;
   display: flex;
   justify-content: center;

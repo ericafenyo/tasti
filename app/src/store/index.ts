@@ -50,6 +50,10 @@ export const store = new Vuex.Store({
       return Recipe.find();
     },
 
+    getRecipe(_, recipeId){
+      return Recipe.findOne(recipeId)
+    },
+
     getFollowers({ state }) {
       return User.followers(state.userId);
     },

@@ -7,5 +7,6 @@ export const Actions = {
   CREATE_USER: 'createUser',
   AUTHENTICATE: 'authenticate',
   REQUEST_PASSWORD_RESET: 'requestPasswordReset',
-  RESET_PASSWORD: 'resetPassword'
+  RESET_PASSWORD: 'resetPassword',
+  GET_RECIPE: 'getRecipe'
 };
