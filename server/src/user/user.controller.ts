@@ -58,11 +58,11 @@ export class UserController {
     return await this.userService.create(request.body);
   }
 
-  // User recipes
-  @Get(':id/recipes')
-  async getRecipes(@Param('id') userId: string) {
-    return await this.recipeService.find(userId);
-  }
+  // // User recipes
+  // @Get(':id/recipes')
+  // async getRecipes(@Param('id') userId: string) {
+  //   return await this.recipeService.findOne(userId);
+  // }
 
   @Patch(':id/recipes')
   updateRecipes(@Param('id') userId: string) {}

@@ -33,6 +33,8 @@ import Modal from './components/Modal.vue';
 import Loader from './components/Loader.vue';
 import Headline from './components/Headline/Headline.vue';
 import Avatar from './components/Avatar/Avatar.vue';
+import PhotoPicker from './components/PhotoElements/PhotoPicker/PhotoPicker.vue';
+import NavigationBar from './components/NavigationBar/NavigationBar.vue';
 import i18n from './i18n';
 
 Vue.component('Icon', Icon);
@@ -50,6 +52,8 @@ Vue.component('Modal', Modal);
 Vue.component('Loader', Loader);
 Vue.component('Headline', Headline);
 Vue.component('Avatar', Avatar);
+Vue.component('PhotoPicker', PhotoPicker);
+Vue.component('NavigationBar', NavigationBar);
 
 Vue.config.productionTip = false;
 

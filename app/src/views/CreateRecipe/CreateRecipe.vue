@@ -1,5 +1,5 @@
 <template>
-  <section class="create-recipe pt-24 pb-24">
+  <section class="create-recipe">
     <div class="form-frame">
       <form @submit.prevent="onSubmit">
         <div class="form-module">
@@ -9,7 +9,7 @@
                 <PhotoPicker
                   @image-changed="(file) => {data.thumbnail = file}"
                   class="flex-shrink-0"
-                  :style="{width: '100px', height: '100px'}"
+                  :style="{width: '160px', height: '140px'}"
                 />
                 <Input
                   class="self-end ml-3 w-full"
@@ -116,7 +116,6 @@ export default class CreateRecipe extends Vue {
 
 .create-recipe {
   width: 100%;
-  background-color: $color-surface;
 }
 
 .editable-item {

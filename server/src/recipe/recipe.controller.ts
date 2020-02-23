@@ -41,10 +41,10 @@ export class RecipeController {
     return await this.metadataService.create(recipeId, body);
   }
 
-  @Get(':id')
-  async getRecipeById(@Param('id') recipeId: string) {
-    return await this.recipeService.findOne(recipeId);
-  }
+  // @Get(':id')
+  // async getRecipeById(@Param('id') recipeId: string) {
+  //   return await this.recipeService.findOne(recipeId);
+  // }
 
   @Get()
   async getRecipes() {

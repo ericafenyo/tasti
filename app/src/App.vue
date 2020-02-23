@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="background-surface">
     <router-view />
     <portal-target name="notification-outlet"></portal-target>
   </div>

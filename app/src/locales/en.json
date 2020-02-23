@@ -67,7 +67,8 @@
   },
   "action": {
     "reset-password": "Reset Password",
-    "set-new-password": "Set new password"
+    "set-new-password": "Set new password",
+    "edit": "Edit"
   },
   "label": {
     "password": "Password",
