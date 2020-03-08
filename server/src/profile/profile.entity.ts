@@ -1,22 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Column,
-  OneToOne,
-  ManyToMany,
-  JoinTable,
-  RelationCount,
-  JoinColumn,
-  RelationId
-} from 'typeorm';
-import { User } from 'src/user/user.entity';
+import { Entity, Column, OneToOne, ManyToMany, JoinTable, RelationCount, JoinColumn, RelationId } from 'typeorm';
+import { User } from '../user/user.entity';
+import { BaseEntity } from '../BaseEntity';
 
 @Entity()
-export class Profile {
-  @PrimaryGeneratedColumn('uuid') id: string;
-
+export class Profile extends BaseEntity {
   @Column() name: string;
 
   @Column({ default: '' })
@@ -50,10 +37,4 @@ export class Profile {
 
   @RelationCount((profile: Profile) => profile.following)
   followingCount: number;
-
-  @CreateDateColumn({ name: 'joined_at' })
-  joinedAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 }

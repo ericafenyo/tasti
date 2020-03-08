@@ -1,6 +1,6 @@
 import S3 = require('aws-sdk/clients/s3');
 import multerS3 = require('multer-s3');
-import uuid = require('uuid/v4');
+import generateUUID = require('uuid/v4');
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
 const s3 = new S3({
@@ -14,8 +14,9 @@ export const multerOption: MulterOptions = {
     bucket: 'ns-tasti',
     key: (_, file, callback) => {
       console.log(file);
-      const extension = file.mimetype.split('/')[1];
-      callback(null, `${uuid()}.${extension}`);
+      //const extension = file.mimetype.split('/')[1];
+      const extension = 'jpg'
+      callback(null, `${generateUUID().split('-').join('')}.${extension}`);
     }
   })
 };
