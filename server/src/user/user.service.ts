@@ -5,9 +5,9 @@ import {
   ForbiddenException,
   BadRequestException
 } from '@nestjs/common';
-import { InjectRepository, InjectEntityManager, InjectConnection } from '@nestjs/typeorm';
+import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository, Connection, EntityManager } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
@@ -201,8 +201,8 @@ export class UserService {
         const savedProfile = await manager.save(profile);
 
         // Return relevant information
-        const { id, joinedAt, user: { email } } = savedProfile;
-        return { id, createdAt: joinedAt, email };
+        const { id, createdAt, user: { email } } = savedProfile;
+        return { id, createdAt: createdAt, email };
       } catch (error) {
         console.log('Error while creating a user ', error);
         this.handleError(error);
