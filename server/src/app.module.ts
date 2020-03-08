@@ -9,7 +9,6 @@ import { DirectionModule } from './direction/direction.module';
 import { RecipeMetadataModule } from './recipe-metadata/recipe-metadata.module';
 import { ProfileModule } from './profile/profile.module';
 import { PhotoModule } from './photo/photo.module';
-import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { multerOption } from './core';
 
@@ -23,7 +22,6 @@ import { multerOption } from './core';
     RecipeMetadataModule,
     ProfileModule,
     PhotoModule,
-    UploadModule,
     MulterModule.register(multerOption)
   ],
   controllers: [ AppController ],
