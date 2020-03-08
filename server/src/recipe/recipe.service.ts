@@ -6,13 +6,17 @@ import {
   NotImplementedException,
   Logger,
   ForbiddenException,
-  UnauthorizedException
+  UnauthorizedException,
+  BadRequestException
 } from '@nestjs/common';
 import { Recipe } from './recipe.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Connection } from 'typeorm';
+import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { RecipeDto } from './recipe.dto';
 import { User } from '../user/user.entity';
+import { Ingredient } from 'src/ingredient/ingredient.entity';
+import { IngredientDto } from 'src/ingredient/ingredient.dto';
+import { Direction } from 'src/direction/direction.entity';
 
 @Injectable()
 export class RecipeService {
@@ -30,8 +34,11 @@ export class RecipeService {
   }
   constructor(
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
-    @InjectRepository(User) private userRepository: Repository<User>
-  ) {}
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Ingredient) private ingredientRepository: Repository<Ingredient>,
+    @InjectRepository(Direction) private directionRepository: Repository<Direction>,
+    @InjectConnection() private connection: Connection
+  ) { }
 
   /**
    * Creates and save a new Recipe Entity into the database.
@@ -63,17 +70,68 @@ export class RecipeService {
    */
   async findAll() {
     const recipes = await this.recipeRepository.find({
-      relations: [ 'photos', 'ingredients', 'directions', 'metadata', 'owner', 'owner.profile' ]
+      relations: ['photos', 'ingredients', 'directions', 'metadata', 'owner', 'owner.profile']
     });
 
     return recipes;
   }
 
-  async update(id: string, body: any) {
-    throw new NotImplementedException();
+  /**
+   * 
+   * @param id 
+   * @param payload 
+   */
+  async update(id: string, payload: any) {
+    const { files, ...rest } = payload;
+    return this.connection.transaction(async (manager) => {
+      try {
+        const recipe = await this.recipeRepository.findOne({
+          where: { id },
+          relations: ['ingredients']
+        });
+
+        if (!recipe) {
+          throw new NotFoundException();
+        }
+
+        // Manage Ingredients
+        const rawIngredients = payload.ingredients || [];
+        const ingredientList: IngredientDto[] = rawIngredients.map((ingredient) => ({
+          ...ingredient, recipe
+        }));
+
+        const ingredients = this.ingredientRepository.create(ingredientList);
+        this.connection.manager.createQueryBuilder()
+          .insert()
+          .into(Ingredient)
+          .values(ingredients)
+          .orUpdate({ conflict_target: 'id', overwrite: ['name'] })
+          .execute();
+
+        // Manage Directions
+        const rawDirections = payload.directions || [];
+        const directionList: IngredientDto[] = rawDirections.map((direction) => ({
+          ...direction, recipe
+        }));
+
+        const directions = this.directionRepository.create(directionList);
+        this.connection.manager.createQueryBuilder()
+          .insert()
+          .into(Direction)
+          .values(directions)
+          .orUpdate({ conflict_target: 'id', overwrite: ['text'] })
+          .execute();
+
+        return { updated: "azerty" };
+      } catch (error) {
+        console.log('Error while updating recipe ', error);
+        throw new BadRequestException();
+      }
+    });
   }
 
   async delete(id: string) {
     throw new NotImplementedException();
   }
 }
+

@@ -3,15 +3,16 @@ import {
   Get,
   Post,
   Body,
+  Put,
   Param,
   UseInterceptors,
   UploadedFile,
-  UploadedFiles,
   UseGuards,
-  Request
+  Request,
+  UploadedFiles
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { RecipeService } from './recipe.service';
 import { RecipeMetadataService } from '../recipe-metadata/recipe-metadata.service';
 import { RecipeDto } from './recipe.dto';
@@ -49,5 +50,26 @@ export class RecipeController {
   @Get()
   async getRecipes() {
     return await this.recipeService.findAll();
+  }
+
+  @Put(':id')
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        {
+          name: 'image',
+          maxCount: 1
+        },
+        {
+          name: 'photos',
+          maxCount: 4
+        }
+      ]
+    )
+  )
+  async updateRecipes(@Request() request: any, @UploadedFiles() files) {
+    const { params: { id }, body } = request;
+    const payload = { ...body, files };
+    return await this.recipeService.update(id, payload);
   }
 }
