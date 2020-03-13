@@ -53,14 +53,13 @@ import isEmpty from "lodash/isEmpty";
 
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
-import { mapState } from "vuex";
-import { HttpStatus } from "../../enums";
-import { Actions } from "../../store/actions";
-import { Result } from "../../data/Result";
+import { HttpStatus } from "@/enums";
+import { Actions } from "@/store/actions";
+import { Result } from "@/data/Result";
 import {
   NotificationOptions,
   NotificationType
-} from "../../components/Notification";
+} from "@/components/Notification";
 
 @Component
 export default class Login extends Vue {

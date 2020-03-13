@@ -48,10 +48,10 @@
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import { Actions } from "../../store/actions";
-import { RecipeUiModel } from "../../data/recipe/recipe.model";
-import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
-import NavigationBar from "../../components/NavigationBar/NavigationBar.vue";
+import { Actions } from "@/store/actions";
+import { RecipeUiModel } from "@/data/recipe/recipe.model";
+import CreateRecipeTemplate from "@/components/CreateRecipeTemplate.vue";
+import NavigationBar from "@/components/NavigationBar/NavigationBar.vue";
 
 @Component({ components: { CreateRecipeTemplate, NavigationBar } })
 export default class Home extends Vue {
