@@ -1,25 +1,32 @@
 import {
   Injectable,
   NotFoundException,
-  HttpStatus,
   HttpException,
   NotImplementedException,
   Logger,
-  ForbiddenException,
-  UnauthorizedException,
   BadRequestException
 } from '@nestjs/common';
+import { IngredientHelper, DirectionsHelper, PhotoHelper } from '../util';
 import { Recipe } from './recipe.entity';
 import { Repository, Connection } from 'typeorm';
 import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { RecipeDto } from './recipe.dto';
-import { User } from '../user/user.entity';
-import { Ingredient } from 'src/ingredient/ingredient.entity';
-import { IngredientDto } from 'src/ingredient/ingredient.dto';
-import { Direction } from 'src/direction/direction.entity';
+import { Ingredient } from '../ingredient/ingredient.entity';
+import { IngredientDto } from '../ingredient/ingredient.dto';
+import { Direction } from '../direction/direction.entity';
+import { FilesDto } from '../photo/photo.dto';
+import { UserService } from '../user/user.service';
+import { CurrentUserInfo } from '../auth/user.decorator';
+import { Photo } from '../photo/photo.entity';
+
+export interface CreatedResource {
+  id: string;
+  createdAt: Date;
+}
 
 @Injectable()
 export class RecipeService {
+
   async findById(userId: string) {
     try {
       const recipe = this.recipeRepository.findOne(userId);
@@ -33,27 +40,63 @@ export class RecipeService {
     }
   }
   constructor(
+    private userService: UserService,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
-    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Ingredient) private ingredientRepository: Repository<Ingredient>,
+    @InjectRepository(Photo) private photoRepository: Repository<Photo>,
     @InjectRepository(Direction) private directionRepository: Repository<Direction>,
-    @InjectConnection() private connection: Connection
+    @InjectConnection() private connection: Connection,
   ) { }
 
   /**
-   * Creates and save a new Recipe Entity into the database.
-   * @param { String } id a user Id;
-   * @param  recipeDto a RecipeDto object;
+   * Creates a new Recipe resource.
    */
-  async create(userId: string, recipeDto: RecipeDto) {
-    const user = await this.userRepository.findOne({ id: userId });
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+  async create(user: CurrentUserInfo, recipeDto: RecipeDto, files: FilesDto): Promise<CreatedResource> {
+    return this.connection.transaction(async (manager) => {
+      try {
+        // Get the user 
+        const owner = await this.userService.getCurrentUser(user.id, user.email);
 
-    const recipe = this.recipeRepository.create({ ...recipeDto, owner: user });
-    const { id, createdAt } = await this.recipeRepository.save(recipe);
-    return { id, createdAt };
+        // Manage Base Recipe
+        const { ingredients, directions, ...rest } = recipeDto;
+        const imagePath = PhotoHelper.getImagePath(files.image);
+        const newRecipeEntity = this.recipeRepository.create({ ...rest, imagePath, owner });
+        const recipe = await manager.save(newRecipeEntity);
+
+        // Manage Photos
+        const rawPhotos = PhotoHelper.buildList(files.photos, recipe);
+        const photosEntities = this.photoRepository.create(rawPhotos);
+        await manager.save(photosEntities);
+
+        // Manage Ingredients
+        const rawIngredients = IngredientHelper.buildList(ingredients, recipe);
+        const ingredientEntities = this.ingredientRepository.create(rawIngredients);
+        await manager.save(ingredientEntities);
+
+        // Manage Directions
+        const rawDirections = DirectionsHelper.buildList(directions, recipe);
+        const directionsEntities = this.directionRepository.create(rawDirections);
+        await manager.save(directionsEntities);
+
+        return { id: recipe.id, createdAt: recipe.createdAt };
+
+      } catch (error) {
+        console.log('Error while creating recipe ', error);
+        throw HttpException.createBody(error);
+      }
+    })
+
+
+
+
+    // const user = await this.userRepository.findOne({ id: userId });
+    // if (!user) {
+    //   throw new UnauthorizedException();
+    // }
+
+    // const recipe = this.recipeRepository.create({ ...recipeDto, owner: user });
+    // const { id, createdAt } = await this.recipeRepository.save(recipe);
+    // return { id, createdAt };
   }
 
   /**
@@ -70,7 +113,7 @@ export class RecipeService {
    */
   async findAll() {
     const recipes = await this.recipeRepository.find({
-      relations: ['photos', 'ingredients', 'directions', 'metadata', 'owner', 'owner.profile']
+      relations: ['photos', 'ingredients', 'directions', 'owner', 'owner.profile']
     });
 
     return recipes;
