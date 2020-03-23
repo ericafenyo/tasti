@@ -1,12 +1,8 @@
 <template>
-  <div class="form-module">
-    <div class="container">
       <fieldset>
         <legend class="header-2">{{title}}</legend>
         <slot></slot>
       </fieldset>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
