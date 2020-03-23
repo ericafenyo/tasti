@@ -52,7 +52,7 @@ export default class Button extends Vue {
 @import "@/scss/_resources.scss";
 
 .button {
-  font-family: $font;
+  font-family: $roboto;
   padding: 0 1em;
   min-width: 80px;
   border-radius: 4px;
@@ -86,14 +86,12 @@ export default class Button extends Vue {
     background-color: $color-accent;
     border-color: $color-accent;
     color: $white;
-
-   
   }
 
-   &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   &--secondary {
     background-color: $color-surface;

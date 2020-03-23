@@ -1,15 +1,16 @@
 <template>
-  <div class="fluid">
+  <vue-aspect-ratio :ar="aspectRatio">
     <Overlay :isOpen="showImageCropper">
       <ImageCropper
         :imageUrl="imagePickedFromFileSystemUrl"
+        :aspectRatio="aspectRatio"
         class="cropper"
         @crop-confirmed="handleCropConfirmation"
       />
     </Overlay>
 
     <div
-      class="image-frame fluid"
+      class="image-frame"
       :class="{'disabled': ('disabled-frame'), 'image-frame-border-solid' : selectedImageUrl, 'image-frame-border-dashed' : !selectedImageUrl}"
       @click="handleEmptyFrameClick"
     >
@@ -32,7 +33,7 @@
       accept="image/*"
       @change="handleFileSelection($event.target.files[0])"
     />
-  </div>
+  </vue-aspect-ratio>
 </template>
 
 <script lang="ts">
@@ -62,6 +63,9 @@ export default class PhotoPicker extends Vue {
     default: false
   })
   readonly disabled!: boolean;
+
+  @Prop({ type: String, default: "1:1" })
+  aspectRatio: string;
 
   croppie;
 
@@ -110,11 +114,7 @@ export default class PhotoPicker extends Vue {
   }
 
   handleImageChange() {
-    this.$emit("image-changed", {
-      url: this.selectedImageUrl,
-      blob: this.selectedImageBlob,
-      filename: this.selectedFile.name
-    });
+    this.$emit("input", this.selectedImageBlob);
   }
 }
 </script>
@@ -138,6 +138,8 @@ export default class PhotoPicker extends Vue {
   text-align: center;
   color: #4a5568;
   border-radius: 4px;
+  width: 100%;
+  height: 100%;
 
   &-border-dashed {
     border: 1px dashed #d8d8d8;

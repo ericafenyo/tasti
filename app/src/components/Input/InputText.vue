@@ -1,39 +1,20 @@
 <template>
   <input
-    type="text"
-    :id="name"
-    ref="inputRef"
+    :id="`input-${name}`"
     :placeholder="placeholder"
     :name="name"
-    v-model.trim="model"
-    :class="['input-element', 'border-rounded', ...className]"
+    :value="value"
+    @input="$emit('on-input',$event.target.value)"
+    type="text"
   />
 </template>
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
+import BaseInput from "./BaseInput.vue";
 
 @Component
-export default class InputText extends Vue {
-  @Prop(String) readonly value: string;
-  @Prop(String) readonly name: string;
-  @Prop(Boolean) readonly disabled: boolean;
-  @Prop(String) readonly helperText: string;
-  @Prop(String) readonly placeholder: string;
-  @Prop() readonly className: any;
-
-  model: string = "";
-
-  @Watch("model")
-  onModelChanged(value) {
-    this.$emit("on-input", { value, name: this.name });
-  }
-
-  @Watch("value", { immediate: true })
-  onValueChanged(value) {
-    this.model = value;
-  }
-}
+export default class InputText extends BaseInput {}
 </script>
 
 <style lang="scss" scoped>

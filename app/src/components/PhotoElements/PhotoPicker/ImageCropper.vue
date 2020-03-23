@@ -1,56 +1,66 @@
 <template>
   <div class="cropper">
     <div ref="image" />
-    <Button text="Crop" @on-click="handleCropConfirm" />
+    <Button text="Crop" :loading="isCropping" @on-click="handleCropConfirm" />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import Button from "../../Button/Button.vue";
 import Croppie from "croppie";
 
 require("croppie/croppie.css");
 
-@Component({ components: { Button } })
+@Component
 export default class ImageCropper extends Vue {
-  @Prop({
-    type: String,
-    required: false,
-    default: null
-  })
-  readonly imageUrl!: string;
+  isCropping = false;
+  cropper = null;
 
-  croppie;
+  @Prop({ type: String, default: "" })
+  imageUrl: string;
+
+  @Prop({ type: String, default: "1:1" })
+  aspectRatio: string;
+
+  get computeViewPortSize() {
+    if (this.aspectRatio == "1:1") {
+      return { width: 300, height: 200 };
+    }
+
+    const [width, height] = this.aspectRatio.split(":");
+    return { width: 100 * Number(width), height: 100 * Number(height) };
+  }
 
   mounted() {
-    this.croppie = new Croppie(this.$refs.image, {
-      viewport: { width: 160, height: 120 },
+    this.cropper = new Croppie(this.$refs.image, {
+      viewport: this.computeViewPortSize,
       boundary: { width: 480, height: 480 },
       showZoomer: true,
       enableOrientation: false
     });
-    if (this.imageUrl) {
-      this.croppie.bind({
-        url: this.imageUrl
-      });
-    }
+    this.bindToChanges();
   }
 
   async handleCropConfirm() {
+    this.isCropping = true;
     const urlCreator = window.URL || (window as any).webkitURL;
-    const blob = await this.croppie.result({ type: "blob", size: "original" });
+    const blob = await this.cropper.result({ type: "blob", size: "original" });
     const url = urlCreator.createObjectURL(blob);
-    console.log(this.imageUrl);
-
+    this.isCropping = false;
     return this.$emit("crop-confirmed", { url, blob });
   }
 
   @Watch("imageUrl")
   handlePhotoUrlChange() {
-    this.croppie.bind({
-      url: this.imageUrl
-    });
+    this.bindToChanges();
+  }
+
+  private bindToChanges() {
+    if (this.imageUrl) {
+      this.cropper.bind({
+        url: this.imageUrl
+      });
+    }
   }
 }
 </script>
