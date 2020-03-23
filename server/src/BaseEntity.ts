@@ -1,5 +1,4 @@
-import { PrimaryColumn, PrimaryGeneratedColumn,  CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
-import bson = require('bson');
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')

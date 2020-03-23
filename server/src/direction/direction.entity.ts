@@ -4,10 +4,9 @@ import { BaseEntity } from '../BaseEntity';
 
 @Entity()
 export class Direction extends BaseEntity {
-
-  @Column({ nullable: false, unique: true })
+  @Column()
   text: string;
 
-  @ManyToOne((type) => Recipe, (recipe) => recipe.directions)
+  @ManyToOne(() => Recipe, (recipe) => recipe.directions)
   recipe: Recipe;
 }

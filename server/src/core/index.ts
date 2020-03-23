@@ -13,9 +13,7 @@ export const multerOption: MulterOptions = {
     s3,
     bucket: 'ns-tasti',
     key: (_, file, callback) => {
-      console.log(file);
-      //const extension = file.mimetype.split('/')[1];
-      const extension = 'jpg'
+      const extension = 'png'
       callback(null, `${generateUUID().split('-').join('')}.${extension}`);
     }
   })
