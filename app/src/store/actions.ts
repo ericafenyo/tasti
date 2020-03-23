@@ -1,12 +1,13 @@
 export const Actions = {
+  CREATE_USER: 'user/create',
+  AUTHENTICATE: 'user/authenticate',
+  GET_FOLLOWERS: 'user/getFollowers',
+  RESET_PASSWORD: 'user/resetPassword',
+  REQUEST_PASSWORD_RESET: 'user/requestPasswordReset',
+
   GET_PROFILE: 'getProfile',
   GET_RECIPES: 'getRecipes',
   GET_FOLLOWING: 'getFollowing',
-  GET_FOLLOWERS: 'getFollowers',
   CREATE_RECIPE: 'createRecipe',
-  CREATE_USER: 'createUser',
-  AUTHENTICATE: 'authenticate',
-  REQUEST_PASSWORD_RESET: 'requestPasswordReset',
-  RESET_PASSWORD: 'resetPassword',
   GET_RECIPE: 'getRecipe'
 };

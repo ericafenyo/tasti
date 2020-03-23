@@ -21,16 +21,17 @@
  * SOFTWARE.
  */
 
-export interface RecipeRequestModel {
-  name: string;
-  image?: File;
+export interface RecipeRequest {
   photos?: File[];
   ingredients?: string[];
   directions?: string[];
+  thumbnail?: any,
   info?: {
-    serving: string;
-    tags: string;
-    facts: string;
+    image?: File;
+    name?: string,
+    serving?: string;
+    tags?: string;
+    facts?: string;
   };
 }
 

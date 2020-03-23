@@ -2,10 +2,12 @@ import Vue from 'vue';
 import VuxRx from 'vue-rx';
 import PortalVue from 'portal-vue';
 import Vuelidate from 'vuelidate';
+import VueAspectRatio from "vue-aspect-ratio";
 
 Vue.use(VuxRx);
 Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
+Vue.component("vue-aspect-ratio", VueAspectRatio);
 
 import router from '@/router';
 
