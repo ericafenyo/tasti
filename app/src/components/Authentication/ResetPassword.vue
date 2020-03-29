@@ -11,15 +11,14 @@
       />
       <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
         <div class="form-item">
-          <Input :label="$t('label.password')" type="password" name="password" @on-input="onInput" />
+          <Input :label="$t('label.password')" type="password" name="password" v-model="password" />
         </div>
         <div class="form-item">
           <Input
             :label="$t('label.confirm-password')"
-            :value="confirmPassword"
+            v-model="confirmPassword"
             type="password"
             name="confirmPassword"
-            @on-input="onInput"
           />
         </div>
         <Button

@@ -17,8 +17,7 @@
             name="email"
             placeholder="name@example.com"
             :label="$t('label.email')"
-            :value="email"
-            @on-input="onInput"
+            v-model="email"
           />
         </div>
         <Button
@@ -55,10 +54,6 @@ export default class RequestPasswordReset extends Vue {
   validations = {
     email: { required, email }
   };
-
-  onInput({ value, name }) {
-    this[name] = value;
-  }
 
   resetForm() {
     this.email = "";

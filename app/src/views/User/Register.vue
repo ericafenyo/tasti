@@ -18,9 +18,8 @@
               required="true"
               placeholder="John"
               :label="$t('label.first-name')"
-              :value="formData.firstName"
+              v-model="formData.firstName"
               :className="[{'input-error': $v.formData.firstName.$error}]"
-              @on-input="onInput"
             />
           </div>
 
@@ -31,9 +30,8 @@
               required="true"
               placeholder="Doe"
               :label="$t('label.last-name')"
-              :value="formData.lastName"
+              v-model="formData.lastName"
               :className="[{'input-error': $v.formData.lastName.$error}]"
-              @on-input="onInput"
             />
           </div>
         </div>
@@ -43,10 +41,9 @@
             type="text"
             name="email"
             :label="$t('label.email')"
-            :value="formData.email"
+            v-model="formData.email"
             :placeholder="$t('email-placeholder')"
             :className="[{'input-error': $v.formData.email.$error}]"
-            @on-input="onInput"
           />
         </div>
         <div class="form-item">
@@ -54,10 +51,9 @@
             type="password"
             name="password"
             :label="$t('label.password')"
-            :value="formData.password"
+            v-model="formData.password"
             :placeholder="$t('password-placeholder')"
             :className="[{'input-error': $v.formData.password.$error}]"
-            @on-input="onInput"
           />
         </div>
 
@@ -123,10 +119,6 @@ export default class Register extends Vue {
       password: { required, minLength: minLength(8) }
     }
   };
-
-  onInput({ value, name }) {
-    this.formData[camelCase(name)] = value;
-  }
 
   showAlert(options: NotificationOptions = { visible: false }) {
     this.alertOptions = options;
