@@ -17,7 +17,7 @@ import './scss/normalize.css';
 import './scss/bootstrap-grid.css';
 
 import App from './App.vue';
-import { store } from './store';
+import store from './store';
 
 // Components
 import Icon from './components/Icons/Icon.vue';

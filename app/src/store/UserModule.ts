@@ -6,7 +6,7 @@ export default {
         accessToken: ''
     },
     mutations: {
-        setToken({ state }: any, token: string) {
+        setToken(state: any, token: string) {
             state.accessToken = token;
         }
     },
@@ -38,4 +38,10 @@ export default {
         }
 
     },
+
+    getters: {
+        getAccessToken(state: any) {
+            return state.accessToken;
+        }
+    }
 }
