@@ -4,6 +4,7 @@ import { ObjectLiteral } from '@/types';
 import { AxiosPromise } from 'axios';
 import { RecipeUiModel } from './recipe.model';
 import { Result } from '../Result';
+import { HttpStatus } from '@/enums';
 
 export class RecipeService implements Service {
   /**
@@ -17,13 +18,37 @@ export class RecipeService implements Service {
     return buildRequest(() => authHttp.get(`/recipes/${id}`));
   }
 
-  create(requestBody: ObjectLiteral): Promise<Result> {
+  private async upload(files: any) {
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     };
-    return buildRequest(() => authHttp.post('/recipes', requestBody, config));
+
+    return buildRequest(() => authHttp.post('/upload', files, config))
+  }
+
+  async create(payload: any): Promise<Result> {
+    const { data, status } = await this.upload(payload.files);
+    let requestModel = { ...payload.inputData }
+
+    if (status === HttpStatus.CREATED) {
+      console.log("image created");
+      
+      const { image, photos } = data;
+      requestModel = { ...requestModel, image: image[0], photos }
+    } else {
+      requestModel = { ...requestModel, image: "", photos: [] }
+    }
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    console.log("hit server " + requestModel);
+    return buildRequest(() => authHttp.post('/recipes', requestModel, config));
   }
 
   find(): AxiosPromise<RecipeUiModel> {

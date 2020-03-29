@@ -6,7 +6,6 @@ import {
   Logger,
   BadRequestException
 } from '@nestjs/common';
-import { IngredientHelper, DirectionsHelper, PhotoHelper } from '../util';
 import { Recipe } from './recipe.entity';
 import { Repository, Connection } from 'typeorm';
 import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
@@ -14,7 +13,6 @@ import { RecipeDto } from './recipe.dto';
 import { Ingredient } from '../ingredient/ingredient.entity';
 import { IngredientDto } from '../ingredient/ingredient.dto';
 import { Direction } from '../direction/direction.entity';
-import { FilesDto } from '../photo/photo.dto';
 import { UserService } from '../user/user.service';
 import { CurrentUserInfo } from '../auth/user.decorator';
 import { Photo } from '../photo/photo.entity';
@@ -51,30 +49,30 @@ export class RecipeService {
   /**
    * Creates a new Recipe resource.
    */
-  async create(user: CurrentUserInfo, recipeDto: RecipeDto, files: FilesDto): Promise<CreatedResource> {
+  async create(user: CurrentUserInfo, recipeDto: RecipeDto): Promise<any> {
     return this.connection.transaction(async (manager) => {
       try {
         // Get the user 
         const owner = await this.userService.getCurrentUser(user.id, user.email);
 
         // Manage Base Recipe
-        const { ingredients, directions, ...rest } = recipeDto;
-        const imagePath = PhotoHelper.getImagePath(files.image);
-        const newRecipeEntity = this.recipeRepository.create({ ...rest, imagePath, owner });
+        const { ingredients, directions, photos, ...rest } = recipeDto;
+        const newRecipeEntity = this.recipeRepository.create({ ...rest, owner });
         const recipe = await manager.save(newRecipeEntity);
+        console.log(recipe);
 
         // Manage Photos
-        const rawPhotos = PhotoHelper.buildList(files.photos, recipe);
+        const rawPhotos = photos.map(photo => ({ path: photo, recipe }));
         const photosEntities = this.photoRepository.create(rawPhotos);
         await manager.save(photosEntities);
 
         // Manage Ingredients
-        const rawIngredients = IngredientHelper.buildList(ingredients, recipe);
+        const rawIngredients = ingredients.map(ingredient => ({ name: ingredient, recipe }));
         const ingredientEntities = this.ingredientRepository.create(rawIngredients);
         await manager.save(ingredientEntities);
 
         // Manage Directions
-        const rawDirections = DirectionsHelper.buildList(directions, recipe);
+        const rawDirections = directions.map(direction => ({ text: direction, recipe }));
         const directionsEntities = this.directionRepository.create(rawDirections);
         await manager.save(directionsEntities);
 
