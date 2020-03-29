@@ -1,8 +1,11 @@
 <template>
-  <div v-show="isOpen" class="overlay" :isOpen="isOpen">
+  <div
+    v-show="isOpen"
+    :class="['overlay', {'overlay--translucent': (translucent)}]"
+    :isOpen="isOpen"
+  >
     <div
-      class="overlay-content h-full"
-      :class="{'justify-center' : (centerHorizontal), 'items-center': (centerVertical)}"
+      :class="['overlay-content', {'justify-center' : (centerHorizontal), 'items-center': (centerVertical)}]"
     >
       <slot></slot>
     </div>
@@ -19,8 +22,8 @@ export default class Overlay extends Vue {
   /**
    * Determines whether or not the overlay is displayed.
    */
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly isOpen!: boolean;
+  @Prop({ type: Boolean, default: false })
+  isOpen: boolean;
 
   /**
    * Determines the theme of the overlay.
@@ -47,13 +50,13 @@ export default class Overlay extends Vue {
     }
   }
 
-  @Watch("isOpen")
+  @Watch("isOpen", { immediate: true })
   isOpenChanged(opened: boolean) {
-    if (opened) {
-      this.hideBodyScrollBar(true);
-    } else {
-      this.hideBodyScrollBar(false);
-    }
+    // if (opened) {
+    this.hideBodyScrollBar(true);
+    // } else {
+    // this.hideBodyScrollBar(false);
+    // }
   }
 }
 </script>
@@ -62,15 +65,19 @@ export default class Overlay extends Vue {
 @import "@/scss/_resources.scss";
 
 .overlay {
-  background-color: rgba($color: $white, $alpha: 0.95);
   position: fixed;
   right: 0;
   top: 0;
   bottom: 0;
   left: 0;
-  // opacity: 0;
-  overflow: hidden;
+  overflow-y: scroll;
   z-index: 2;
+
+  background-color: $white;
+
+  &--translucent {
+    background-color: rgba($color: $white, $alpha: 0.95);
+  }
 
   &-content {
     display: flex;

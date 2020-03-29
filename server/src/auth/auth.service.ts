@@ -26,11 +26,20 @@ export class AuthService {
     // Retrieve the user using the email
     const user = await this.userService.getSimpleUser(email)
     console.log(user);
-    
+
     const verifiedToken: any = AuthManager.verifyResetToken(token, user.password);
     if (validator.isNotEmptyObject(verifiedToken)) {
       return this.userService.resetPassword(email, password);
     }
+  }
+
+  /**
+   * Return a registered {@link User}
+   * @param id the users id
+   * @param email the users email
+   */
+  async hasUser(id: string, email) {
+    return await this.userService.hasUser(id, email);
   }
 
   async validateUser(username: string, userPassword: string) {

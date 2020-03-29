@@ -10,13 +10,8 @@
       :placeholder="placeholder"
       :type="type"
       :name="name"
-      :className="className"
-      :required="required"
-      :hasAction="hasAction"
-      :actionRoute="actionRoute"
-      :actionText="actionText"
-      :value="value"
-      @on-input="(inputData) => $emit('on-input', inputData)"
+      :value="text"
+      @on-input="(args) => $emit('input', args)"
     />
     <span
       v-if="hasHint"
@@ -28,10 +23,9 @@
 <script lang="ts">
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 
+import BaseInput from "./BaseInput.vue";
 import InputText from "./InputText.vue";
 import InputPassword from "./InputPassword.vue";
-import BaseInput from "./BaseInput.vue";
-import { watch } from "fs";
 
 @Component({
   components: {
@@ -40,6 +34,13 @@ import { watch } from "fs";
   }
 })
 export default class Input extends BaseInput {
+  @Prop(String) label: string;
+  @Prop(Boolean) size: boolean;
+  @Prop(String) icon: string;
+  @Prop(String) state: string;
+  @Prop({ type: String, default: "" }) helperText: string;
+  @Prop(Boolean) hasHint: boolean;
+  @Prop(String) type: string;
   @Prop({ type: Boolean, default: false })
   hasAction: boolean;
 
@@ -48,6 +49,7 @@ export default class Input extends BaseInput {
 
   @Prop({ type: String, default: "" })
   actionRoute: string;
+  @Prop({ type: String, default: "" }) text: string;
 
   capitalize(value: string) {
     console.log();
@@ -63,14 +65,6 @@ export default class Input extends BaseInput {
     const { capitalize, type } = this;
     return type ? `Input${capitalize(type)}` : "InputText";
   }
-
-  get hasError(): boolean {
-    if (this.className) {
-      const [inputError] = this.className;
-      return inputError["input-error"];
-    }
-    return false;
-  }
 }
 </script>
 
@@ -78,32 +72,8 @@ export default class Input extends BaseInput {
 @import "@/scss/_resources.scss";
 
 @mixin InputPlaceholderStyle {
-  // ::-webkit-input-placeholder {
-  //   /* WebKit, Blink, Edge */
-  //   color: #d0c9d6;
-  // }
-  // :-moz-placeholder {
-  //   /* Mozilla Firefox 4 to 18 */
-  //   color: #d0c9d6;
-  //   opacity: 1;
-  // }
-  // ::-moz-placeholder {
-  //   /* Mozilla Firefox 19+ */
-  //   color: #d0c9d6;
-  //   opacity: 1;
-  // }
-  // :-ms-input-placeholder {
-  //   /* Internet Explorer 10-11 */
-  //   color: #d0c9d6;
-  // }
-  // ::-ms-input-placeholder {
-  //   /* Microsoft Edge */
-  //   color: #d0c9d6;
-  // }
-
   ::placeholder {
-    /* Most modern browsers support this now. */
-    color: rgba($color: #000000, $alpha: .5);
+    color: rgba($color: #000000, $alpha: 0.5);
   }
 }
 
@@ -119,8 +89,8 @@ export default class Input extends BaseInput {
     font-weight: 500;
   }
 
-  /deep/ &-element {
-    font-family: $font;
+  /deep/ input {
+    font-family: $roboto;
     height: 48px;
     // background-color: rgba($color-surface, 0.6);
     background-color: rgba($white, 0.4);
@@ -138,7 +108,7 @@ export default class Input extends BaseInput {
     &:focus {
       // box-shadow: inset 0 0 0px 2px $color-accent;
       background-color: $white;
-      border-color: rgba($color-primary-text,  .2);
+      border-color: rgba($color-primary-text, 0.2);
     }
 
     &.input-error {

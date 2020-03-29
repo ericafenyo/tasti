@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap');
 
-$font: 'Roboto',
-sans-serif;
+$roboto: 'Roboto', sans-serif;
+$poppins: 'Poppins', sans-serif;
 
 /** == alpha states == **/
 $alpha-active: 0.87;
@@ -40,8 +40,10 @@ $color-border: #ecebed;
 
 /** == theme colors == **/
 // $color-surface: #f1f3f8;
-$color-surface: #fbfbfb;
-$color-accent: #6979f8;
+$color-surface: #f3f3f3;
+// $color-surface: #fbfbfb;
+// $color-accent: #6979f8;
+$color-accent: #ff7272;
 
 /** == break points == **/
 $phablet-width: 480px;

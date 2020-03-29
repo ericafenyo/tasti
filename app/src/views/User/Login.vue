@@ -17,8 +17,7 @@
             :placeholder="$t('email-placeholder')"
             :label="$t('label.email')"
             :className="[{'input-error': $v.email.$error}]"
-            :value="email"
-            @on-input="onInput"
+            v-model="email"
           />
         </div>
         <div class="form-item">
@@ -30,9 +29,8 @@
             :hasAction="true"
             :actionText="$t('forgot-password')"
             :actionRoute="'/auth/password/request-reset'"
-            :value="password"
             :className="[{'input-error': $v.password.$error}]"
-            @on-input="onInput"
+            v-model="password"
           />
         </div>
         <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
@@ -53,14 +51,13 @@ import isEmpty from "lodash/isEmpty";
 
 import Input from "@/components/Input/Input.vue";
 import Button from "@/components/Button/Button.vue";
-import { mapState } from "vuex";
-import { HttpStatus } from "../../enums";
-import { Actions } from "../../store/actions";
-import { Result } from "../../data/Result";
+import { HttpStatus } from "@/enums";
+import { Actions } from "@/store/actions";
+import { Result } from "@/data/Result";
 import {
   NotificationOptions,
   NotificationType
-} from "../../components/Notification";
+} from "@/components/Notification";
 
 @Component
 export default class Login extends Vue {

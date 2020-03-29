@@ -1,13 +1,11 @@
 <template>
   <span class="input-password">
     <input
-      :class="['input-element', ...className]"
       :type="computeInputType"
-      required
-      :id="name"
       :placeholder="placeholder"
+      :id="name"
       :name="name"
-      v-model="model"
+      @input="$emit('on-input',$event.target.value)"
       ref="inputPassword"
     />
     <Icon
@@ -44,16 +42,6 @@ export default class InputText extends Vue {
 
   toggleVisibility(event) {
     this.isVisible = !this.isVisible;
-  }
-
-  @Watch("model")
-  onModelChanged(value) {
-    this.$emit("on-input", { value, name: this.name });
-  }
-
-  @Watch("value", { immediate: true })
-  onValueChanged(value) {
-    this.model = value;
   }
 }
 </script>

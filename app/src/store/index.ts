@@ -1,66 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-
-import { User, Recipe } from '@/data/Injector';
-import { RecipeRequestModel } from '@/data/recipe/recipe.model';
+import UserModule from './UserModule';
+import RecipeModule from './recipeModule';
 
 Vue.use(Vuex);
 
-const initialState = {
-  isModalOpen: false,
-  userId: ''
-};
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   plugins: [createPersistedState()],
-  state: initialState,
-
-  mutations: {
-    async setToken(state, payload: string) {
-      localStorage.setItem('access_token', payload);
-    },
-
-    async setUser(state, payload: string) {
-      state.userId = payload;
-    }
-  },
-
-  actions: {
-    createUser({ commit }, userInfo: object) {
-      return User.create(userInfo);
-    },
-
-    async authenticate({ commit }, { username, password }) {
-      const response = await User.authenticate(username, password);
-      commit('setToken', response.data.access_token);
-      commit('setUser', response.data.id);
-      return response;
-    },
-
-    createRecipe(_, recipeInfo: RecipeRequestModel) {
-      const response = Recipe.create(recipeInfo);
-      console.log(response);
-    },
-
-    getProfile() {
-      return User.profile();
-    },
-
-    getRecipes() {
-      return Recipe.find();
-    },
-
-    getFollowers({ state }) {
-      return User.followers(state.userId);
-    },
-
-    requestPasswordReset(_, request) {
-      return User.requestPasswordReset(request)
-    },
-
-    resetPassword(_, { request, token, email }) {
-      return User.resetPassword(request, email, token);
-    }
+  modules: {
+    user: UserModule,
+    recipe: RecipeModule
   }
 });

@@ -2,9 +2,9 @@ import { Entity, Column, OneToMany, OneToOne, RelationCount } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
 import { Exclude } from 'class-transformer';
-import { BaseFields } from '../BaseEntity';
+import { BaseEntity } from '../BaseEntity';
 @Entity()
-export class User extends BaseFields {
+export class User extends BaseEntity {
   @Column({ name: 'first_name' })
   firstName: string;
 

@@ -1,53 +1,24 @@
 <template>
-  <section class="create-recipe pt-24 pb-24">
-    <div class="form-frame">
-      <form @submit.prevent="onSubmit">
-        <div class="form-module">
-          <div class="container">
-            <fieldset>
-              <div class="flex">
-                <PhotoPicker
-                  @image-changed="(file) => {data.thumbnail = file}"
-                  class="flex-shrink-0"
-                  :style="{width: '100px', height: '100px'}"
-                />
-                <Input
-                  class="self-end ml-3 w-full"
-                  type="text"
-                  label="Recipe Name"
-                  name="name"
-                  :hasHint="false"
-                  @on-input="onInput"
-                />
-              </div>
-            </fieldset>
+  <section class="create-recipe">
+    <div class="container">
+      <form @submit.prevent>
+        <div class="create-recipe-content">
+          <Stepper>
+            <template #header>
+              <Step :currentStep="currentPage" :maxStep="4"></Step>
+            </template>
+            <template #content>
+              <InfoComposite v-model="data.info" v-show="currentPage == 0" />
+              <PhotosComposite v-model="data.photos" v-show="currentPage == 1" />
+              <IngredientComposite v-model="data.ingredients" v-show="currentPage == 2" />
+              <DirectionComposite v-model="data.directions" v-show="currentPage == 3" />
+            </template>
+          </Stepper>
+          <div class="create-recipe-actions">
+            <Button size="small" text="Previous" @on-click="onPrevious" />
+            <Button v-if="currentPage != 3" size="small" text="Continue" @on-click="onNext" />
+            <Button v-if="currentPage === 3" size="small" text="Save" @click.native="onSubmit" />
           </div>
-        </div>
-
-        <div class="form-module">
-          <div class="container">
-            <fieldset>
-              <legend class="header-2">Gallery</legend>
-              <div class="photo-picker-list -mx-2">
-                <div class="photo-picker-item p-2" v-for="(item, index) in 4" :key="index">
-                  <div class="ar-1-1">
-                    <PhotoPicker
-                      @image-changed="(file) => {data.gallery[index] = file}"
-                      class="ar-content"
-                    />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <IngredientFormModule @on-input="onInput" />
-        <DirectionFormModule @on-input="onInput" />
-        <RecipeInfoFormModule @on-input="onInput" />
-
-        <div class="flex">
-          <Button text="Save" />
         </div>
       </form>
     </div>
@@ -56,57 +27,75 @@
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import { RecipeRequestModel } from "../../data/recipe/recipe.model";
+import { RecipeRequest } from "../../data/recipe/recipe.model";
 import autosize from "autosize";
 
-import IngredientFormModule from "./IngredientFormModule.vue";
-import DirectionFormModule from "./DirectionFormModule.vue";
-import RecipeInfoFormModule from "./RecipeInfoFormModule.vue";
-
-import PhotoPicker from "@/components/PhotoElements/PhotoPicker/PhotoPicker.vue";
-import Headline from "@/components/Headline/Headline.vue";
-import Checkbox from "@/components/Checkbox.vue";
-import Button from "@/components/Button/Button.vue";
-import Input from "@/components/Input/Input.vue";
-import Icon from "@/components/Icons/Icon.vue";
+import IngredientComposite from "./IngredientComposite.vue";
+import DirectionComposite from "./DirectionComposite.vue";
+import InfoComposite from "./InfoComposite.vue";
+import PhotosComposite from "./PhotosComposite.vue";
+import Stepper from "@/components/Stepper/Stepper.vue";
+import StepperItem from "@/components/Stepper/StepperItem.vue";
+import Step from "@/components/Stepper/Step.vue";
+import { Action } from "rxjs/internal/scheduler/Action";
+import { Actions } from "../../store/actions";
 
 type ItemKey = "ingredient" | "direction";
 
 @Component({
   components: {
-    Headline,
-    PhotoPicker,
-    Input,
-    Checkbox,
-    Button,
-    Icon,
-    IngredientFormModule,
-    DirectionFormModule,
-    RecipeInfoFormModule
+    InfoComposite,
+    PhotosComposite,
+    IngredientComposite,
+    DirectionComposite,
+    Stepper,
+    Step,
+    StepperItem
   }
 })
 export default class CreateRecipe extends Vue {
-  data: RecipeRequestModel = {
-    name: "",
-    thumbnail: null,
-    gallery: [],
+  currentPage = 0;
+
+  data: RecipeRequest = {
+    info: {},
+    photos: [],
     ingredients: [],
-    directions: [],
-    info: {
-      serving: "",
-      tags: "",
-      facts: ""
-    }
+    directions: []
   };
 
-  onInput({ value, name }) {
-    this.data[name] = value;
+  onPrevious() {
+    const { currentPage } = this;
+    if (currentPage > 0) {
+      this.currentPage = currentPage - 1;
+    }
+  }
+  onNext() {
+    const { currentPage } = this;
+    if (currentPage < 3) {
+      this.currentPage = currentPage + 1;
+    }
   }
 
-  onSubmit() {}
+  onSubmit() {
+    const {
+      info: { image, ...infoWithoutImage },
+      photos,
+      ingredients,
+      directions
+    } = this.data;
 
-  mounted() {
-    autosize(document.querySelectorAll("textarea"));
+    const formData = new FormData();
+    formData.append("image", image);
+    photos.forEach(value => {
+      formData.append("photos", value);
+    });
+
+    const inputData = {
+      ...infoWithoutImage,
+      ingredients,
+      directions
+    };
+    this.$store.dispatch(Actions.CREATE_RECIPE, { files: formData, inputData });
   }
 }
 </script>
@@ -115,13 +104,23 @@ export default class CreateRecipe extends Vue {
 @import "@/scss/_resources.scss";
 
 .create-recipe {
-  width: 100%;
-  background-color: $color-surface;
+  max-width: 760px;
+  margin: 0 auto;
+
+  &-content {
+    padding: 48px 0;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
 }
 
 .editable-item {
   position: relative;
-  padding: 8px 4px;
+  padding: 16px 4px;
   border-radius: 2px;
 
   &-actions {
@@ -173,14 +172,6 @@ export default class CreateRecipe extends Vue {
   &:hover {
     background-color: rgba(9, 30, 66, 0.08);
     color: #172b4d;
-  }
-}
-
-.photo-picker-list {
-  display: flex;
-  flex-wrap: wrap;
-  .photo-picker-item {
-    flex-basis: 25%;
   }
 }
 </style>

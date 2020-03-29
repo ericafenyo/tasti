@@ -5,9 +5,9 @@ import {
   ForbiddenException,
   BadRequestException
 } from '@nestjs/common';
-import { InjectRepository, InjectEntityManager, InjectConnection } from '@nestjs/typeorm';
+import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository, Connection, EntityManager } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
@@ -22,10 +22,41 @@ const saltRounds = 14;
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectConnection() private connection: Connection
+  ) { }
+
   /**
-   * 
-   * @param email 
-   * @param password 
+  * Returns true if the user exist {@link User}
+  * @param id the users id
+  * @param email the users email
+  */
+  async hasUser(id: string, email: any) {
+    const count = await this.userRepository.createQueryBuilder('user')
+      .select('user.id')
+      .where('id = :id', { id })
+      .andWhere('email = :email', { email })
+      .getCount();
+    return count > 0;
+  }
+
+  /**
+   * Return a registered {@link User}
+   * @param id the users id
+   * @param email the users email
+   */
+  async getCurrentUser(id: string, email: any) {
+    return await this.userRepository.createQueryBuilder('user')
+      .where('id = :id', { id })
+      .andWhere('email = :email', { email })
+      .getOne();
+  }
+  /**
+   * Update the users password
+   * @param email the users email
+   * @param password the users new password
    */
   async resetPassword(email: string, password: string) {
     // Retrieves the use's old password using the provided email
@@ -70,11 +101,6 @@ export class UserService {
       .where('email = :email', { email })
       .getOne();
   }
-  constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Profile) private profileRepository: Repository<Profile>,
-    @InjectConnection() private connection: Connection
-  ) {}
 
   handleError(error: any) {
     if (error.errno && error.errno === MysqlError.DUPLICATE_ENTRY) {
@@ -127,7 +153,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({
         where: { id: userId },
-        relations: [ 'profile', 'profile.following', 'profile.followers' ]
+        relations: ['profile', 'profile.following', 'profile.followers']
       });
 
       if (validator.isEmpty(user)) {
@@ -136,7 +162,7 @@ export class UserService {
 
       const { email, recipeCount, profile: { id, followersCount, followingCount, ...profileRemains } } = user;
       return { stats: { recipeCount, followersCount, followingCount }, profile: { email, ...profileRemains } };
-    } catch (error) {}
+    } catch (error) { }
 
     // console.log(profileId);
   }
@@ -144,9 +170,9 @@ export class UserService {
   async getFollowers(userId: string) {
     try {
       const user = await this.userRepository.findOne({
-        select: [ 'id' ],
+        select: ['id'],
         where: { id: userId },
-        relations: [ 'profile', 'profile.followers' ]
+        relations: ['profile', 'profile.followers']
       });
 
       if (validator.isEmpty(user)) {
@@ -154,15 +180,15 @@ export class UserService {
       }
       const { id, profile: { followers } } = user;
       return { id, followers };
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async getFollowing(userId: string) {
     try {
       const user = await this.userRepository.findOne({
-        select: [ 'id' ],
+        select: ['id'],
         where: { id: userId },
-        relations: [ 'profile', 'profile.followers' ]
+        relations: ['profile', 'profile.followers']
       });
 
       if (validator.isEmpty(user)) {
@@ -170,7 +196,7 @@ export class UserService {
       }
       const { id, profile: { following } } = user;
       return { id, following };
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async find() {
@@ -201,8 +227,8 @@ export class UserService {
         const savedProfile = await manager.save(profile);
 
         // Return relevant information
-        const { id, joinedAt, user: { email } } = savedProfile;
-        return { id, createdAt: joinedAt, email };
+        const { id, createdAt, user: { email } } = savedProfile;
+        return { id, createdAt: createdAt, email };
       } catch (error) {
         console.log('Error while creating a user ', error);
         this.handleError(error);

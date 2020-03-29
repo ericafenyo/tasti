@@ -8,13 +8,13 @@
         </div>
       </div>
       <div class="modal-body">
-        <slot></slot>
+        <slot name="content"></slot>
       </div>
       <div class="divider-dashed mx-4" />
       <div class="modal-footer">
         <div class="modal-footer-actions">
-          <Button :text="$t('cancel')" type="secondary" @on-click="onNegative" />
-          <Button :text="$t('create')" @on-click="onPositive" />
+          <slot name="button-negative"></slot>
+          <slot name="button-positive"></slot>
         </div>
       </div>
     </div>

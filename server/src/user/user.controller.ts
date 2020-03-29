@@ -1,12 +1,11 @@
 import { Controller, Post, Request, Get, Param, Patch, Delete, UseGuards, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import { RecipeService } from '../recipe/recipe.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthType } from 'src/enums';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService, private recipeService: RecipeService) {}
+  constructor(private userService: UserService) {}
 
   /**
    * Get a user's profile information.
@@ -56,12 +55,6 @@ export class UserController {
   @Post('/create')
   async createAccount(@Request() request) {
     return await this.userService.create(request.body);
-  }
-
-  // User recipes
-  @Get(':id/recipes')
-  async getRecipes(@Param('id') userId: string) {
-    return await this.recipeService.find(userId);
   }
 
   @Patch(':id/recipes')

@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { Observable, from } from 'rxjs';
 import { Result } from './Result';
 import { HttpStatus } from '@/enums';
 
@@ -9,12 +8,12 @@ const BASE_URL = 'http://localhost:2700/';
 export const instance: AxiosInstance = axios.create({ baseURL: BASE_URL });
 export const http: AxiosInstance = axios.create({ baseURL: BASE_URL });
 // TODO: use html only cookies to store token
-const userToken = localStorage.getItem('access_token') || null;
+const userToken = localStorage.getItem('vuex') || [];
 
 export const authHttp: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer ${userToken}`,
+    Authorization: `Bearer ${JSON.parse(userToken).user.accessToken}`,
     'Content-Type': 'multipart/form-data'
   }
 });

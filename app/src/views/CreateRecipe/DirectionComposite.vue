@@ -14,13 +14,6 @@
             <div class="editable-item-content">
               <p>{{direction}}</p>
             </div>
-            <!-- <div :class="{'hidden': (!editorEnabled)}">
-                      <textarea class="editor mb-2" ></textarea>
-                      <div class="editor-controls">
-                        <Button text="Save" size="small" />
-                        <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
-                      </div>
-            </div>-->
           </div>
         </div>
         <div @click.prevent="removeItem(index)" class="editable-item-actions">
@@ -31,16 +24,16 @@
     <div class="mt-3">
       <div :class="{'hidden': (editorEnabled)}">
         <div class="add-item" @click.prevent="enableEditor()">
-          <Icon color="red" class="mr-2" name="add" />
+          <Icon class="mr-2" name="add" />
           <span>Add Direction</span>
         </div>
       </div>
       <div :class="{'hidden': (!editorEnabled)}">
-        <textarea v-model="direction" class="editor mb-2"></textarea>
-        <div class="editor-controls">
+        <textarea @keyup.enter="saveItem()" v-model="direction" class="editor mb-2"></textarea>
+        <!-- <div class="editor-controls">
           <Button class="mr-2" @on-click="saveItem()" text="Save" size="small" />
           <Button @on-click="enableEditor(false)" text="Cancel" size="small" type="text" />
-        </div>
+        </div>-->
       </div>
     </div>
   </FormModule>
@@ -64,7 +57,7 @@ import Icon from "@/components/Icons/Icon.vue";
     Icon
   }
 })
-export default class DirectionFormModule extends Vue {
+export default class DirectionComposite extends Vue {
   direction: string = "";
   directions: string[] = ["Okra"];
 
@@ -92,7 +85,7 @@ export default class DirectionFormModule extends Vue {
 
   @Watch("directions", { immediate: true })
   onDirectionChanged(value: string[]) {
-    this.$emit("on-input", { name: "directions", value });
+    this.$emit("input", value);
   }
 
   mounted() {
@@ -132,10 +125,6 @@ export default class DirectionFormModule extends Vue {
 }
 
 .editor {
-  background: rgba(9, 30, 66, 0.04);
-  border-color: rgba(9, 30, 66, 0.13);
-  box-shadow: inset 0 0 0 1px rgba(9, 30, 66, 0.13);
-  margin-bottom: 4px;
   width: 100%;
   resize: none;
   border-radius: 4px;
@@ -150,9 +139,9 @@ export default class DirectionFormModule extends Vue {
   align-items: center;
   cursor: pointer;
   border-radius: 2px;
-  border: 1px dashed #a0aec0;
   color: #4a5568;
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 14px;
   padding: 8px;
   &:hover {
     background-color: rgba(9, 30, 66, 0.08);

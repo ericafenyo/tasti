@@ -1,70 +1,47 @@
 <template>
-  <FormModule title="Ingredient">
-    <div>
-      <div
-        v-for="(ingredient, index) in ingredients"
-        :key="index"
-        class="editable-item editable mb-1"
-      >
+  <form @submit.prevent class="ingredient">
+    <ul>
+      <li v-for="(ingredient, index) in ingredients" :key="index" class="editable-item editable">
         <div class="flex">
           <div class="editable-item-checkbox mr-3">
             <Checkbox />
           </div>
           <div class="flex-1">
             <div class="editable-item-content">
-              <p>{{ingredient}}</p>
+              <div contenteditable>{{ingredient}}</div>
             </div>
-            <!-- <div :class="{'hidden': (!editorEnabled)}">
-                      <textarea class="editor mb-2" ></textarea>
-                      <div class="editor-controls">
-                        <Button text="Save" size="small" />
-                        <Button @on-click="disableEditor" text="Cancel" size="small" type="text" />
-                      </div>
-            </div>-->
           </div>
         </div>
         <div @click.prevent="removeItem(index, 'ingredient')" class="editable-item-actions">
           <Icon name="delete" />
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
     <div class="mt-3">
       <div :class="{'hidden': (editorEnabled)}">
         <div class="add-item" @click.prevent="enableEditor()">
-          <Icon color="red" class="mr-2" name="add" />
+          <Icon class="mr-2" name="add" />
           <span>Add Ingredient</span>
         </div>
       </div>
       <div :class="{'hidden': (!editorEnabled)}">
-        <textarea v-model="ingredient" class="editor mb-2"></textarea>
+        <input v-model="ingredient" class="editor mb-2" @keyup.enter="saveItem('ingredient')" />
         <div class="editor-controls">
-          <Button class="mr-2" @on-click="saveItem('ingredient')" text="Save" size="small" />
-          <Button @on-click="enableEditor(false)" text="Cancel" size="small" type="text" />
+          <!-- <Button class="mr-2" @on-click="saveItem('ingredient')" text="Save" size="small" /> -->
+          <!-- <Button @on-click="enableEditor(false)" text="Cancel" size="small" type="text" /> -->
         </div>
       </div>
     </div>
-  </FormModule>
+  </form>
 </template>
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
+import Checkbox from "@/components/Checkbox.vue";
 import autosize from "autosize";
 
-import FormModule from "./FormModule.vue";
-
-import Checkbox from "@/components/Checkbox.vue";
-import Button from "@/components/Button/Button.vue";
-import Icon from "@/components/Icons/Icon.vue";
-
-@Component({
-  components: {
-    FormModule,
-    Checkbox,
-    Button,
-    Icon
-  }
-})
-export default class IngredientFormModule extends Vue {
+@Component({ components: { Checkbox } })
+export default class IngredientComposite extends Vue {
   ingredient: string = "";
   ingredients: string[] = ["Okra"];
 
@@ -92,7 +69,7 @@ export default class IngredientFormModule extends Vue {
 
   @Watch("ingredients", { immediate: true })
   onIngredientsChanged(value: string[]) {
-    this.$emit("on-input", { name: "ingredients", value });
+    this.$emit("input", value);
   }
 }
 </script>
@@ -100,9 +77,11 @@ export default class IngredientFormModule extends Vue {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .editable-item {
+  background-color: $white;
   position: relative;
-  padding: 8px 4px;
-  border-radius: 2px;
+  padding: 0.75rem 0.25rem;
+  margin: 0.25rem 0;
+  border: none;
 
   &-actions {
     cursor: pointer;
@@ -115,7 +94,7 @@ export default class IngredientFormModule extends Vue {
   }
 
   &:hover {
-    background-color: rgba(9, 30, 66, 0.08);
+    background-color: rgb(245, 247, 249);
 
     .editable-item-actions {
       display: block;
@@ -129,11 +108,9 @@ export default class IngredientFormModule extends Vue {
 
 .editor {
   background: rgba(9, 30, 66, 0.04);
-  border-color: rgba(9, 30, 66, 0.13);
-  box-shadow: inset 0 0 0 1px rgba(9, 30, 66, 0.13);
   margin-bottom: 4px;
   width: 100%;
-  resize: none;
+  border: none;
   border-radius: 4px;
   padding: 8px 12px;
   overflow: hidden;
@@ -142,13 +119,13 @@ export default class IngredientFormModule extends Vue {
 }
 
 .add-item {
+  color: blue;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  cursor: pointer;
-  border-radius: 2px;
-  border: 1px dashed #a0aec0;
+  font-size: 14px;
   color: #4a5568;
-  font-weight: 500;
+  font-weight: 400;
   padding: 8px;
   &:hover {
     background-color: rgba(9, 30, 66, 0.08);

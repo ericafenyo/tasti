@@ -2,12 +2,14 @@ import Vue from 'vue';
 import VuxRx from 'vue-rx';
 import PortalVue from 'portal-vue';
 import Vuelidate from 'vuelidate';
+import VueAspectRatio from "vue-aspect-ratio";
 
 Vue.use(VuxRx);
 Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
+Vue.component("vue-aspect-ratio", VueAspectRatio);
 
-import router from './router';
+import router from '@/router';
 
 // Styles
 import '../src/scss/index.scss';
@@ -15,7 +17,7 @@ import './scss/normalize.css';
 import './scss/bootstrap-grid.css';
 
 import App from './App.vue';
-import { store } from './store';
+import store from './store';
 
 // Components
 import Icon from './components/Icons/Icon.vue';
@@ -33,7 +35,10 @@ import Modal from './components/Modal.vue';
 import Loader from './components/Loader.vue';
 import Headline from './components/Headline/Headline.vue';
 import Avatar from './components/Avatar/Avatar.vue';
+import PhotoPicker from './components/PhotoElements/PhotoPicker/PhotoPicker.vue';
+import NavigationBar from './components/NavigationBar/NavigationBar.vue';
 import i18n from './i18n';
+import { Route } from 'vue-router';
 
 Vue.component('Icon', Icon);
 Vue.component('Composite', Composite);
@@ -50,8 +55,30 @@ Vue.component('Modal', Modal);
 Vue.component('Loader', Loader);
 Vue.component('Headline', Headline);
 Vue.component('Avatar', Avatar);
+Vue.component('PhotoPicker', PhotoPicker);
+Vue.component('NavigationBar', NavigationBar);
 
 Vue.config.productionTip = false;
+
+/**
+ * Returns true if the route requires user authentication.
+ * 
+ * @param route the {@link Route} we want to navigate to.
+ */
+const isRequiredAuth = (route: Route) => route.matched.some(record => record.meta.requiresAuth);
+
+/**
+ * Returns true if the user is authenticated; 
+ */
+const isAuthenticated = () => store.getters["getAccessToken"];
+
+router.beforeEach((to, _, next) => {
+  if (isRequiredAuth(to) && isAuthenticated()) {
+    window.console.log('Not authenticated');
+    return next('/');
+  }
+  return next();
+});
 
 new Vue({
   el: '#app',

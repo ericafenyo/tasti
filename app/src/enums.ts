@@ -1,4 +1,5 @@
 export enum HttpStatus {
+  SUCCESS = 200,
   CREATED = 201,
   UNAUTHORIZED = 401,
   SERVICE_UNAVAILABLE = 503,

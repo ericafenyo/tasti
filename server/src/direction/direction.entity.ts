@@ -1,14 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
+import { BaseEntity } from '../BaseEntity';
 
 @Entity()
-export class Direction {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ nullable: false })
+export class Direction extends BaseEntity {
+  @Column()
   text: string;
 
-  @ManyToOne((type) => Recipe, (recipe) => recipe.directions)
+  @ManyToOne(() => Recipe, (recipe) => recipe.directions)
   recipe: Recipe;
 }
