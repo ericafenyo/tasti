@@ -17,8 +17,7 @@
             :placeholder="$t('email-placeholder')"
             :label="$t('label.email')"
             :className="[{'input-error': $v.email.$error}]"
-            :value="email"
-            @on-input="onInput"
+            v-model="email"
           />
         </div>
         <div class="form-item">
@@ -30,9 +29,8 @@
             :hasAction="true"
             :actionText="$t('forgot-password')"
             :actionRoute="'/auth/password/request-reset'"
-            :value="password"
             :className="[{'input-error': $v.password.$error}]"
-            @on-input="onInput"
+            v-model="password"
           />
         </div>
         <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
