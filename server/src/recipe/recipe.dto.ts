@@ -5,6 +5,10 @@ export class RecipeDto {
   @IsNotEmpty()
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  image: string;
+
   @IsOptional()
   @IsString()
   description?: string;
@@ -20,6 +24,10 @@ export class RecipeDto {
   @IsOptional()
   @IsString()
   tags?: string;
+
+  @IsOptional()
+  @IsArray()
+  photos?: string[]
 
   @IsOptional()
   @IsArray()

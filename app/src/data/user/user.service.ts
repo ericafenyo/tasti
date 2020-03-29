@@ -76,7 +76,9 @@ export class UserServiceImpl implements UserService {
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    return buildRequest(() => http.post('/auth/login', { username, password }));
+    const result = buildRequest(() => http.post('/auth/login', { username, password }));
+    console.log(result);
+    return result;
   }
 
   requestPasswordReset(email: string): Promise<Result> {

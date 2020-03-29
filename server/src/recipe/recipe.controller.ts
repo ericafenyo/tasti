@@ -27,18 +27,11 @@ export class RecipeController {
   // Create a recipe
   @Post()
   @UseGuards(AuthGuard(AuthType.JWT))
-  @UseInterceptors(FileFieldsInterceptor(
-    [
-      { name: "image", maxCount: 1 },
-      { name: "photos", maxCount: 4 }
-    ],
-    multerOption
-  ))
   async createRecipe(
     @CurrentUser() user: CurrentUserInfo,
-    @Body() recipe: RecipeDto,
-    @UploadedFiles() files: FilesDto) {
-    return await this.recipeService.create(user, recipe, files);
+    @Body() recipe: RecipeDto) {
+    // return recipe;
+    return await this.recipeService.create(user, recipe);
   }
 
   @Get()

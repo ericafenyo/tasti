@@ -1,13 +1,12 @@
 <template>
   <section class="create-recipe">
     <div class="container">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent>
         <div class="create-recipe-content">
           <Stepper>
             <template #header>
               <Step :currentStep="currentPage" :maxStep="4"></Step>
             </template>
-
             <template #content>
               <InfoComposite v-model="data.info" v-show="currentPage == 0" />
               <PhotosComposite v-model="data.photos" v-show="currentPage == 1" />
@@ -18,7 +17,7 @@
           <div class="create-recipe-actions">
             <Button size="small" text="Previous" @on-click="onPrevious" />
             <Button v-if="currentPage != 3" size="small" text="Continue" @on-click="onNext" />
-            <Button v-if="currentPage === 3" size="small" text="Save" />
+            <Button v-if="currentPage === 3" size="small" text="Save" @click.native="onSubmit" />
           </div>
         </div>
       </form>
@@ -38,6 +37,8 @@ import PhotosComposite from "./PhotosComposite.vue";
 import Stepper from "@/components/Stepper/Stepper.vue";
 import StepperItem from "@/components/Stepper/StepperItem.vue";
 import Step from "@/components/Stepper/Step.vue";
+import { Action } from "rxjs/internal/scheduler/Action";
+import { Actions } from "../../store/actions";
 
 type ItemKey = "ingredient" | "direction";
 
@@ -53,7 +54,7 @@ type ItemKey = "ingredient" | "direction";
   }
 })
 export default class CreateRecipe extends Vue {
-  currentPage = 2;
+  currentPage = 0;
 
   data: RecipeRequest = {
     info: {},
@@ -76,11 +77,25 @@ export default class CreateRecipe extends Vue {
   }
 
   onSubmit() {
-    console.log(this.data);
-  }
+    const {
+      info: { image, ...infoWithoutImage },
+      photos,
+      ingredients,
+      directions
+    } = this.data;
 
-  mounted() {
-    autosize(document.querySelectorAll("textarea"));
+    const formData = new FormData();
+    formData.append("image", image);
+    photos.forEach(value => {
+      formData.append("photos", value);
+    });
+
+    const inputData = {
+      ...infoWithoutImage,
+      ingredients,
+      directions
+    };
+    this.$store.dispatch(Actions.CREATE_RECIPE, { files: formData, inputData });
   }
 }
 </script>
