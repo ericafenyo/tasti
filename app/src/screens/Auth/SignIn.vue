@@ -1,44 +1,46 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="login">
-      <Headline text="Login To Your Account" :level="2" class="mb-8" />
-      <Alert
-        :visible="options.visible"
-        :type="options.type"
-        :closable="options.closable"
-        :message="options.message"
-        @on-dismiss="showAlert({ visible: false })"
-      />
-      <form @submit.prevent="onSubmit" novalidate="true">
-        <div class="form-item">
-          <Input
-            type="text"
-            name="email"
-            :placeholder="$t('email-placeholder')"
-            :label="$t('label.email')"
-            :className="[{'input-error': $v.email.$error}]"
-            v-model="email"
-          />
-        </div>
-        <div class="form-item">
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            :placeholder="$t('password-placeholder')"
-            :hasAction="true"
-            :actionText="$t('forgot-password')"
-            :actionRoute="'/auth/password/request-reset'"
-            :className="[{'input-error': $v.password.$error}]"
-            v-model="password"
-          />
-        </div>
-        <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
-        <div class="mt-3 text-center">
-          <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
-          <Link :text="$t('sign-up')" to="/auth/sign-up" />
-        </div>
-      </form>
+    <div class="wrapper">
+      <div class="login">
+        <Headline text="Login To Your Account" :level="2" class="mb-8" />
+        <Alert
+          :visible="options.visible"
+          :type="options.type"
+          :closable="options.closable"
+          :message="options.message"
+          @on-dismiss="showAlert({ visible: false })"
+        />
+        <form @submit.prevent="onSubmit" novalidate="true">
+          <div class="form-item">
+            <Input
+              type="text"
+              name="email"
+              :placeholder="$t('email-placeholder')"
+              :label="$t('label.email')"
+              :className="[{'input-error': $v.email.$error}]"
+              v-model="email"
+            />
+          </div>
+          <div class="form-item">
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              :placeholder="$t('password-placeholder')"
+              :hasAction="true"
+              :actionText="$t('forgot-password')"
+              :actionRoute="'/auth/password/request-reset'"
+              :className="[{'input-error': $v.password.$error}]"
+              v-model="password"
+            />
+          </div>
+          <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
+          <div class="mt-3 text-center">
+            <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
+            <Link :text="$t('sign-up')" to="/auth/sign-up" />
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -60,7 +62,7 @@ import {
 } from "@/components/Notification";
 
 @Component
-export default class Login extends Vue {
+export default class SignIn extends Vue {
   isLoading: boolean = false;
   options: NotificationOptions = {};
 
@@ -151,10 +153,28 @@ export default class Login extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+
+.wrapper {
+  height: 100%;
+  @include phablet {
+    height: initial;
+    padding-top: 3rem;
+  }
+}
 .login {
   max-width: 420px;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  background-color: $white;
+
+  @include phone {
+    padding: 2rem 1.5rem;
+  }
+  @include phablet {
+    height: initial;
+  }
 
   .button {
     width: 100%;

@@ -1,33 +1,42 @@
 <template>
   <section class="section-no-header background-surface">
-    <div class="reset-password">
-      <Headline :text="$t('enter-new-password')" :level="2" />
-      <Alert
-        :visible="true"
-        :closable="false"
-        :style="{marginTop: '1rem'}"
-        :message="$t('enter-8-chars-password')"
-        type="info"
-      />
-      <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
-        <div class="form-item">
-          <Input :label="$t('label.password')" type="password" name="password" v-model="password" />
-        </div>
-        <div class="form-item">
-          <Input
-            :label="$t('label.confirm-password')"
-            v-model="confirmPassword"
-            type="password"
-            name="confirmPassword"
-          />
-        </div>
-        <Button
-          :loading="isLoading"
-          :disabled="$v.$invalid"
-          :text="$t('action.set-new-password')"
-          size="large"
+    <div class="wrapper">
+      <div class="reset-password">
+        <Headline :text="$t('enter-new-password')" :level="2" />
+        <Alert
+          :visible="true"
+          :closable="false"
+          :style="{marginTop: '1rem'}"
+          :message="$t('enter-8-chars-password')"
+          type="info"
         />
-      </form>
+        <form ref="loginForm" @submit.prevent="onSubmit" novalidate="true">
+          <div class="form-item">
+            <Input
+              :label="$t('label.password')"
+              placeholder="password"
+              type="password"
+              name="password"
+              v-model="password"
+            />
+          </div>
+          <div class="form-item">
+            <Input
+              :label="$t('label.confirm-password')"
+              v-model="confirmPassword"
+              placeholder="reenter your password"
+              type="password"
+              name="confirmPassword"
+            />
+          </div>
+          <Button
+            :loading="isLoading"
+            :disabled="$v.$invalid"
+            :text="$t('action.set-new-password')"
+            size="large"
+          />
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -128,11 +137,28 @@ export default class ResetPassword extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+.wrapper {
+  height: 100%;
+  @include phablet {
+    height: initial;
+    padding-top: 3rem;
+  }
+}
 
 .reset-password {
   max-width: 420px;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem 0rem;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  background-color: $white;
+
+  @include phone {
+    padding: 2rem 1.5rem;
+  }
+  @include phablet {
+    height: initial;
+  }
 
   .button {
     width: 100%;
