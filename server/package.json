@@ -30,7 +30,7 @@
     "bcrypt": "^3.0.7",
     "bson-objectid": "^1.3.0",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.12.2",
     "generate-password": "^1.4.2",
     "helmet": "^3.21.2",
     "multer-s3": "^2.9.0",
