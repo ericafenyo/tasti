@@ -4,6 +4,7 @@ export const Actions = {
   GET_FOLLOWERS: 'user/getFollowers',
   RESET_PASSWORD: 'user/resetPassword',
   REQUEST_PASSWORD_RESET: 'user/requestPasswordReset',
+  LOGOUT_USER: 'user/logout',
 
   GET_PROFILE: 'getProfile',
   GET_RECIPES: 'getRecipes',
