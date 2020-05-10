@@ -29,20 +29,16 @@
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import ProfileStats from "../../components/ProfileStats/ProfileStats.vue";
+import ProfileStats from "@/components/ProfileStats/ProfileStats.vue";
 import Cookbook from "@/components/Cookbook/Cookbook.vue";
 import EditProfile from "@/components/EditProfile/EditProfile.vue";
-import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
-import Loader from "../../components/Loader.vue";
+import Loader from "@/components/Loader.vue";
 
-import ContextMenu, {
-  ContextMenuItemOption
-} from "../../components/ContextMenu/ContextMenu.vue";
-import Tabs from "../../components/Tabs/Tabs.vue";
-import { IconOption } from "../../components/Icons/Icon.vue";
-import { Actions } from "../../store/actions";
-import { Observable } from "rxjs";
-import { Result, Status } from "../../data/Result";
+import ContextMenu, { ContextMenuItemOption} from "@/components/ContextMenu/ContextMenu.vue";
+import Tabs from "@/components/Tabs/Tabs.vue";
+import { IconOption } from "@/components/Icons/Icon.vue";
+import { Actions } from "@/store/actions";
+import { Result, Status } from "@/data/Result";
 
 @Component({
   components: {
@@ -51,7 +47,6 @@ import { Result, Status } from "../../data/Result";
     Cookbook,
     ContextMenu,
     EditProfile,
-    CreateRecipeTemplate,
     Loader
   }
 })
@@ -72,19 +67,19 @@ export default class UserProfile extends Vue {
   }
 
   async mounted() {
-    const response: Observable<Result> = await this.$store.dispatch(
+    const response: Result = await this.$store.dispatch(
       Actions.GET_PROFILE
     );
 
-    response.subscribe(result => {
-      switch (result.status) {
-        case Status.Success:
-          break;
-        case Status.Error:
-          this.handleError();
-          break;
-      }
-    });
+    // response.subscribe(result => {
+    //   switch (result.status) {
+    //     case Status.Success:
+    //       break;
+    //     case Status.Error:
+    //       this.handleError();
+    //       break;
+    //   }
+    // });
   }
 
   addRecipe = false;
@@ -103,9 +98,9 @@ export default class UserProfile extends Vue {
 
   createNewRecipe() {}
 
-  active(value) {
-    console.log(value);
-  }
+  // active(value) {
+  //   console.log(value);
+  // }
   onMenuItemClick() {}
 }
 </script>

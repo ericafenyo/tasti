@@ -1,25 +1,22 @@
 <template>
-  <form @submit.prevent>
-    <div class="recipe-photos">
-      <div class="recipe-photos-item" v-for="(item, index) in numberOfPhotos" :key="index">
-        <PhotoPicker :aspectRatio="aspectRatio" v-model="data[index]" />
-      </div>
+  <div class="recipe-photos">
+    <div class="recipe-photos-item" v-for="(item, index) in numberOfPhotos" :key="index">
+      <PhotoPicker :aspectRatio="aspectRatio" v-model="data[index]" />
     </div>
-  </form>
+  </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import autosize from "autosize";
 
 @Component
 export default class PhotosComposite extends Vue {
-  aspectRatio = "3:2";
+  aspectRatio = "4:3";
   numberOfPhotos = 4;
   data = [];
 
   @Watch("data", { immediate: true, deep: true })
-  onInfoChanged(value) {
+  onInfoChanged(value: any) {
     this.$emit("input", this.data);
   }
 }
@@ -30,6 +27,7 @@ export default class PhotosComposite extends Vue {
 .recipe-photos {
   display: flex;
   flex-wrap: wrap;
+  margin: -8px;
 
   &-item {
     padding: 8px;
