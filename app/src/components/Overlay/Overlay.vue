@@ -44,9 +44,9 @@ export default class Overlay extends Vue {
   hideBodyScrollBar(hideScrollBar: boolean) {
     const bodyElement = document.querySelector("body");
     if (hideScrollBar) {
-      bodyElement.classList.add("clip-content");
+      bodyElement!.classList.add("clip-content");
     } else {
-      bodyElement.classList.remove("clip-content");
+      bodyElement!.classList.remove("clip-content");
     }
   }
 

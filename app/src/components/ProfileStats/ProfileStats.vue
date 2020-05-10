@@ -41,10 +41,6 @@ export default class ProfileStats extends Vue {
   @Prop({ type: Object, default: () => ({ profile: {}, stats: {} }) })
   readonly args!: object;
 
-  mounted() {
-    console.log(this.args.profile);
-  }
-
   image =
     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?w=800&h=800&q=80";
   stats = [

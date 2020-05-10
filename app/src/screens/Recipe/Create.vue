@@ -96,13 +96,15 @@ export default class CreateRecipe extends Vue {
   ];
 
   data: RecipeRequest = {
-    info: {
-      name: "",
-      image: undefined
-    },
     photos: [],
     ingredients: [],
-    directions: []
+    directions: [],
+    info: {
+      image: null,
+      description: "",
+      name: "",
+      serving: ""
+    }
   };
 
   @Validations()
@@ -151,15 +153,17 @@ export default class CreateRecipe extends Vue {
     } = this.data;
 
     const formData = new FormData();
-    formData.append("image", image);
+    if (image) {
+      formData.append("image", image);
+    }
     photos.forEach(value => {
       formData.append("photos", value);
     });
 
     const inputData = {
       ...infoWithoutImage,
-      ingredients: ingredients.filter(ingredient => !!ingredient),
-      directions: directions.filter(direction => !!direction)
+      ingredients: ingredients!.filter(ingredient => !!ingredient),
+      directions: directions!.filter(direction => !!direction)
     };
     this.$store.dispatch(Actions.CREATE_RECIPE, {
       files: formData,

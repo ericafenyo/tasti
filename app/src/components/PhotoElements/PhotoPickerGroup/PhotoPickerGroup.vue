@@ -36,7 +36,7 @@ export default class PhotoPickerGroup extends Vue {
     this.internalImageUrls = Array.from(this.imageUrls);
   }
 
-  handleImageChange(imageUrl: string | null, index) {
+  handleImageChange(imageUrl: string | null, index : number) {
     this.$set(this.internalImageUrls, index, imageUrl);
     const compactedUrls = this.internalImageUrls.filter(url => url);
     for (let i = 0; i < this.number; i++) {

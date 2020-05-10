@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import PortalVue from 'portal-vue';
 import Vuelidate from 'vuelidate';
-import VueAspectRatio from 'vue-aspect-ratio';
+const VueAspectRatio = require('vue-aspect-ratio');
 import { store } from './store';
 
 Vue.use(Vuelidate as any);

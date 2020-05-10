@@ -10,11 +10,11 @@
       <h4 class="subhead">Subhead</h4>
       <div class="recipe-footer">
         <div class="recipe-footer-stats">
-          <IconAlarm />
+          <!-- <IconAlarm /> -->
           <span class="caption">10 min</span>
         </div>
         <div class="recipe-footer-stats">
-          <IconService />
+          <!-- <IconService /> -->
           <span class="caption">Servings</span>
         </div>
       </div>
@@ -25,9 +25,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import IconAlarm from "../../assets/icons/alarm.svg";
-import IconService from "../../assets/icons/service.svg";
-
 interface RecipeProps {
   name: String;
   imageUrl: String;
@@ -36,7 +33,7 @@ interface RecipeProps {
   likes: String;
 }
 
-@Component({ components: { IconAlarm, IconService } })
+@Component
 export default class RecipeItem extends Vue {
   @Prop({ type: Object, default: {} }) recipe!: RecipeProps;
 }

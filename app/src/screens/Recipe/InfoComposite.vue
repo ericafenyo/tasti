@@ -73,7 +73,7 @@ export default class InfoComposite extends Vue {
   };
 
   @Watch("model", { immediate: true, deep: true })
-  onInfoChanged(value) {
+  onInfoChanged(value: any) {
     this.$emit("input", value);
   }
 }

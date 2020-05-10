@@ -41,10 +41,10 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Validate, Validations } from "vuelidate-property-decorators";
 import { required, email } from "vuelidate/lib/validators";
-import { Result } from "../../data/Result";
-import { Actions } from "../../store/actions";
-import { HttpStatus } from "../../enums";
-import { NotificationOptions } from "../Notification";
+import { Result } from "@/data/Result";
+import { Actions } from "@/store/actions";
+import { HttpStatus } from "@/enums";
+import { NotificationOptions } from "@/components/Notification";
 
 @Component
 export default class RequestPasswordReset extends Vue {
@@ -65,7 +65,7 @@ export default class RequestPasswordReset extends Vue {
     this.options = { visible: false };
   }
 
-  async onSubmit(event) {
+  async onSubmit() {
     const { $invalid } = this.$v;
     if (!$invalid) {
       // Start with a loading state

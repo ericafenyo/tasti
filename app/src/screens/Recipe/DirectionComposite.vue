@@ -50,7 +50,7 @@ import Icon from "@/components/Icons/Icon.vue";
 })
 export default class DirectionComposite extends Vue {
   $refs!: {
-    textarea: HTMLTextAreaElement[];
+    textarea: HTMLTextAreaElement;
     directions: HTMLTextAreaElement[];
   };
 

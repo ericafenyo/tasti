@@ -67,10 +67,6 @@ export default class ResetPassword extends Vue {
     this.confirmPassword = "";
   }
 
-  onInput({ value, name }) {
-    this[name] = value;
-  }
-
   async onSubmit() {
     //Show successful sign up
     const { $invalid } = this.$v;

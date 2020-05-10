@@ -7,20 +7,20 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
-import Croppie from "croppie";
+const Croppie = require("croppie");
 
 require("croppie/croppie.css");
 
 @Component
 export default class ImageCropper extends Vue {
   isCropping = false;
-  cropper = null;
+  cropper: any;
 
   @Prop({ type: String, default: "" })
-  imageUrl: string;
+  readonly imageUrl!: string;
 
   @Prop({ type: String, default: "1:1" })
-  aspectRatio: string;
+  readonly aspectRatio!: string;
 
   get computeViewPortSize() {
     if (this.aspectRatio == "1:1") {
@@ -42,12 +42,17 @@ export default class ImageCropper extends Vue {
   }
 
   async handleCropConfirm() {
-    this.isCropping = true;
-    const urlCreator = window.URL || (window as any).webkitURL;
-    const blob = await this.cropper.result({ type: "blob", size: "original" });
-    const url = urlCreator.createObjectURL(blob);
-    this.isCropping = false;
-    return this.$emit("crop-confirmed", { url, blob });
+    if (this.cropper) {
+      this.isCropping = true;
+      const urlCreator = window.URL || (window as any).webkitURL;
+      const blob = await this.cropper.result({
+        type: "blob",
+        size: "original"
+      });
+      const url = urlCreator.createObjectURL(blob);
+      this.isCropping = false;
+      return this.$emit("crop-confirmed", { url, blob });
+    }
   }
 
   @Watch("imageUrl")
@@ -56,7 +61,7 @@ export default class ImageCropper extends Vue {
   }
 
   private bindToChanges() {
-    if (this.imageUrl) {
+    if (this.imageUrl && this.cropper) {
       this.cropper.bind({
         url: this.imageUrl
       });

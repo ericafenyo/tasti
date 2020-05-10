@@ -22,16 +22,14 @@
  */
 
 export interface RecipeRequest {
-  photos?: File[];
-  ingredients?: string[];
-  directions?: string[];
-  thumbnail?: any,
-  info?: {
-    image?: File;
-    name?: string,
-    serving?: string;
-    tags?: string;
-    facts?: string;
+  photos: File[];
+  ingredients: string[];
+  directions: string[];
+  info: {
+    image: File | null;
+    name: string;
+    description: string;
+    serving: string;
   };
 }
 

@@ -67,9 +67,9 @@ export default class PhotoPicker extends Vue {
   readonly disabled!: boolean;
 
   @Prop({ type: String, default: "1:1" })
-  aspectRatio: string;
+  readonly aspectRatio!: string;
 
-  croppie;
+  croppie: any;
 
   selectedImageUrl: string | null = null;
   selectedImageBlob: Blob | null = null;
@@ -97,7 +97,7 @@ export default class PhotoPicker extends Vue {
     this.handleImageChange();
   }
 
-  handleFileSelection(file) {
+  handleFileSelection(file: any) {
     if (file) {
       const urlCreator = window.URL || (window as any).webkitURL;
       this.imagePickedFromFileSystemUrl = urlCreator.createObjectURL(file);
@@ -107,7 +107,7 @@ export default class PhotoPicker extends Vue {
     (this.$refs.inputFile as HTMLInputElement).value = "";
   }
 
-  handleCropConfirmation({ url, blob }) {
+  handleCropConfirmation({ url, blob }: any) {
     this.imagePickedFromFileSystemUrl = null;
     this.selectedImageUrl = url;
     this.selectedImageBlob = blob;
