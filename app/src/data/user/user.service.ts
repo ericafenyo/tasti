@@ -26,7 +26,6 @@
 
 import { http, buildRequest, authHttp } from '../ConnectionHelper';
 import { AxiosPromise, AxiosResponse, AxiosRequestConfig } from 'axios';
-import { Observable, config } from 'rxjs';
 import { Result } from '../../data/Result';
 import { async } from 'rxjs/internal/scheduler/async';
 import { HttpStatus } from '@/enums';
@@ -57,14 +56,14 @@ export class UserServiceImpl implements UserService {
   }
 
   profile() {
-    return authHttp.get('users');
+    return authHttp().get('users');
   }
 
   followers(userId: string) {
     if (!userId) {
       throw 'Log out, user id is null';
     }
-    return authHttp.get(`users/${userId}/followers`);
+    return authHttp().get(`users/${userId}/followers`);
   }
 
   /**
@@ -76,8 +75,7 @@ export class UserServiceImpl implements UserService {
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    const result = buildRequest(() => http.post('/auth/login', { username, password }));
-    console.log(result);
+    const result = buildRequest(() => http.post('/auth/token', { username, password }));
     return result;
   }
 

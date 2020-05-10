@@ -1,22 +1,22 @@
 import axios, { AxiosInstance } from 'axios';
 import { Result } from './Result';
 import { HttpStatus } from '@/enums';
+import { store } from '@/store';
 
 // The API server URL that will be used for the HTTP request.
-const BASE_URL = 'http://localhost:2700/';
+const BASE_URL = process.env.VUE_APP_API_BASE_URL;
 
-export const instance: AxiosInstance = axios.create({ baseURL: BASE_URL });
 export const http: AxiosInstance = axios.create({ baseURL: BASE_URL });
-// TODO: use html only cookies to store token
-const userToken = localStorage.getItem('vuex') || [];
 
-export const authHttp: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${JSON.parse(userToken).user.accessToken}`,
-    'Content-Type': 'multipart/form-data'
-  }
-});
+export const authHttp = () => {
+  return axios.create({
+    baseURL: BASE_URL,
+    headers: {
+      Authorization: `Bearer ${store.getters["user/accessToken"]}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+};
 
 const handleError = (error: any) => {
   if (error.response) {

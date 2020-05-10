@@ -15,7 +15,7 @@ export class RecipeService implements Service {
    * @returns a {@link Result} object containing the http status code and the data. 
    */
   findOne(id: string) {
-    return buildRequest(() => authHttp.get(`/recipes/${id}`));
+    return buildRequest(() => authHttp().get(`/recipes/${id}`));
   }
 
   private async upload(files: any) {
@@ -25,7 +25,7 @@ export class RecipeService implements Service {
       }
     };
 
-    return buildRequest(() => authHttp.post('/upload', files, config))
+    return buildRequest(() => authHttp().post('/upload', files, config))
   }
 
   async create(payload: any): Promise<Result> {
@@ -33,8 +33,6 @@ export class RecipeService implements Service {
     let requestModel = { ...payload.inputData }
 
     if (status === HttpStatus.CREATED) {
-      console.log("image created");
-      
       const { image, photos } = data;
       requestModel = { ...requestModel, image: image[0], photos }
     } else {
@@ -47,12 +45,11 @@ export class RecipeService implements Service {
       }
     };
 
-    console.log("hit server " + requestModel);
-    return buildRequest(() => authHttp.post('/recipes', requestModel, config));
+    return buildRequest(() => authHttp().post('/recipes', requestModel, config));
   }
 
   find(): AxiosPromise<RecipeUiModel> {
-    return authHttp.get('/recipes').then((response) =>
+    return authHttp().get('/recipes').then((response) =>
       response.data.map((element: any) => ({
         ...element,
         image: process.env.VUE_APP_IMAGE_BASE_URL + element.imagePath
