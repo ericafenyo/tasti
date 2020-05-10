@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" v-slot="{ href, route, navigate, isActive, isExactActive }">
+  <router-link :to="to" v-slot="{ href, route, navigate, isActive }">
     <a
       :class="['link', (`link--${size}`)]"
       v-html="text"
@@ -15,9 +15,14 @@ import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 
 @Component
 export default class Link extends Vue {
-  @Prop({ type: String, default: "Link" }) text: string;
-  @Prop({ type: String, default: "#" }) to: string;
-  @Prop({ type: String, default: "medium" }) size: string;
+  @Prop({ type: String, default: "Link" })
+  readonly text!: string;
+
+  @Prop({ type: String, default: "#" })
+  readonly to!: string;
+
+  @Prop({ type: String, default: "medium" })
+  readonly size!: string;
 }
 </script>
 
@@ -34,10 +39,12 @@ export default class Link extends Vue {
 
   &--medium {
     font-size: 1rem;
+    font-weight: 400;
   }
 
   &--large {
     font-size: 1.2rem;
+    font-weight: 400;
   }
 
   &:hover {

@@ -51,9 +51,6 @@ export default class Cookbook extends Vue {
       left: 0;
       display: flex;
 
-      &-item {
-      }
-
       &-item:last-child {
         display: flex;
         flex-direction: column;
@@ -63,9 +60,6 @@ export default class Cookbook extends Vue {
         }
       }
     }
-  }
-
-  &-label {
   }
 
   .bg-red {

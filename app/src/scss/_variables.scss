@@ -2,7 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap');
 
-$font: 'Roboto',
+$roboto: 'Roboto',
+sans-serif;
+$poppins: 'Poppins',
 sans-serif;
 
 /** == alpha states == **/
@@ -16,9 +18,12 @@ $black: #000000;
 $black-active: #202020;
 $black-inactive: #727272;
 $black-disabled: #9a9a9a;
-$green: #2bb24c;
+
+$green: #48BB78;
+$green-dark: #38A169;
 $green-inactive: #7ddfc3;
 $green-disabled: #d5f2ea;
+
 $red: #f56565;
 $red-inactive: #fdafbb;
 $red-disabled: #fbe4e8;
@@ -31,6 +36,11 @@ $yellow: #facf55;
 $yellow-inactive: #ffe29d;
 $yellow-disabled: #FFF8E7;
 
+$indigo: #6286ED;
+$indigo-dark: #5C6AC4;
+
+$grey: #8f92a1;
+
 /** == content colors == **/
 $color-primary-text: #3f3356;
 $color-primary-headline: #1a051d;
@@ -40,10 +50,11 @@ $color-border: #ecebed;
 
 /** == theme colors == **/
 // $color-surface: #f1f3f8;
-$color-surface: #fbfbfb;
-$color-accent: #6979f8;
+$color-surface: #f7f7f7;
+$color-accent: #6286ED;
 
 /** == break points == **/
+$phone-width: 360px;
 $phablet-width: 480px;
 $tablet-width: 768px;
 $laptop-width: 992px;

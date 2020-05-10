@@ -1,27 +1,30 @@
 <template>
-  <div class="fluid">
+  <vue-aspect-ratio :ar="aspectRatio">
     <Overlay :isOpen="showImageCropper">
       <ImageCropper
         :imageUrl="imagePickedFromFileSystemUrl"
+        :aspectRatio="aspectRatio"
         class="cropper"
         @crop-confirmed="handleCropConfirmation"
       />
     </Overlay>
 
     <div
-      class="image-frame fluid"
+      class="image-frame"
       :class="{'disabled': ('disabled-frame'), 'image-frame-border-solid' : selectedImageUrl, 'image-frame-border-dashed' : !selectedImageUrl}"
       @click="handleEmptyFrameClick"
     >
       <template v-if="selectedImageUrl">
         <div class="delete-button" @click.stop="handleDeletePhotoClick">
-          <Icon name="close" width="18" />
+          <Icon name="close" size="18" />
         </div>
         <img :src="selectedImageUrl" class="fluid" />
       </template>
       <template v-else>
-        <Icon name="add" width="32px" height="32px" />
-        <div class="mt-2">Upload</div>
+        <span class="add-icon">
+          <Icon color="#6286ED" name="add" width="32px" height="32px" />
+        </span>
+        <div class="label-text">Choose files to upload</div>
       </template>
     </div>
     <input
@@ -32,7 +35,7 @@
       accept="image/*"
       @change="handleFileSelection($event.target.files[0])"
     />
-  </div>
+  </vue-aspect-ratio>
 </template>
 
 <script lang="ts">
@@ -62,6 +65,9 @@ export default class PhotoPicker extends Vue {
     default: false
   })
   readonly disabled!: boolean;
+
+  @Prop({ type: String, default: "1:1" })
+  aspectRatio: string;
 
   croppie;
 
@@ -110,11 +116,7 @@ export default class PhotoPicker extends Vue {
   }
 
   handleImageChange() {
-    this.$emit("image-changed", {
-      url: this.selectedImageUrl,
-      blob: this.selectedImageBlob,
-      filename: this.selectedFile.name
-    });
+    this.$emit("input", this.selectedImageBlob);
   }
 }
 </script>
@@ -128,6 +130,7 @@ export default class PhotoPicker extends Vue {
 
 .image-frame {
   font-weight: 500;
+  background-color: rgba($color-surface, 0.2);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -138,32 +141,24 @@ export default class PhotoPicker extends Vue {
   text-align: center;
   color: #4a5568;
   border-radius: 4px;
+  width: 100%;
+  height: 100%;
 
   &-border-dashed {
-    border: 1px dashed #d8d8d8;
+    border: 2px dashed rgba(143, 146, 161, 0.2);
   }
 
   &-border-solid {
     border: 1px solid $color-border;
   }
 
-  &:focus {
-    border-color: rgba(
-      $color: (
-        $color-accent
-      ),
-      $alpha: $alpha-disabled
-    );
-    border-width: 2px;
+  &:focus,
+  &:active {
+    border-color: $color-accent;
   }
 
   &:hover {
-    border-color: rgba(
-      $color: (
-        $black
-      ),
-      $alpha: $alpha-disabled
-    );
+    border-color: #bfbfbf;
     .delete-button {
       display: flex;
     }
@@ -194,5 +189,23 @@ export default class PhotoPicker extends Vue {
 .image {
   width: 100%;
   height: 100%;
+}
+
+.add-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18.9px;
+  background-color: rgba($color-accent, 0.1);
+}
+
+.label-text {
+  font-family: $poppins;
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 1rem;
+  color: #8f92a1;
 }
 </style>

@@ -32,7 +32,7 @@ export default class SearchBar extends Vue {}
   &-input {
     background-color: transparent;
     box-sizing: border-box;
-    font-family: $font;
+    font-family: $roboto;
     font-size: 1rem;
     color: $color-primary-text;
     border: 0;

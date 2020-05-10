@@ -3,13 +3,11 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { RecipeModule } from '../recipe/recipe.module';
-import { Profile } from 'src/profile/profile.entity';
-// import { APP_FILTER } from '@nestjs/core';
-// import { HttpErrorFilter } from '../core/http-error.filter';
+import { Profile } from '../profile/profile.entity';
+import { Credential } from '../auth/credential.entity';
 
 @Module({
-  imports: [ RecipeModule, TypeOrmModule.forFeature([ User, Profile ]) ],
+  imports: [  TypeOrmModule.forFeature([ User, Profile, Credential ]) ],
   providers: [ UserService],
   exports: [ UserService ],
   controllers: [ UserController ],

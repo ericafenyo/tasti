@@ -1,13 +1,11 @@
 <template>
   <span class="input-password">
     <input
-      :class="['input-element', ...className]"
       :type="computeInputType"
-      required
-      :id="name"
       :placeholder="placeholder"
+      :id="name"
       :name="name"
-      v-model="model"
+      @input="$emit('on-input',$event.target.value)"
       ref="inputPassword"
     />
     <Icon
@@ -24,11 +22,11 @@ import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 
 @Component
 export default class InputText extends Vue {
-  @Prop(String) readonly value: string;
-  @Prop(String) readonly name: string;
-  @Prop(Boolean) readonly disabled: boolean;
-  @Prop(String) readonly helperText: string;
-  @Prop(String) readonly placeholder: string;
+  @Prop({ type: String, default: "" }) readonly value!: string;
+  @Prop({ type: String, default: "" }) readonly name!: string;
+  @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
+  @Prop({ type: String, default: "" }) readonly helperText!: string;
+  @Prop({ type: String, default: "" }) readonly placeholder!: string;
   @Prop() readonly className: any;
 
   model: string = "";
@@ -42,18 +40,8 @@ export default class InputText extends Vue {
     return this.isVisible ? "text" : "password";
   }
 
-  toggleVisibility(event) {
+  toggleVisibility() {
     this.isVisible = !this.isVisible;
-  }
-
-  @Watch("model")
-  onModelChanged(value) {
-    this.$emit("on-input", { value, name: this.name });
-  }
-
-  @Watch("value", { immediate: true })
-  onValueChanged(value) {
-    this.model = value;
   }
 }
 </script>

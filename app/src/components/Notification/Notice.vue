@@ -24,25 +24,25 @@ export default class Notice extends Vue {
   className = "";
 
   @Prop({ type: String, default: "success" })
-  type: NotificationType;
+  readonly type!: NotificationType;
 
   @Prop({ type: String, default: "" })
-  title: string;
+  readonly title!: string;
 
   @Prop({ type: String, default: "" })
-  message: string;
+  readonly message!: string;
 
   @Prop({ type: Boolean, default: false })
-  visible: boolean;
+  readonly visible!: boolean;
 
   @Prop({ type: String, default: "top-right" })
-  placement: NotificationPlacement;
+  readonly placement!: NotificationPlacement;
 
   @Emit("onDismiss")
   emitOnDismiss() {}
 
   @Watch("visible", { immediate: true })
-  onShowNotice(show) {
+  onShowNotice(show: boolean) {
     this.isVisible = show;
   }
 
@@ -138,9 +138,6 @@ export default class Notice extends Vue {
   &-title {
     margin-bottom: 8px;
     font-weight: 600;
-  }
-
-  &-message {
   }
 
   &-success {

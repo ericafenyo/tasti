@@ -22,11 +22,8 @@ export default class Subhead extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
-.subhead{
+.subhead {
   font-size: 1em;
   font-weight: 700;
-  &-small{
-
-  }
 }
 </style>

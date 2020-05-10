@@ -77,20 +77,26 @@
 
 /** == BREAK POINTS == **/
 
+@mixin phone() {
+  @media (min-width: #{$phone-width - 1}) {
+    @content;
+  }
+}
+
 @mixin phablet() {
-  @media (min-width: #{$phablet-width}) {
+  @media (min-width: #{$phablet-width - 1}) {
     @content;
   }
 }
 
 @mixin tablet() {
-  @media (min-width: #{$tablet-width}) {
+  @media (min-width: #{$tablet-width - 1}) {
     @content;
   }
 }
 
 @mixin laptop() {
-  @media (min-width: #{$laptop-width}) {
+  @media (min-width: #{$laptop-width - 1}) {
     @content;
   }
 }

@@ -8,13 +8,13 @@
         </div>
       </div>
       <div class="modal-body">
-        <slot></slot>
+        <slot name="content"></slot>
       </div>
       <div class="divider-dashed mx-4" />
       <div class="modal-footer">
         <div class="modal-footer-actions">
-          <Button :text="$t('cancel')" type="secondary" @on-click="onNegative" />
-          <Button :text="$t('create')" @on-click="onPositive" />
+          <slot name="button-negative"></slot>
+          <slot name="button-positive"></slot>
         </div>
       </div>
     </div>
@@ -30,10 +30,10 @@ export default class Modal extends Vue {
    * Determines whether or not the modal is displayed.
    */
   @Prop({ type: Boolean, default: true })
-  isOpen: boolean;
+  isOpen!: boolean;
 
   @Prop({ type: String, default: "" })
-  title: string;
+  title!: string;
 
   @Emit("on-positive")
   onPositive() {}
@@ -42,7 +42,7 @@ export default class Modal extends Vue {
   onNegative() {}
 
   @Watch("isOpen")
-  onVisibilityChange(visible) {
+  onVisibilityChange(visible: boolean) {
     if (!visible) {
       this.$emit("on-close");
     }

@@ -1,78 +1,55 @@
 <template>
-  <div
-    :style="{backgroundColor: background}"
-    class="avatar"
-    :class="[`avatar--${size}`, className]"
-  >
+  <div :class="['avatar', `avatar--${size}`, classNames]">
     <span class="avatar-initials" v-if="!hasImage">{{ userInitial }}</span>
-    <img class="avatar-image" v-if="hasImage" :src="src" alt="avatar" />
+    <img v-if="hasImage" :src="src" alt="avatar" class="avatar--image" />
+    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M14.686 15H1.314c.013-.737.114-1.294.288-1.712.428-1.295 1.548-2.308 3.052-2.906.946.679 2.107 1.078 3.361 1.078 1.253 0 2.414-.4 3.36-1.078 1.679.668 2.88 1.852 3.173 3.37l.003.02c.08.34.126.745.135 1.228zM3.614 5.683c0-2.43 1.97-4.402 4.401-4.402 2.43 0 4.4 1.971 4.4 4.402s-1.97 4.401-4.4 4.401c-2.431 0-4.401-1.97-4.401-4.401z"
+        fill="currentColor"
+        fill-rule="nonzero"
+      />
+    </svg>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import randomColor from "randomcolor";
 
 export type AvatarSize = "x-small" | "small" | "medium" | "large";
 
 @Component
 export default class Avatar extends Vue {
-  backgroundColors: [
-    "#F44336",
-    "#FF4081",
-    "#9C27B0",
-    "#673AB7",
-    "#3F51B5",
-    "#2196F3",
-    "#03A9F4",
-    "#00BCD4",
-    "#009688",
-    "#4CAF50",
-    "#8BC34A",
-    "#CDDC39",
-    "#FFC107",
-    "#FF9800",
-    "#FF5722",
-    "#795548",
-    "#9E9E9E",
-    "#607D8B"
-  ];
+  @Prop({ type: String, default: "" })
+  readonly username!: string;
 
   @Prop({ type: String, default: "" })
-  username: string;
-
-  @Prop({ type: String, default: "" })
-  src: string;
+  readonly src!: string;
 
   @Prop({ type: Boolean, default: true })
-  rounded: boolean;
+  readonly rounded!: boolean;
 
-  @Prop({ type: Boolean, default: false })
-  inline: boolean;
+  @Prop({ type: Boolean, default: true })
+  readonly inline!: boolean;
 
-  @Prop({ type: String, default: "medium" })
-  size: AvatarSize;
+  @Prop({ type: String, default: "small" })
+  readonly size!: AvatarSize;
 
   get hasImage() {
-    return Boolean(this.src);
+    return !!this.src;
   }
 
   get userInitial() {
     return !this.hasImage ? this.initial(this.username) : "";
   }
 
-  get className() {
+  get classNames() {
     let classes = "";
     const { rounded, inline } = this;
-    rounded && (classes += " avatar--rounded");
-    inline && (classes += " avatar--inline");
+    rounded && (classes += " avatar--rounded ");
+    inline && (classes += " avatar--inline ");
     return classes.trim();
   }
 
-  get background() {
-    return randomColor();
-  }
-
-  initial(username) {
+  initial(username: string) {
     let parts = username.split(/[ -]/);
     let initials = "";
     for (var i = 0; i < parts.length; i++) {
@@ -83,10 +60,6 @@ export default class Avatar extends Vue {
     }
     initials = initials.substr(0, 3).toUpperCase();
     return initials;
-  }
-
-  randomBackgroundColor(seed, colors) {
-    return colors[seed % colors.length];
   }
 }
 </script>
@@ -102,6 +75,12 @@ export default class Avatar extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+
+  &--image {
+    width: 100%;
+    height: 100%;
+  }
 
   &--x-small {
     @include size(24);

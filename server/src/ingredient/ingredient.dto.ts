@@ -1,4 +1,6 @@
+import { Recipe } from "src/recipe/recipe.entity";
+
 export class IngredientDto {
-  id: string;
   name: string;
+  recipe: Recipe;
 }

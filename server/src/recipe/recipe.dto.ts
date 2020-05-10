@@ -1,21 +1,36 @@
-import { IsString, IsNotEmpty } from 'class-validator';
-import { Ingredient } from '../ingredient/ingredient.entity';
-import { Direction } from '../direction/direction.entity';
-import { Photo } from '../photo/photo.entity';
-import { RecipeMetadata } from '../recipe-metadata/recipe-metadata.entity';
+import { IsString, IsNotEmpty, IsArray, IsNumber, IsEmpty, IsOptional, IsNumberString } from 'class-validator';
 
 export class RecipeDto {
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
   imagePath: string;
 
-  ingredients?: Ingredient[];
+  @IsOptional()
+  @IsString()
+  description?: string;
 
-  directions?: Direction[];
+  @IsOptional()
+  @IsNumberString()
+  servings?: number;
 
-  photos?: Photo[];
+  @IsString()
+  @IsOptional()
+  @IsNumberString()
+  duration: number;
 
-  metadata?: RecipeMetadata;
+  @IsOptional()
+  @IsArray()
+  photos?: string[]
+
+  @IsOptional()
+  @IsArray()
+  ingredients?: string[]
+
+  @IsOptional()
+  @IsArray()
+  directions?: string[];
 }

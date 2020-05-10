@@ -1,4 +1,7 @@
 {
+  "previous": "Previous",
+  "next": "Next",
+  "save": "Save",
   "success": "Success",
   "error": "Error",
   "info": "Information",
@@ -28,16 +31,27 @@
   "no-account-create-one": "Don't have an account?",
   "have-account-login": "Already have an account?",
   "sign-up": "Sign up",
-  "login": "Sign in",
+  "login": "Log in",
   "profile-tabs": [
-    { "text": "Recipes", "key": "recipes" },
-    { "text": "Favorites", "key": "favorites" },
-    { "text": "Followers", "key": "followers" },
-    { "text": "Following", "key": "following" }
+    {
+      "text": "Recipes",
+      "key": "recipes"
+    },
+    {
+      "text": "Favorites",
+      "key": "favorites"
+    },
+    {
+      "text": "Followers",
+      "key": "followers"
+    },
+    {
+      "text": "Following",
+      "key": "following"
+    }
   ],
   "just-remembered": "Just remembered?",
   "let-us-create-your-account": "Let's create your account",
-
   "invalid-credentials": {
     "type": "error",
     "message": "Your email or password is incorrect"
@@ -67,7 +81,8 @@
   },
   "action": {
     "reset-password": "Reset Password",
-    "set-new-password": "Set new password"
+    "set-new-password": "Set new password",
+    "edit": "Edit"
   },
   "label": {
     "password": "Password",

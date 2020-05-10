@@ -2,21 +2,16 @@ import { Controller, Get, UseGuards, Post, Request, Param, Body, Query } from '@
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import ResetPasswordDto from './auth/reset-password.dto';
+import { CurrentUser, CurrentUserInfo } from './auth/user.decorator';
 
 @Controller()
 export class AppController {
   constructor(private authService: AuthService) { }
 
   @UseGuards(AuthGuard('local'))
-  @Post('auth/login')
-  async login(@Request() request) {
-    return this.authService.login(request.user);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Get('profile')
-  getProfile(@Request() request) {
-    return request.user;
+  @Post('auth/token')
+  async login(@CurrentUser() user: CurrentUserInfo) {
+    return this.authService.getToken(user);
   }
 
   @Post('auth/password/request-reset')
@@ -26,8 +21,8 @@ export class AppController {
 
   @Post('auth/password/reset')
   async resetPassword(@Body() request: ResetPasswordDto, @Query() query: any) {
-    const { token, email} = query;
-    const {password, confirmPassword } = request;
+    const { token, email } = query;
+    const { password, confirmPassword } = request;
     return await this.authService.resetPassword(email, password, confirmPassword, token);
   }
 }

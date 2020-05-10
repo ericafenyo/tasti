@@ -53,8 +53,7 @@
 }
 
 .clip-content {
-  overflow: hidden !important;
-  // padding-right: 0;
+  overflow: hidden;
 }
 
 .button-group {
@@ -65,11 +64,13 @@
   }
 }
 
-// .card {
-//   border: 1px solid #eaedf3;
-//   // border-radius: 16px;
-// }
-
+.section-header {
+  font-family: $poppins;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #1e1f20;
+}
 
 .color-light-active {
   color: rgba($color: $white, $alpha: $alpha-active);
@@ -89,4 +90,8 @@
 
 .background-surface {
   background-color: $color-surface;
+}
+
+.background-light {
+  background-color: $white;
 }
