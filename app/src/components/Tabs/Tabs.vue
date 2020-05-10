@@ -17,17 +17,17 @@ export default class Tabs extends Vue {
   activeIndex = 0;
 
   @Prop({ type: Array, default: [] })
-  items: string[];
+  items!: string[];
   /**
    * Emits a action when the active tab is changed
    * @params{number} the active tab index
    */
   @Watch("activeIndex", { immediate: true })
-  onActiveChanged(value) {
+  onActiveChanged(value: any) {
     this.$emit("on-change", this.items[value]);
   }
 
-  setActiveTab(index) {
+  setActiveTab(index: number) {
     this.activeIndex = index;
   }
 }

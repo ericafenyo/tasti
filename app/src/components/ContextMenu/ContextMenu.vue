@@ -20,7 +20,8 @@ export type ContextMenuItemOption = {
 
 @Component({ components: { ContextMenuItem } })
 export default class ContextMenu extends Vue {
-  @Prop({ type: Object, default: [] }) items: ContextMenuItemOption;
+  @Prop({ type: Object, default: [] })
+  readonly items!: ContextMenuItemOption;
 }
 </script>
 
@@ -28,6 +29,6 @@ export default class ContextMenu extends Vue {
 @import "@/scss/_resources.scss";
 
 .context-menu {
-    padding: 16px 0;
+  padding: 16px 0;
 }
 </style>

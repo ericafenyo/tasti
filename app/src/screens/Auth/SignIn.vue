@@ -1,7 +1,7 @@
 <template>
   <section class="section-no-header background-surface">
     <div class="wrapper">
-      <div class="login">
+      <div class="sign-in">
         <Headline text="Login To Your Account" :level="2" class="mb-8" />
         <Alert
           :visible="options.visible"
@@ -18,6 +18,7 @@
               :placeholder="$t('email-placeholder')"
               :label="$t('label.email')"
               :className="[{'input-error': $v.email.$error}]"
+              :value="email"
               v-model="email"
             />
           </div>
@@ -34,7 +35,13 @@
               v-model="password"
             />
           </div>
-          <Button :loading="isLoading" :disabled="$v.$invalid" size="large" :text="$t('login')" />
+          <Button
+            size="large"
+            :loading="isLoading"
+            :disabled="$v.$invalid"
+            :block="true"
+            :text="$t('login')"
+          />
           <div class="mt-3 text-center">
             <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
             <Link :text="$t('sign-up')" to="/auth/sign-up" />
@@ -76,10 +83,10 @@ export default class SignIn extends Vue {
   };
 
   @Prop({ type: String, default: "" })
-  notificationKey: string;
+  readonly notificationKey!: string;
 
   @Prop({ type: String, default: "" })
-  username: string;
+  readonly username!: string;
 
   showAlert(options: NotificationOptions = { visible: false }) {
     this.options = options;
@@ -108,7 +115,7 @@ export default class SignIn extends Vue {
         // reset form inputs
         this.resetForm();
         // Redirect to the home screen
-        this.$router.replace("/");
+        this.$router.replace({ name: "home" });
       } else if (response.status === HttpStatus.UNAUTHORIZED) {
         // reset form inputs
         // Show alert
@@ -127,10 +134,6 @@ export default class SignIn extends Vue {
         });
       }
     }
-  }
-
-  onInput({ value, name }) {
-    this[name] = value;
   }
 
   mounted() {
@@ -161,7 +164,7 @@ export default class SignIn extends Vue {
     padding-top: 3rem;
   }
 }
-.login {
+.sign-in {
   max-width: 420px;
   height: 100%;
   margin: 0 auto;
@@ -174,11 +177,6 @@ export default class SignIn extends Vue {
   }
   @include phablet {
     height: initial;
-  }
-
-  .button {
-    width: 100%;
-    margin-top: 1rem;
   }
 }
 </style>

@@ -20,10 +20,6 @@ export default class Stepper extends Vue {}
 @import "@/scss/_resources.scss";
 
 .stepper {
-  &-header {
-    
-  }
-
   &-content {
     overflow-y: auto;
     margin: 3rem 0;

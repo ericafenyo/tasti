@@ -2,7 +2,9 @@
   <div class="input">
     <div class="flex justify-between">
       <label :for="name" class="input-label">{{label}}</label>
-      <Link size="small" v-if="hasAction" :text="actionText" :to="actionRoute" />
+      <slot name="label-right">
+        <Link size="small" v-if="hasAction" :text="actionText" :to="actionRoute" />
+      </slot>
     </div>
     <component
       :is="computeComponent"
@@ -10,7 +12,7 @@
       :placeholder="placeholder"
       :type="type"
       :name="name"
-      :value="text"
+      :value="value"
       @on-input="(args) => $emit('input', args)"
     />
     <span
@@ -34,29 +36,43 @@ import InputPassword from "./InputPassword.vue";
   }
 })
 export default class Input extends BaseInput {
-  @Prop(String) label: string;
-  @Prop(Boolean) size: boolean;
-  @Prop(String) icon: string;
-  @Prop(String) state: string;
-  @Prop({ type: String, default: "" }) helperText: string;
-  @Prop(Boolean) hasHint: boolean;
-  @Prop(String) type: string;
+  @Prop({ type: String, default: "" })
+  readonly label!: string;
+
+  @Prop({ type: String, default: "" })
+  readonly icon!: string;
+
+  @Prop({ type: String, default: "" })
+  readonly state!: string;
+
+  @Prop({ type: String, default: "" })
+  readonly helperText!: string;
+
+  @Prop({ type: String, default: "" })
+  readonly size!: string;
+
   @Prop({ type: Boolean, default: false })
-  hasAction: boolean;
+  readonly hasHint!: boolean;
 
   @Prop({ type: String, default: "" })
-  actionText: string;
+  readonly type!: string;
+
+  @Prop({ type: Boolean, default: false })
+  readonly hasAction!: boolean;
 
   @Prop({ type: String, default: "" })
-  actionRoute: string;
-  @Prop({ type: String, default: "" }) text: string;
+  readonly actionText!: string;
+
+  @Prop({ type: String, default: "" })
+  readonly actionRoute!: string;
+  @Prop({ type: String, default: "" })
+  readonly text!: string;
 
   capitalize(value: string) {
-    console.log();
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  computeClasses(errors) {
+  computeClasses(errors: any[]) {
     const { state } = this.$props;
     return (state ? `input-${state}` : "") + (errors[0] ? " input-error" : "");
   }
@@ -91,24 +107,26 @@ export default class Input extends BaseInput {
 
   /deep/ input {
     font-family: $roboto;
-    height: 48px;
-    // background-color: rgba($color-surface, 0.6);
-    background-color: rgba($white, 0.4);
-    box-shadow: 0 7px 64px 0 rgba(0, 0, 0, 0.07);
-    font-size: 1rem;
+    height: 42px;
+    background-color: rgba($color-surface, 0.2);
+    font-size: 0.875rem;
     color: $color-primary-text;
-    border: solid 1px $color-border;
-    padding-left: 1rem;
-    padding-right: 3rem;
-    border-radius: 6px;
+    border: 1px solid $color-border;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    border-radius: 4px;
     width: 100%;
     z-index: 0;
     transition: all 0.2s;
 
+    &:hover {
+      border-color: #bfbfbf;
+    }
+
     &:focus {
-      // box-shadow: inset 0 0 0px 2px $color-accent;
+      box-shadow: inset 0 0 0px 1px $color-accent;
+      border-color: $color-accent;
       background-color: $white;
-      border-color: rgba($color-primary-text, 0.2);
     }
 
     &.input-error {

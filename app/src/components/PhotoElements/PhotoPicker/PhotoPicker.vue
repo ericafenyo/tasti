@@ -16,13 +16,15 @@
     >
       <template v-if="selectedImageUrl">
         <div class="delete-button" @click.stop="handleDeletePhotoClick">
-          <Icon name="close" width="18" />
+          <Icon name="close" size="18" />
         </div>
         <img :src="selectedImageUrl" class="fluid" />
       </template>
       <template v-else>
-        <Icon name="add" width="32px" height="32px" />
-        <div class="mt-2">Upload</div>
+        <span class="add-icon">
+          <Icon color="#6286ED" name="add" width="32px" height="32px" />
+        </span>
+        <div class="label-text">Choose files to upload</div>
       </template>
     </div>
     <input
@@ -128,6 +130,7 @@ export default class PhotoPicker extends Vue {
 
 .image-frame {
   font-weight: 500;
+  background-color: rgba($color-surface, 0.2);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -142,30 +145,20 @@ export default class PhotoPicker extends Vue {
   height: 100%;
 
   &-border-dashed {
-    border: 1px dashed #d8d8d8;
+    border: 2px dashed rgba(143, 146, 161, 0.2);
   }
 
   &-border-solid {
     border: 1px solid $color-border;
   }
 
-  &:focus {
-    border-color: rgba(
-      $color: (
-        $color-accent
-      ),
-      $alpha: $alpha-disabled
-    );
-    border-width: 2px;
+  &:focus,
+  &:active {
+    border-color: $color-accent;
   }
 
   &:hover {
-    border-color: rgba(
-      $color: (
-        $black
-      ),
-      $alpha: $alpha-disabled
-    );
+    border-color: #bfbfbf;
     .delete-button {
       display: flex;
     }
@@ -196,5 +189,23 @@ export default class PhotoPicker extends Vue {
 .image {
   width: 100%;
   height: 100%;
+}
+
+.add-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18.9px;
+  background-color: rgba($color-accent, 0.1);
+}
+
+.label-text {
+  font-family: $poppins;
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 1rem;
+  color: #8f92a1;
 }
 </style>

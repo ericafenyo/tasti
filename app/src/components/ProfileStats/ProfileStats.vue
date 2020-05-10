@@ -39,7 +39,7 @@ import { type } from "os";
 })
 export default class ProfileStats extends Vue {
   @Prop({ type: Object, default: () => ({ profile: {}, stats: {} }) })
-  args: object;
+  readonly args!: object;
 
   mounted() {
     console.log(this.args.profile);

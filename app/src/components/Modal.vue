@@ -30,10 +30,10 @@ export default class Modal extends Vue {
    * Determines whether or not the modal is displayed.
    */
   @Prop({ type: Boolean, default: true })
-  isOpen: boolean;
+  isOpen!: boolean;
 
   @Prop({ type: String, default: "" })
-  title: string;
+  title!: string;
 
   @Emit("on-positive")
   onPositive() {}
@@ -42,7 +42,7 @@ export default class Modal extends Vue {
   onNegative() {}
 
   @Watch("isOpen")
-  onVisibilityChange(visible) {
+  onVisibilityChange(visible: boolean) {
     if (!visible) {
       this.$emit("on-close");
     }

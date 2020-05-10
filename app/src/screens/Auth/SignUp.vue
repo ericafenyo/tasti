@@ -58,7 +58,7 @@
             />
           </div>
 
-          <div class="form-item">
+          <div v-if="false" class="form-item">
             <div class="privacy-agreement">
               <Checkbox>
                 <span class="text-body">{{$t('accept')}}</span>
@@ -66,13 +66,16 @@
               </Checkbox>
             </div>
           </div>
-          <Button
-            size="large"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
-            :text="$t('create-account')"
-            @click.native="onSubmit"
-          />
+          <div class="mt-5">
+            <Button
+              size="large"
+              :block="true"
+              :loading="isLoading"
+              :disabled="$v.$invalid"
+              :text="$t('create-account')"
+              @click.native="onSubmit"
+            />
+          </div>
           <div class="mt-3 text-center">
             <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
             <Link :text="$t('login')" to="/auth/sign-in" />
@@ -234,10 +237,5 @@ export default class SignUp extends Vue {
   .link {
     margin: 0 8px;
   }
-}
-
-.button {
-  width: 100%;
-  margin-top: 1rem;
 }
 </style>

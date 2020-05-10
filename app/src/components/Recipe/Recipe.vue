@@ -1,7 +1,5 @@
 <template>
   <section class="background-surface">
-    <!-- <NavigationBar class="header-fix" /> -->
-
     <div class="container">
       <div class="layer py-4">
         <div class="recipe-image-wrapper">
@@ -52,7 +50,7 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import { Actions } from "../../store/actions";
 import { Result } from "../../data/Result";
-import CreateRecipe from "../../views/CreateRecipe/CreateRecipe.vue";
+import CreateRecipe from "../../screens/Recipe/Create.vue";
 import { HttpStatus } from "../../enums";
 
 @Component({ components: { CreateRecipe } })
@@ -61,7 +59,7 @@ export default class Recipe extends Vue {
   recipeId = "";
 
   @Prop({ type: String, default: "" })
-  id: string;
+  id!: string;
 
   created() {
     if (this.id) {

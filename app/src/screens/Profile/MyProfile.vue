@@ -22,7 +22,6 @@ import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import ProfileStats from "../../components/ProfileStats/ProfileStats.vue";
 import Cookbook from "@/components/Cookbook/Cookbook.vue";
 import EditProfile from "@/components/EditProfile/EditProfile.vue";
-import CreateRecipeTemplate from "../../components/CreateRecipeTemplate.vue";
 import Loader from "../../components/Loader.vue";
 
 import ContextMenu, {
@@ -41,7 +40,6 @@ import { Result, Status } from "../../data/Result";
     Cookbook,
     ContextMenu,
     EditProfile,
-    CreateRecipeTemplate,
     Loader
   }
 })
@@ -61,10 +59,10 @@ export default class Profile extends Vue {
     this.showLoading(false);
   }
 
-  async loadData({ key }) {
-    const response = await this.$store.dispatch(Actions.GET_FOLLOWERS);
-    console.log(response);
-  }
+  // async loadData({ key }) {
+  //   const response = await this.$store.dispatch(Actions.GET_FOLLOWERS);
+  //   console.log(response);
+  // }
 
   async mounted() {
     const response = await this.$store.dispatch(Actions.GET_PROFILE);
@@ -87,9 +85,9 @@ export default class Profile extends Vue {
 
   createNewRecipe() {}
 
-  active(value) {
-    console.log(value);
-  }
+  // active(value) {
+  //   console.log(value);
+  // }
   onMenuItemClick() {}
 }
 </script>

@@ -1,14 +1,14 @@
 <template>
   <transition name="slide-horizontal">
     <div v-if="isVisible" :class="['alert', {'alert-closable' : closable}, composeAlertClasses]">
-      <Icon :name="computeIcon" class="alert-icon" :size="18" />
+      <Icon :name="computeIcon" class="alert-icon" size="20" />
       <span v-if="title" v-html="title" class="alert-title" />
       <span v-if="message" v-html="message" class="alert-message" />
       <Icon
         v-if="closable"
         class="alert-action-close"
         name="close"
-        :size="20"
+        size="20"
         @click.native="onDismiss"
       />
     </div>
@@ -41,25 +41,25 @@ export default class Alert extends Vue {
   }
 
   @Prop({ type: String, default: "success" })
-  type: NotificationType;
+  readonly type!: NotificationType;
 
   @Prop({ type: String, default: "" })
-  title: string;
+  readonly title!: string;
 
   @Prop({ type: String, default: "" })
-  message: string;
+  readonly message!: string;
 
   @Prop({ type: Boolean, default: false })
-  visible: boolean;
+  readonly visible!: boolean;
 
   @Prop({ type: Boolean, default: true })
-  closable: boolean;
+  readonly closable!: boolean;
 
   @Emit("on-dismiss")
   emitOnDismiss() {}
 
   @Watch("visible", { immediate: true })
-  onShowAlert(show) {
+  onShowAlert(show: boolean) {
     this.isVisible = show;
   }
 

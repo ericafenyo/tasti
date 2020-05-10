@@ -23,7 +23,7 @@ export default class Overlay extends Vue {
    * Determines whether or not the overlay is displayed.
    */
   @Prop({ type: Boolean, default: false })
-  isOpen: boolean;
+  isOpen!: boolean;
 
   /**
    * Determines the theme of the overlay.
@@ -36,10 +36,10 @@ export default class Overlay extends Vue {
   readonly translucent!: boolean;
 
   @Prop({ type: Boolean, default: true })
-  centerHorizontal: boolean;
+  readonly centerHorizontal!: boolean;
 
   @Prop({ type: Boolean, default: true })
-  centerVertical: boolean;
+  readonly centerVertical!: boolean;
 
   hideBodyScrollBar(hideScrollBar: boolean) {
     const bodyElement = document.querySelector("body");
@@ -52,11 +52,11 @@ export default class Overlay extends Vue {
 
   @Watch("isOpen", { immediate: true })
   isOpenChanged(opened: boolean) {
-    // if (opened) {
-    this.hideBodyScrollBar(true);
-    // } else {
-    // this.hideBodyScrollBar(false);
-    // }
+    if (opened) {
+      this.hideBodyScrollBar(true);
+    } else {
+      this.hideBodyScrollBar(false);
+    }
   }
 }
 </script>

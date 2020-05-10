@@ -1,12 +1,14 @@
 <template>
   <button
-    :class="['button', computeClass, {'button--loading': loading }]"
+    :id="id"
+    :type="htmlType"
+    :class="['button', ...classNames]"
     :disabled="disabled"
     @click="$emit('on-click')"
   >
-    <i v-if="icon" class="material-icons button-icon">{{icon}}</i>
-    <span class="button-text" v-if="!loading">{{text}}</span>
-    <span class="button-loading-indicator" v-if="loading">
+    <i v-if="icon" class="material-icons button--icon">{{icon}}</i>
+    <span class="button--text" v-if="!loading">{{text}}</span>
+    <span class="button--loading-indicator" v-if="loading">
       <Loader />
     </span>
   </button>
@@ -14,35 +16,63 @@
 
 <script lang="ts">
 export type ButtonSize = "x-small" | "small" | "medium" | "large";
+export type ButtonType =
+  | "primary"
+  | "secondary"
+  | "destroy"
+  | "confirm"
+  | "subtle"
+  | "cancel";
+export type ButtonStyle = "standard" | "text" | "outline";
 
-import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import { type } from "os";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Button extends Vue {
   @Prop({ type: String, default: "Button" })
-  text: string;
+  readonly text!: string;
 
   @Prop({ type: String, default: "primary" })
-  type: string;
+  readonly type!: ButtonType;
+
+  @Prop({ type: String, default: "standard" })
+  readonly theme!: ButtonStyle;
+
+  @Prop({ type: Boolean, default: true })
+  readonly rounded!: boolean;
 
   @Prop({ type: String, default: "medium" })
-  size: ButtonSize;
+  readonly size!: ButtonSize;
 
   @Prop({ type: String, default: "" })
-  icon: string;
+  readonly icon!: string;
 
   @Prop({ type: Boolean, default: false })
-  disabled: boolean;
+  readonly disabled!: boolean;
 
   @Prop({ type: Boolean, default: false })
-  loading: boolean;
+  readonly block!: boolean;
 
-  @Prop({ type: String, default: "submit" })
-  htmlType: string;
+  @Prop({ type: Boolean, default: false })
+  readonly loading!: boolean;
 
-  get computeClass() {
-    return `button--${this.$props.type} button--${this.$props.size} ${this.$props.icon}`;
+  @Prop({ type: String })
+  readonly id!: boolean;
+
+  @Prop({ type: String })
+  readonly htmlType!: string;
+
+  get classNames() {
+    let classes = [];
+    const { type, size, icon, loading, block, rounded } = this;
+
+    classes.push(`button--${type}`);
+    classes.push(`button--${size}`);
+    icon && classes.push(`${icon}`);
+    rounded && classes.push("rounded");
+    block && classes.push("block");
+    loading && classes.push("loading");
+    return classes;
   }
 }
 </script>
@@ -55,14 +85,27 @@ export default class Button extends Vue {
   font-family: $roboto;
   padding: 0 1em;
   min-width: 80px;
-  border-radius: 4px;
   overflow: hidden;
-  border: 1.5px solid transparent;
-  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 500;
-  text-decoration: none;
-  font-size: 16px;
-  transition: background-color 0.2s linear, color 0.2s linear;
+  font-size: 1rem;
+  border-radius: 1.5px;
+
+  &.block {
+    width: 100%;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.rounded {
+    border-radius: 3px;
+  }
 
   // Button sizes
   &--x-small {
@@ -88,11 +131,6 @@ export default class Button extends Vue {
     color: $white;
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
   &--secondary {
     background-color: $color-surface;
     border-color: $color-surface;
@@ -100,17 +138,28 @@ export default class Button extends Vue {
   }
 
   &--outline {
-    background-color: $white;
-    border-color: $color-accent;
-    color: $color-accent;
+    background-color: transparent;
+    border-color: #dfe3e8;
+    color: #a0aec0;
+  }
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+  &--confirm {
+    background-color: $green;
+    color: $white;
+
+    &:active,
+    &:hover,
+    &:focus {
+      background-color: $green-dark;
     }
   }
 
-  &--loading {
+  &--subtle {
+    background-color: $white;
+    color: $grey;
+  }
+
+  &.loading {
     opacity: 0.8 !important;
   }
 
@@ -119,7 +168,7 @@ export default class Button extends Vue {
     background-color: transparent;
   }
 
-  &-loading-indicator {
+  &--loading-indicator {
     display: flex;
     justify-content: center;
     align-items: center;
