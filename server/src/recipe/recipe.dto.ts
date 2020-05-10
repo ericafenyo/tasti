@@ -7,23 +7,20 @@ export class RecipeDto {
 
   @IsString()
   @IsNotEmpty()
-  image: string;
+  imagePath: string;
 
   @IsOptional()
   @IsString()
   description?: string;
 
   @IsOptional()
-  @IsString()
-  facts?: string;
-
-  @IsOptional()
   @IsNumberString()
   servings?: number;
 
-  @IsOptional()
   @IsString()
-  tags?: string;
+  @IsOptional()
+  @IsNumberString()
+  duration: number;
 
   @IsOptional()
   @IsArray()

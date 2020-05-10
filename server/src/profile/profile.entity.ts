@@ -1,29 +1,22 @@
-import { Entity, Column, OneToOne, ManyToMany, JoinTable, RelationCount, JoinColumn, RelationId } from 'typeorm';
+import { Entity, Column, OneToOne, ManyToMany, JoinTable, RelationCount, JoinColumn, RelationId, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/user.entity';
-import { BaseEntity } from '../BaseEntity';
 
 @Entity()
-export class Profile extends BaseEntity {
-  @Column() name: string;
+export class Profile {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ default: '' })
+  @Column({ default: "" })
   bio: string;
 
-  @Column({ default: '' })
-  avatarPath: string;
-
-  @Column({ default: '' })
+  @Column({ default: "" })
   gender: string;
 
-  @Column({ default: '' })
+  @Column({ default: "" })
   occupation: string;
 
-  @OneToOne(() => User, (user) => user.profile)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
-
-  @RelationId((profile: Profile) => profile.user)
-  userId: string;
+  @Column({ name: "avatar_path", default: "" })
+  avatarPath: string;
 
   @ManyToMany(() => Profile, (profile) => profile.following)
   @JoinTable()

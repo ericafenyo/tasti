@@ -1,12 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
-import { BaseEntity } from '../BaseEntity';
 
 @Entity()
-export class Direction extends BaseEntity {
+export class Direction {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   text: string;
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.directions)
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @ManyToOne(() => Recipe, (recipe) => recipe.directions, { cascade: true })
+  @JoinColumn({ name: 'recipe_id' })
   recipe: Recipe;
 }

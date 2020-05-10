@@ -3,7 +3,10 @@ import {
   NotFoundException,
   ConflictException,
   ForbiddenException,
-  BadRequestException
+  BadRequestException,
+  InternalServerErrorException,
+  HttpException,
+  NotImplementedException
 } from '@nestjs/common';
 import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -11,11 +14,9 @@ import { Repository, Connection } from 'typeorm';
 import { UserDto } from './user.dto';
 import { Profile } from 'src/profile/profile.entity';
 import { ProfileDto } from 'src/profile/profile.dto';
-import { Validator } from 'class-validator';
+import { isNotEmptyObject, isEmpty } from 'class-validator';
 import { MysqlError } from 'src/enums/mysql.error.enum';
-
-// TODO: Inject this as a dependency
-const validator = new Validator();
+import { Credential } from 'src/auth/credential.entity';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 14;
@@ -25,16 +26,18 @@ export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectRepository(Credential) private credentialRepository: Repository<Credential>,
     @InjectConnection() private connection: Connection
-  ) { }
+  ) {}
 
   /**
-  * Returns true if the user exist {@link User}
-  * @param id the users id
-  * @param email the users email
-  */
+   * Returns true if the user exist {@link User}
+   * @param id the users id
+   * @param email the users email
+   */
   async hasUser(id: string, email: any) {
-    const count = await this.userRepository.createQueryBuilder('user')
+    const count = await this.userRepository
+      .createQueryBuilder('user')
       .select('user.id')
       .where('id = :id', { id })
       .andWhere('email = :email', { email })
@@ -44,12 +47,13 @@ export class UserService {
 
   /**
    * Return a registered {@link User}
-   * @param id the users id
+   * @param userId the users id
    * @param email the users email
    */
-  async getCurrentUser(id: string, email: any) {
-    return await this.userRepository.createQueryBuilder('user')
-      .where('id = :id', { id })
+  async getCurrentUser(userId: string, email: any) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId })
       .andWhere('email = :email', { email })
       .getOne();
   }
@@ -62,109 +66,130 @@ export class UserService {
     // Retrieves the use's old password using the provided email
     const user = await this.userRepository
       .createQueryBuilder('user')
-      .select('password')
-      .addSelect('user.password')
+      .leftJoinAndSelect('user.credential', 'credential')
       .where('email = :email', { email })
       .getOne();
 
     // Throw an error if no record is found for the email address
-    if (validator.isEmpty(user.password)) {
+    if (isEmpty(user)) {
       throw new BadRequestException('No account found for this email address');
     }
 
     // Throw an error if the user enters the same password as the new reset password
-    const passwordMatched = await bcrypt.compare(password, user.password);
+    const passwordMatched = await bcrypt.compare(password, user.credential.password);
     if (passwordMatched) {
-      throw new ForbiddenException('You cannot user an old password');
+      throw new ForbiddenException('You cannot use an old password');
     }
 
     // Proceed and prepare the password to be inserted into the database.
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const credential = this.credentialRepository.create({ password: hashedPassword });
+    const updated = await this.credentialRepository.update({ id: user.credential.id }, credential);
 
-    const updated =
-      (await this.userRepository
-        .createQueryBuilder('user')
-        .update()
-        .set({ password: hashedPassword })
-        .where('user.email=:email', { email })
-        .execute()) || {};
-
-    if (validator.isNotEmptyObject(updated)) {
-      return { updatedAt: new Date().toISOString() };
+    if (isNotEmptyObject(updated)) {
+      return { updated: updated };
     }
   }
 
   async getSimpleUser(email: string) {
     return await this.userRepository
       .createQueryBuilder('user')
-      .addSelect('user.password')
+      .leftJoinAndSelect('user.credential', 'credential')
       .where('email = :email', { email })
       .getOne();
   }
 
   handleError(error: any) {
-    if (error.errno && error.errno === MysqlError.DUPLICATE_ENTRY) {
-      throw new ConflictException('User email already exist');
+    if (error.errno) {
+      if (error.errno === MysqlError.DUPLICATE_ENTRY) {
+        throw new ConflictException('User email already exist');
+      } else {
+        throw new InternalServerErrorException(error.sqlMessage);
+      }
     } else {
-      return error;
+      throw new InternalServerErrorException(error);
     }
   }
 
   /**
    * Updates the user's profile information
-   * @param {String} profileId the id of the profile
    * @param {String} userId  the user's id
    * @param {ProfileDto} profileDto an object containing the updated information
    */
-  async updateProfile(profileId: string, userId: string, profileDto: ProfileDto) {
-    const oldProfile = this.profileRepository.find({ id: profileId });
-    const updatedProfile = this.profileRepository.create({ ...oldProfile, ...profileDto });
-    return await this.profileRepository.update(profileId, updatedProfile);
+  async updateProfile(userId: string, profileDto: ProfileDto) {
+    throw new NotImplementedException();
+    // const oldProfile = this.profileRepository.find({ id: profileId });
+    // const updatedProfile = this.profileRepository.create({ ...oldProfile, ...profileDto });
+    // return await this.profileRepository.update(profileId, updatedProfile);
   }
 
   /**
-   * 
-   * @param {String} email - the users email address;
+   * Get a single user
+   *
+   * @param {String} email - the user's email address;
    */
   async findOne(email: string) {
     try {
       const user = await this.userRepository
         .createQueryBuilder('user')
-        .addSelect('user.password')
+        .select([
+          'user.id',
+          'user.name',
+          'user.email',
+          'user.emailVerified',
+          'credential.password',
+          'profile.avatarPath'
+        ])
+        .leftJoin('user.credential', 'credential')
+        .leftJoin('user.profile', 'profile')
         .where('email = :email', { email })
         .getOne();
 
-      if (validator.isEmpty(user)) {
+      if (!isNotEmptyObject(user)) {
         throw new NotFoundException();
       }
 
-      return user;
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: user.credential.password,
+        emailVerified: user.emailVerified,
+        avatarPath: user.profile.avatarPath
+      };
     } catch (error) {
-      console.log(JSON.stringify(error));
-      throw new NotFoundException();
+      console.log(error);
+      throw new NotFoundException('user not found');
     }
   }
 
   /**
-   * 
-   * @param userId 
+   * Get the uses profile information
+   *
+   * @param {String} userId the user's id
    */
   async findById(userId: string) {
     try {
-      const user = await this.userRepository.findOne({
-        where: { id: userId },
-        relations: ['profile', 'profile.following', 'profile.followers']
-      });
+      const user = await this.userRepository
+        .createQueryBuilder('user')
+        .where('user.id=:userId', { userId })
+        .leftJoinAndSelect('user.profile', 'profile')
+        .getOne();
 
-      if (validator.isEmpty(user)) {
+      if (!isNotEmptyObject(user)) {
         throw new NotFoundException('method exists, but no record found');
       }
 
-      const { email, recipeCount, profile: { id, followersCount, followingCount, ...profileRemains } } = user;
-      return { stats: { recipeCount, followersCount, followingCount }, profile: { email, ...profileRemains } };
-    } catch (error) { }
-
-    // console.log(profileId);
+      const {
+        updatedAt,
+        emailVerified,
+        profile: { id, ...profileResult },
+        ...userResult
+      } = user;
+      return { ...userResult, ...profileResult };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getFollowers(userId: string) {
@@ -175,12 +200,15 @@ export class UserService {
         relations: ['profile', 'profile.followers']
       });
 
-      if (validator.isEmpty(user)) {
+      if (!isNotEmptyObject(user)) {
         throw new NotFoundException('method exists, but no record found');
       }
-      const { id, profile: { followers } } = user;
+      const {
+        id,
+        profile: { followers }
+      } = user;
       return { id, followers };
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async getFollowing(userId: string) {
@@ -191,12 +219,15 @@ export class UserService {
         relations: ['profile', 'profile.followers']
       });
 
-      if (validator.isEmpty(user)) {
+      if (!isNotEmptyObject(user)) {
         throw new NotFoundException('method exists, but no record found');
       }
-      const { id, profile: { following } } = user;
+      const {
+        id,
+        profile: { following }
+      } = user;
       return { id, following };
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async find() {
@@ -204,31 +235,35 @@ export class UserService {
   }
 
   /**
-   * Creates a new User resource. 
-   * In addition, a user profile is generated with addition information.
-   * @param { UserDto } userDto - an object containing user information
+   * Creates a new User resource.
+   * In addition, a profile is generated for that particular user.
+   *
+   * @param { UserDto } userDto - an object containing the user's information
    */
   async create(userDto: UserDto) {
-    return this.connection.transaction(async (manager) => {
+    return this.connection.transaction(async manager => {
       try {
         // Separate and encrypt the user password using the bcrypt library.
         // The idea is not to store the original password but a hashed version using complex algorithms
-        const { password, ...result } = userDto;
+        const { password, firstName, lastName, email } = userDto;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        // build the user entity from the above objects
-        const user = this.userRepository.create({ password: hashedPassword, ...result });
-        // finally save the user entity
+
+        // build the user credential entity
+        const credential = this.credentialRepository.create({ password: hashedPassword });
+
+        // Create an empty profile entity
+        const profile = this.profileRepository.create();
+
+        // Save the user entity
+        const name = `${firstName} ${lastName}`;
+        const user = this.userRepository.create({ name, email, credential, profile });
         const savedUser = await manager.save(user);
 
-        // Build a profile entity
-        const profileObj = { name: `${userDto.firstName} ${userDto.lastName}` };
-        const profile = this.profileRepository.create({ ...profileObj, user: savedUser });
-        // finally save the profile entity
-        const savedProfile = await manager.save(profile);
-
-        // Return relevant information
-        const { id, createdAt, user: { email } } = savedProfile;
-        return { id, createdAt: createdAt, email };
+        return {
+          id: savedUser.id,
+          email: savedUser.email,
+          createdAt: savedUser.createdAt
+        };
       } catch (error) {
         console.log('Error while creating a user ', error);
         this.handleError(error);

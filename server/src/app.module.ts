@@ -8,6 +8,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { multerOption } from './core';
 import { RecipeModule } from './recipe/recipe.module';
 import { UploadModule } from './upload/upload.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { UploadModule } from './upload/upload.module';
     AuthModule,
     RecipeModule,
     MulterModule.register(multerOption),
-    UploadModule
+    UploadModule,
+    MailModule
   ],
   controllers: [AppController],
 })

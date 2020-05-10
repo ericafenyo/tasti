@@ -16,6 +16,7 @@ import { Direction } from '../direction/direction.entity';
 import { UserService } from '../user/user.service';
 import { CurrentUserInfo } from '../auth/user.decorator';
 import { Photo } from '../photo/photo.entity';
+import { isArray } from 'class-validator';
 
 export interface CreatedResource {
   id: string;
@@ -52,32 +53,27 @@ export class RecipeService {
   async create(user: CurrentUserInfo, recipeDto: RecipeDto): Promise<any> {
     return this.connection.transaction(async (manager) => {
       try {
-        // Get the user 
-        const owner = await this.userService.getCurrentUser(user.id, user.email);
-
-        // Manage Base Recipe
         const { ingredients, directions, photos, ...rest } = recipeDto;
-        const newRecipeEntity = this.recipeRepository.create({ ...rest, owner });
-        const recipe = await manager.save(newRecipeEntity);
-        console.log(recipe);
+        const owner = await this.userService.getCurrentUser(user.id, user.email);
+        const recipe = this.recipeRepository.create({ owner, ...rest });
+        await manager.save(recipe);
 
-        // Manage Photos
-        const rawPhotos = photos.map(photo => ({ path: photo, recipe }));
+        // Build recipe photos
+        const rawPhotos = isArray(photos) ? photos.map(photo => ({ path: photo, recipe })) : [];
         const photosEntities = this.photoRepository.create(rawPhotos);
         await manager.save(photosEntities);
 
-        // Manage Ingredients
-        const rawIngredients = ingredients.map(ingredient => ({ name: ingredient, recipe }));
+        // Build recipe ingredients
+        const rawIngredients = isArray(ingredients) ? ingredients.map(ingredient => ({ name: ingredient, recipe })) : [];
         const ingredientEntities = this.ingredientRepository.create(rawIngredients);
         await manager.save(ingredientEntities);
-
-        // Manage Directions
-        const rawDirections = directions.map(direction => ({ text: direction, recipe }));
+        
+        // Build recipe directions
+        const rawDirections = isArray(directions) ? directions.map(direction => ({ text: direction, recipe })) : [];
         const directionsEntities = this.directionRepository.create(rawDirections);
         await manager.save(directionsEntities);
 
         return { id: recipe.id, createdAt: recipe.createdAt };
-
       } catch (error) {
         console.log('Error while creating recipe ', error);
         throw HttpException.createBody(error);

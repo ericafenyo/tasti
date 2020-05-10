@@ -1,30 +1,19 @@
-import { Controller, Post, Request, Get, Param, Patch, Delete, UseGuards, Put } from '@nestjs/common';
+import { Controller, Post, Request, Get, Param, Patch, Delete, UseGuards, Put, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthType } from 'src/enums';
+import { UserDto } from './user.dto';
+import { CurrentUser } from 'src/auth/user.decorator';
+import { ProfileDto } from 'src/profile/profile.dto';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
-  /**
-   * Get a user's profile information.
-   * @param userId the id of a particular {@link User}.
-   */
-  @Get(':id')
-  async getProfileById(@Param('id') userId: string) {
-    return await this.userService.findById(userId);
-  }
-
-  /**
-   * 
-   * @param {Object} request the Http request object
-   */
   @Get()
   @UseGuards(AuthGuard(AuthType.JWT))
-  async getProfile(@Request() request) {
-    const { user } = request;
-    return await this.userService.findById(user.id);
+  async getProfile(@CurrentUser('id') userId: string) {
+    return await this.userService.findById(userId);
   }
 
   /**
@@ -45,21 +34,20 @@ export class UserController {
     return await this.userService.getFollowing(userId);
   }
 
-  @Put(':id')
+  @Put()
   @UseGuards(AuthGuard(AuthType.JWT))
-  async updateProfile(@Request() request, @Param('id') profileId: string) {
-    const { user, body } = request;
-    return this.userService.updateProfile(profileId, user.id, body);
+  async updateProfile(@CurrentUser('id') userId: string, @Body() body: ProfileDto) {
+    return this.userService.updateProfile(userId, body);
   }
 
-  @Post('/create')
-  async createAccount(@Request() request) {
-    return await this.userService.create(request.body);
+  @Post('create')
+  async createAccount(@Body() user: UserDto) {
+    return await this.userService.create(user);
   }
 
   @Patch(':id/recipes')
-  updateRecipes(@Param('id') userId: string) {}
+  updateRecipes(@Param('id') userId: string) { }
 
   @Delete(':id/recipes')
-  deleteRecipes(@Param('id') userId: string) {}
+  deleteRecipes(@Param('id') userId: string) { }
 }

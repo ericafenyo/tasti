@@ -22,9 +22,20 @@ class AuthManager {
 
     const passwordResetLink = `http://localhost:8080/auth/password/reset?email=${email}&token=${token}`;
 
+    // // create reusable transporter object using the default SMTP transport
+    // const transporter = nodemailer.createTransport({
+    //   service: process.env.MAILER_EMAIL_ID,
+    //   auth: {
+    //     user: process.env.MAILER_EMAIL_ID,
+    //     pass: process.env.MAILER_PASSWORD
+    //   }
+    // });
+
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
-      service: process.env.MAILER_EMAIL_ID,
+      host: "smtp.mailtrap.io",
+      port: 2525,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.MAILER_EMAIL_ID,
         pass: process.env.MAILER_PASSWORD
@@ -64,8 +75,6 @@ class AuthManager {
    * @throws - an {@link UnauthorizedException}
    */
   verifyResetToken(token: string, hashedPassword: string) {
-    console.log("tokennnnn", token, hashedPassword);
-
     const secret = process.env.PASSWORD_RESET_SECRET || 'secret';
     /* 
      We used the old hashed password to compose the final JWT secret preventing the user to reset his/her password multiple time with the same
