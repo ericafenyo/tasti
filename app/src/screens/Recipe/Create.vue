@@ -63,6 +63,7 @@ import IconButton from "@/components/IconButton.vue";
 import { Actions } from "../../store/actions";
 import { Validations } from "vuelidate-property-decorators";
 import { required } from "vuelidate/lib/validators";
+import { log } from "util";
 
 type ItemKey = "ingredient" | "direction";
 
@@ -141,7 +142,7 @@ export default class CreateRecipe extends Vue {
   }
 
   onSubmit() {
-
+    this.isLoading = true;
     const {
       info: { image, ...infoWithoutImage },
       photos,
@@ -157,10 +158,15 @@ export default class CreateRecipe extends Vue {
 
     const inputData = {
       ...infoWithoutImage,
-      ingredients,
-      directions
+      ingredients: ingredients.filter(ingredient => !!ingredient),
+      directions: directions.filter(direction => !!direction)
     };
-    this.$store.dispatch(Actions.CREATE_RECIPE, { files: formData, inputData });
+    this.$store.dispatch(Actions.CREATE_RECIPE, {
+      files: formData,
+      inputData
+    });
+    this.isLoading = false;
+    this.$router.replace({ name: "explore" });
   }
 }
 </script>

@@ -32,10 +32,9 @@ export class AuthService {
   /**
    * Return a registered {@link User}
    * @param id the users id
-   * @param email the users email
    */
-  async hasUser(id: string, email) {
-    return await this.userService.hasUser(id, email);
+  async getSimpleUserById(id: string) {
+    return await this.userService.getSimpleUserById(id);
   }
 
   async validateUser(username: string, userPassword: string) {

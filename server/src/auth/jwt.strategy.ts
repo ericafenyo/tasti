@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { jwtConstants } from './constants';
 import { AuthService } from './auth.service';
+import { isNotEmptyObject } from 'class-validator';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,15 +15,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ sub, email, email_verified }: any) {
-    const hasUser = await this.authService.hasUser(sub, email);
-    if (!hasUser) {
+  async validate({ sub }: any) {
+    const user = await this.authService.getSimpleUserById(sub);
+    console.log(user);
+    
+    if (!isNotEmptyObject(user)) {
       throw new UnauthorizedException();
     }
     return {
-      id: sub,
-      email,
-      emailVerified: email_verified
+      id: user.id,
+      email: user.email,
+      emailVerified: user.emailVerified
     };
   }
 }

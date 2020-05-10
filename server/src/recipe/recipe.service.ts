@@ -51,6 +51,7 @@ export class RecipeService {
    * Creates a new Recipe resource.
    */
   async create(user: CurrentUserInfo, recipeDto: RecipeDto): Promise<any> {
+    console.log(user);
     return this.connection.transaction(async (manager) => {
       try {
         const { ingredients, directions, photos, ...rest } = recipeDto;

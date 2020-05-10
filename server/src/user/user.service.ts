@@ -31,18 +31,15 @@ export class UserService {
   ) {}
 
   /**
-   * Returns true if the user exist {@link User}
+   * Returns a simple user object {@link User}
    * @param id the users id
-   * @param email the users email
    */
-  async hasUser(id: string, email: any) {
-    const count = await this.userRepository
+  async getSimpleUserById(id: string) {
+    return await this.userRepository
       .createQueryBuilder('user')
-      .select('user.id')
-      .where('id = :id', { id })
-      .andWhere('email = :email', { email })
-      .getCount();
-    return count > 0;
+      .select(['user.id', 'user.email'])
+      .where('user.id = :id', { id })
+      .getOne();
   }
 
   /**

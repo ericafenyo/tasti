@@ -1,6 +1,5 @@
 import { Service } from '../Service';
-import { buildRequest, http, authHttp } from '../ConnectionHelper';
-import { ObjectLiteral } from '@/types';
+import { buildRequest, authHttp } from '../ConnectionHelper';
 import { AxiosPromise } from 'axios';
 import { RecipeUiModel } from './recipe.model';
 import { Result } from '../Result';
@@ -34,9 +33,9 @@ export class RecipeService implements Service {
 
     if (status === HttpStatus.CREATED) {
       const { image, photos } = data;
-      requestModel = { ...requestModel, image: image[0], photos }
+      requestModel = { ...requestModel, imagePath: image[0], photos }
     } else {
-      requestModel = { ...requestModel, image: "", photos: [] }
+      requestModel = { ...requestModel, imagePath: "", photos: [] }
     }
 
     const config = {
