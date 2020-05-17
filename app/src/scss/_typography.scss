@@ -6,7 +6,21 @@
   font-size: 16px;
   font-family: inherit;
   font-weight: bold;
-  color: #030f09;
+  color: $grey-dark;
+}
+
+.header-3 {
+  font-family: $poppins;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 500;
+  color: $grey-dark;
+}
+
+.text-body {
+  font-size: 1rem;
+  color: $color-primary-text;
+  line-height: 1.5;
 }
 
 .caption {
