@@ -37,6 +37,7 @@ import PhotoPicker from './components/PhotoElements/PhotoPicker/PhotoPicker.vue'
 import TitleBar from '@/components/Navigation/TitleBar.vue';
 import i18n from './i18n';
 import { Route } from 'vue-router';
+import vuetify from './plugins/vuetify';
 
 Vue.component('Icon', Icon);
 Vue.component('Composite', Composite);
@@ -84,5 +85,6 @@ new Vue({
   router,
   i18n,
   store,
-  render: (h) => h(App),
+  vuetify,
+  render: (h) => h(App)
 }).$mount('#app');

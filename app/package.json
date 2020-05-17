@@ -32,14 +32,15 @@
     "vue-router": "^3.1.3",
     "vuelidate": "^0.7.4",
     "vuelidate-property-decorators": "^1.0.28",
+    "vuetify": "^2.2.11",
     "vuex": "^3.1.1",
     "vuex-persistedstate": "^2.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@kazupon/vue-i18n-loader": "^0.3.0",
-    "@types/jwt-decode": "^2.2.1",
     "@types/autosize": "^3.0.7",
+    "@types/jwt-decode": "^2.2.1",
     "@types/vuelidate": "^0.7.10",
     "@types/webpack": "^4.4.0",
     "@vue/cli-plugin-babel": "^3.11.0",
@@ -57,15 +58,18 @@
     "jsdoc": "^3.6.3",
     "lerna": "^3.16.4",
     "node-sass": "^4.12.0",
+    "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "tailwindcss": "^1.1.3",
     "typescript": "^3.4.3",
     "vue-cli-plugin-i18n": "^0.6.0",
+    "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-svg-loader": "^0.12.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.3.0"
   },
   "eslintConfig": {
     "root": true,
