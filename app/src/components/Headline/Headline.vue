@@ -18,7 +18,7 @@ export default {
     },
 
     level: {
-      type: Number,
+      type: [Number, String],
       required: true,
       default: 1
     }
@@ -38,6 +38,9 @@ export default {
 
   &-3 {
     @include header-3;
+  }
+  &-4 {
+    @include header-4;
   }
 }
 </style>

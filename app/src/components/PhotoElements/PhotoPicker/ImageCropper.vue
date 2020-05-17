@@ -19,15 +19,15 @@ export default class ImageCropper extends Vue {
   @Prop({ type: String, default: "" })
   readonly imageUrl!: string;
 
-  @Prop({ type: String, default: "1:1" })
+  @Prop({ type: String, default: "1/1" })
   readonly aspectRatio!: string;
 
   get computeViewPortSize() {
-    if (this.aspectRatio == "1:1") {
+    if (this.aspectRatio == "1/1") {
       return { width: 300, height: 200 };
     }
 
-    const [width, height] = this.aspectRatio.split(":");
+    const [width, height] = this.aspectRatio.split("/");
     return { width: 100 * Number(width), height: 100 * Number(height) };
   }
 

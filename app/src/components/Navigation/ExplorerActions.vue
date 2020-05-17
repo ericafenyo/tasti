@@ -60,7 +60,6 @@ export default class ExplorerActions extends Vue {
   &-add-recipe {
     height: 36px;
     width: 36px;
-    line-height: 36px;
     text-align: center;
     border: none;
     background-color: $green;
