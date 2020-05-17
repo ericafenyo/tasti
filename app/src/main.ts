@@ -13,7 +13,6 @@ import router from '@/router';
 // Styles
 import '../src/scss/index.scss';
 import './scss/normalize.css';
-import './scss/bootstrap-grid.css';
 
 import App from './App.vue';
 
