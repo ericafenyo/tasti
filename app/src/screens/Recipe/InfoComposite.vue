@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div class="flex-1">
-      <PhotoPicker aspectRatio="4:3" v-model="model.image" />
+      <PhotoPicker :aspectRatio="1/1" v-model="model.image" />
     </div>
     <div class="flex-1 ml-3">
       <div class="form-field">

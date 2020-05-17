@@ -1,9 +1,9 @@
 <template>
-  <vue-aspect-ratio :ar="aspectRatio">
+     <v-responsive :aspect-ratio="aspectRatio">
     <Overlay :isOpen="showImageCropper">
       <ImageCropper
         :imageUrl="imagePickedFromFileSystemUrl"
-        :aspectRatio="aspectRatio"
+        aspectRatio="4:3"
         class="cropper"
         @crop-confirmed="handleCropConfirmation"
       />
@@ -35,7 +35,7 @@
       accept="image/*"
       @change="handleFileSelection($event.target.files[0])"
     />
-  </vue-aspect-ratio>
+  </v-responsive>
 </template>
 
 <script lang="ts">
