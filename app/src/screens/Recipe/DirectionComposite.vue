@@ -110,7 +110,7 @@ export default class DirectionComposite extends Vue {
       font-weight: 600;
       margin: 0.75rem 0;
       margin-right: 0.5rem;
-      background-color: $white;
+      background-color: var(--white);
       border: 2px solid rgba(black, 0.5);
       border-radius: 50%;
       display: flex;

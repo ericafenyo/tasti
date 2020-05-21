@@ -73,10 +73,10 @@ export default class Overlay extends Vue {
   overflow-y: scroll;
   z-index: 2;
 
-  background-color: $white;
+  background-color: var(--white);
 
   &--translucent {
-    background-color: rgba($color: $white, $alpha: 0.95);
+    background-color: rgba($color: var(--white), $alpha: 0.95);
   }
 
   &-content {

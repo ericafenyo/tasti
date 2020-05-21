@@ -182,7 +182,7 @@ export default class CreateRecipe extends Vue {
   height: 100%;
 }
 .card-composite {
-  background-color: $white;
+  background-color: var(--white);
   min-height: 640px;
   padding: 2rem 2.5rem;
   border-radius: 12px;
@@ -258,7 +258,7 @@ export default class CreateRecipe extends Vue {
 }
 
 .sub-title {
-  font-family: $poppins;
+  font-family: var(--body-font);
   font-size: 1rem;
   font-weight: 500;
   color: #1e1f20;

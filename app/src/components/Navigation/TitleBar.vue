@@ -28,7 +28,7 @@ export default class TitleBar extends Vue {
   padding: 0 4.5rem;
 
   &--title {
-    font-family: $poppins;
+    font-family: var(--body-font);
     font-size: 22px;
     font-weight: 500;
     color: rgba(23, 23, 23, 0.87);

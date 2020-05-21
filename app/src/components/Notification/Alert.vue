@@ -98,13 +98,13 @@ export default class Alert extends Vue {
   &-action-close {
     position: absolute;
     cursor: pointer;
-    color: rgba($black, $alpha-disabled);
+    color: rgba(var(--white), $alpha-disabled);
     right: 4px;
     padding: 8px;
     top: 5px;
 
     &:hover {
-      color: rgba($black, $alpha-inactive);
+      color: rgba(var(--white), $alpha-inactive);
     }
   }
 

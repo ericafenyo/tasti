@@ -122,7 +122,7 @@ export default class RequestPasswordReset extends Vue {
 }
 .request-reset {
   max-width: 420px;
-  background-color: $white;
+  background-color: var(--white);
   border-radius: 12px;
   margin: 0 auto;
   height: 100%;

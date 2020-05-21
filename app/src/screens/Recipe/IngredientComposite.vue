@@ -70,7 +70,7 @@ export default class IngredientComposite extends Vue {
 @import "@/scss/_resources.scss";
 .ingredients {
   &--list-item {
-    background-color: $white;
+    background-color: var(--white);
     position: relative;
     padding: 0.5rem 0.75rem;
     margin: 0.25rem 0;

@@ -119,7 +119,7 @@ export default class Avatar extends Vue {
   }
   &-initials {
     font-weight: bold;
-    color: rgba($white, $alpha-inactive);
+    color: rgba(var(--white), $alpha-inactive);
   }
 }
 </style>

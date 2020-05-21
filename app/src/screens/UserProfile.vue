@@ -126,13 +126,13 @@ export default class UserProfile extends Vue {
   }
 
   .main-content {
-    background-color: $white;
+    background-color: var(--white);
     height: 100%;
   }
 
   .stats-wrapper {
     //   display: inline-block;
-    background: $white;
+    background: var(--white);
     // margin: 8px;
     border-radius: 3px;
   }

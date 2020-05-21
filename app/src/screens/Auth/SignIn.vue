@@ -170,7 +170,7 @@ export default class SignIn extends Vue {
   margin: 0 auto;
   padding: 2rem 1rem;
   border-radius: 12px;
-  background-color: $white;
+  background-color: var(--white);
 
   @include phone {
     padding: 2rem 1.5rem;

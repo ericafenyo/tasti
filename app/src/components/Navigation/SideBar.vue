@@ -3,27 +3,25 @@
     <router-link class="logo" :to="{name: 'explore'}">
       <Icon name="logo" size="40" />
     </router-link>
-    <div class="sidebar__actions">
-      <nav>
-        <ul class="menu">
-          <li
-            v-for="(menu, index) in menuItems"
-            :key="index"
-            :class="['menu-item',{'menu-item__active': (active === index)}]"
-            @click="active = index"
-          >
-            <a class="icon-button">
-              <Icon :name="menu.icon" size="24" />
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="logout" @click="logout">
+    <nav class="h-full my-6">
+      <ul class="nav h-full">
+        <li
+          v-for="(menu, index) in menuItems"
+          :key="index"
+          :class="['nav__item',{'active': (active === index)}]"
+          @click="active = index"
+        >
+          <a class="nav-link">
+            <Icon :name="menu.icon" size="24" />
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- <div class="logout" @click="logout">
         <span class="icon-button">
           <Icon name="logout" size="24" />
         </span>
-      </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -46,6 +44,9 @@ export default class SideBar extends Vue {
     },
     {
       icon: "settings"
+    },
+    {
+      icon: "logout"
     }
   ];
 
@@ -58,67 +59,53 @@ export default class SideBar extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+
 .sidebar {
   width: 80px;
-  height: 100%;
-  background-color: $white;
+  background-color: var(--white);
+  position: fixed;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  align-content: space-between;
-  padding: 1rem 0;
+  justify-content: center;
+  height: 100vh;
 
   .logo {
+    display: flex;
     width: 80px;
     height: 80px;
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     color: #6286ed;
   }
 
-  &__actions {
+  .nav {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: center;
+    &__item {
+      cursor: pointer;
+      padding: 1.25rem 0;
+      text-align: center;
 
-    .menu {
-      margin: 2rem 0;
+      .icon {
+        color: #718096;
+      }
+
+      &.active{
+        background: #edf2f7;
+        box-shadow: inset 3px 0px #2B6CB0;
+      }
+
+      &:last-child {
+        margin-top: auto;
+      }
     }
-  }
-}
 
-.menu-item {
-  cursor: pointer;
-  padding: 1.25rem;
-
-  &.active .icon-button {
-    background: $indigo;
-    color: $white;
-  }
-}
-
-.icon-button {
-  display: inline-block;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background-color: #f7f7f7;
-  color: #8f92a1;
-
-  &:hover {
-    background: $indigo;
-    color: $white;
-  }
-
-  &:active {
-    background: $indigo-dark;
-    color: $white;
+    &__link {
+      .icon {
+        color: #cbd5e0;
+      }
+    }
   }
 }
 </style>

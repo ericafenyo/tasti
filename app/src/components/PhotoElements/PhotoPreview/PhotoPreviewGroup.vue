@@ -104,7 +104,7 @@ export default class PhotoPreviewGroup extends Vue {
 
     &-left-arrow {
       position: absolute;
-      @include triangle(left, $white, 1em);
+      @include triangle(left, var(--white), 1em);
       left: 1em;
       top: 50%;
       cursor: pointer;
@@ -112,7 +112,7 @@ export default class PhotoPreviewGroup extends Vue {
 
     &-right-arrow {
       position: absolute;
-      @include triangle(right, $white, 1em);
+      @include triangle(right, var(--white), 1em);
       right: 1em;
       top: 50%;
       cursor: pointer;

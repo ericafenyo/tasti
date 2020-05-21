@@ -96,7 +96,7 @@ export default class Header extends Vue {
     &-search {
       width: 40px;
       height: 40px;
-      background-color: $white;
+      background-color: var(--white);
       border: none;
       display: inline-flex;
       justify-content: center;
@@ -111,14 +111,14 @@ export default class Header extends Vue {
 
   &__profile {
     height: 40px;
-    background-color: $white;
+    background-color: var(--white);
     display: inline-flex;
     align-items: center;
     padding: 0 0.5rem;
 
     &-name {
       margin-left: 0.5rem;
-      font-family: $roboto;
+      font-family: var(--heading-font);
       font-size: 0.875em;
       letter-spacing: 0.25px;
       color: rgba(23, 23, 23, 0.55);

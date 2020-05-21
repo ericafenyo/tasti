@@ -206,7 +206,7 @@ export default class PhotoPicker extends Vue {
 }
 
 .label-text {
-  font-family: $poppins;
+  font-family: var(--body-font);
   display: inline-block;
   font-size: 12px;
   margin-top: 1rem;

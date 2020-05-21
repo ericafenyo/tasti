@@ -55,7 +55,7 @@ export default class Modal extends Vue {
 .modal {
   box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
-  background-color: $white;
+  background-color: var(--white);
   min-width: 640px;
   border-radius: 4px;
   overflow: hidden;

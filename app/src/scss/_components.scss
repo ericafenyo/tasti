@@ -23,7 +23,7 @@
 }
 
 .card-module {
-  background: $white;
+  background: var(--white);
   border-radius: 6px;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .section-header {
-  font-family: $poppins;
+  font-family: var(--body-font);
   font-size: 22px;
   font-weight: 500;
   line-height: 1.2;
@@ -73,7 +73,7 @@
 }
 
 .color-light-active {
-  color: rgba($color: $white, $alpha: $alpha-active);
+  color: rgba($color: var(--white), $alpha: $alpha-active);
 }
 
 .form-column {
@@ -87,13 +87,5 @@
 }
 
 .background-light {
-  background-color: $white;
-}
-
-@media (min-width: 1264px) and (max-width: 1903px) {
-  .col-5 {
-    width: 20%;
-    max-width: 20%;
-    flex-basis: 20%;
-  }
+  background-color: var(--white);
 }

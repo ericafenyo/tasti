@@ -50,12 +50,12 @@ export default class IconButton extends Vue {
 
   &:hover {
     background: $indigo;
-    color: $white;
+    color: var(--white);
   }
 
   &:active {
     background: $indigo-dark;
-    color: $white;
+    color: var(--white);
   }
 }
 </style>
