@@ -1,7 +1,7 @@
 <template>
   <div class="recipe-photos">
     <div class="recipe-photos-item" v-for="(item, index) in numberOfPhotos" :key="index">
-      <PhotoPicker :aspectRatio="aspectRatio" v-model="data[index]" />
+      <PhotoPicker v-model="data[index]" />
     </div>
   </div>
 </template>
@@ -11,7 +11,6 @@ import { Vue, Component, Prop, Emit, Watch } from "vue-property-decorator";
 
 @Component
 export default class PhotosComposite extends Vue {
-  aspectRatio = "4:3";
   numberOfPhotos = 4;
   data = [];
 

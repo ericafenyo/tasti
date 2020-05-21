@@ -33,7 +33,7 @@ export interface RecipeRequest {
   };
 }
 
-export interface RecipeUiModel {
+export interface RecipeResponse {
   name?: string;
   image?: string;
   photos?: File[];

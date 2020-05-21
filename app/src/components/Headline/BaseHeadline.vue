@@ -2,7 +2,7 @@
 export default {
   props: {
     level: {
-      type: Number
+      type: [Number, String]
     }
   },
   render: function(createElement) {

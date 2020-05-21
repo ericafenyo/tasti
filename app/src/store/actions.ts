@@ -9,6 +9,6 @@ export const Actions = {
   GET_PROFILE: 'getProfile',
   GET_RECIPES: 'getRecipes',
   GET_FOLLOWING: 'getFollowing',
-  CREATE_RECIPE: 'createRecipe',
+  CREATE_RECIPE: 'addRecipe',
   GET_RECIPE: 'getRecipe'
 };

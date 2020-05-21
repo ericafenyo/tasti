@@ -1,19 +1,16 @@
 import Vue from 'vue';
 import PortalVue from 'portal-vue';
 import Vuelidate from 'vuelidate';
-const VueAspectRatio = require('vue-aspect-ratio');
 import { store } from './store';
 
 Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
-Vue.component('vue-aspect-ratio', VueAspectRatio);
 
 import router from '@/router';
 
 // Styles
 import '../src/scss/index.scss';
 import './scss/normalize.css';
-import './scss/bootstrap-grid.css';
 
 import App from './App.vue';
 
@@ -37,6 +34,7 @@ import PhotoPicker from './components/PhotoElements/PhotoPicker/PhotoPicker.vue'
 import TitleBar from '@/components/Navigation/TitleBar.vue';
 import i18n from './i18n';
 import { Route } from 'vue-router';
+import vuetify from './plugins/vuetify';
 
 Vue.component('Icon', Icon);
 Vue.component('Composite', Composite);
@@ -84,5 +82,6 @@ new Vue({
   router,
   i18n,
   store,
-  render: (h) => h(App),
+  vuetify,
+  render: (h) => h(App)
 }).$mount('#app');

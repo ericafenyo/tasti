@@ -105,7 +105,7 @@ export default class Input extends BaseInput {
     font-weight: 500;
   }
 
-  /deep/ input {
+  ::v-deep input {
     font-family: $roboto;
     height: 42px;
     background-color: rgba($color-surface, 0.2);

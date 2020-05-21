@@ -1,5 +1,5 @@
 <template>
-  <vue-aspect-ratio :ar="aspectRatio">
+  <div>
     <Overlay :isOpen="showImageCropper">
       <ImageCropper
         :imageUrl="imagePickedFromFileSystemUrl"
@@ -9,33 +9,36 @@
       />
     </Overlay>
 
-    <div
-      class="image-frame"
-      :class="{'disabled': ('disabled-frame'), 'image-frame-border-solid' : selectedImageUrl, 'image-frame-border-dashed' : !selectedImageUrl}"
-      @click="handleEmptyFrameClick"
-    >
-      <template v-if="selectedImageUrl">
-        <div class="delete-button" @click.stop="handleDeletePhotoClick">
-          <Icon name="close" size="18" />
-        </div>
-        <img :src="selectedImageUrl" class="fluid" />
-      </template>
-      <template v-else>
-        <span class="add-icon">
-          <Icon color="#6286ED" name="add" width="32px" height="32px" />
-        </span>
-        <div class="label-text">Choose files to upload</div>
-      </template>
-    </div>
-    <input
-      ref="inputFile"
-      type="file"
-      class="input-file"
-      name="uploadFieldName"
-      accept="image/*"
-      @change="handleFileSelection($event.target.files[0])"
-    />
-  </vue-aspect-ratio>
+    <v-responsive class="aspect-ratio" :aspect-ratio="ar">
+      <div
+        class="image-frame"
+        :class="{'disabled': ('disabled-frame'), 'image-frame-border-solid' : selectedImageUrl, 'image-frame-border-dashed' : !selectedImageUrl}"
+        @click="handleEmptyFrameClick"
+      >
+        <template v-if="selectedImageUrl">
+          <div class="delete-button" @click.stop="handleDeletePhotoClick">
+            <Icon name="close" size="18" />
+          </div>
+          <img :src="selectedImageUrl" class="fluid" />
+        </template>
+        <template v-else>
+          <span class="add-icon">
+            <Icon color="#6286ED" name="add" width="32px" height="32px" />
+          </span>
+          <div class="label-text">Choose files to upload</div>
+        </template>
+      </div>
+
+      <input
+        ref="inputFile"
+        type="file"
+        class="input-file"
+        name="uploadFieldName"
+        accept="image/*"
+        @change="handleFileSelection($event.target.files[0])"
+      />
+    </v-responsive>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,22 +55,19 @@ import ImageCropper from "@/components/PhotoElements/PhotoPicker/ImageCropper.vu
   }
 })
 export default class PhotoPicker extends Vue {
-  @Prop({
-    type: String,
-    required: false,
-    default: null
-  })
+  @Prop({ type: String, required: false, default: null })
   readonly imageUrl!: string;
 
-  @Prop({
-    type: Boolean,
-    required: false,
-    default: false
-  })
+  @Prop({ type: Boolean, required: false, default: false })
   readonly disabled!: boolean;
 
-  @Prop({ type: String, default: "1:1" })
+  @Prop({ type: String, default: "3/2" })
   readonly aspectRatio!: string;
+
+  get ar() {
+    const [width, height]: any = this.aspectRatio.split("/");
+    return width / height;
+  }
 
   croppie: any;
 
@@ -123,6 +123,10 @@ export default class PhotoPicker extends Vue {
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+
+.aspect-ratio ::v-deep .v-responsive__sizer {
+  flex: 0;
+}
 
 .cropper {
   flex: 1 1 auto;

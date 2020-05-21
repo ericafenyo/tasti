@@ -216,10 +216,10 @@ export default class SignUp extends Vue {
   }
 }
 
-@include phablet {
-  background-color: $color-surface;
-  padding-top: 4rem;
-}
+// @include phablet {
+//   // background-color: $color-surface;
+//   padding-top: 4rem;
+// }
 
 .account-notice {
   line-height: 48px;

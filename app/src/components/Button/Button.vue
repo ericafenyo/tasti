@@ -6,7 +6,7 @@
     :disabled="disabled"
     @click="$emit('on-click')"
   >
-    <i v-if="icon" class="material-icons button--icon">{{icon}}</i>
+    <Icon v-if="icon" :name="icon" size="14" />
     <span class="button--text" v-if="!loading">{{text}}</span>
     <span class="button--loading-indicator" v-if="loading">
       <Loader />
@@ -164,8 +164,13 @@ export default class Button extends Vue {
   }
 
   &--text {
-    padding: 0 8px;
+    padding: 0 6px;
     background-color: transparent;
+    color: #4a5568;
+
+    &:hover {
+      background-color: #edf2f7;
+    }
   }
 
   &--loading-indicator {

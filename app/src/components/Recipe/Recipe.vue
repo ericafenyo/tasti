@@ -78,7 +78,7 @@ export default class Recipe extends Vue {
 
     this.isLoading = false;
     switch (response.status) {
-      case HttpStatus.SUCCESS:
+      case HttpStatus.OK:
         break;
     }
   }

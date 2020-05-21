@@ -24,10 +24,12 @@
 import { Recipe } from '@/data/Injector';
 
 const actions = {
-    createRecipe: async function (context: any, payload: any) {
-        return await Recipe.create(payload);
-    }
-}
+  addRecipe: async function(context: any, payload: any) {
+    return await Recipe.create(payload);
+  },
+  getRecipes() {
+    return Recipe.find();
+  },
+};
 
-export default { actions }
-
+export default { actions };
