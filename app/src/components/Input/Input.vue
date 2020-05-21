@@ -124,8 +124,8 @@ export default class Input extends BaseInput {
     }
 
     &:focus {
-      box-shadow: inset 0 0 0px 1px $color-accent;
-      border-color: $color-accent;
+      box-shadow: inset 0 0 0px 1px var(--accent);
+      border-color: var(--accent);
       background-color: var(--white);
     }
 
