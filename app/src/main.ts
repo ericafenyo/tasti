@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import PortalVue from 'portal-vue';
 import Vuelidate from 'vuelidate';
-const VueAspectRatio = require('vue-aspect-ratio');
 import { store } from './store';
 
 Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
-Vue.component('vue-aspect-ratio', VueAspectRatio);
 
 import router from '@/router';
 
