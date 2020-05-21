@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <router-link class="logo" :to="{name: 'explore'}">
+    <router-link class="logo mt-4" :to="{name: 'explore'}">
       <Icon name="logo" size="40" />
     </router-link>
     <nav class="h-full my-6">
@@ -11,17 +11,12 @@
           :class="['nav__item',{'active': (active === index)}]"
           @click="active = index"
         >
-          <a class="nav-link">
+          <a class="nav__link">
             <Icon :name="menu.icon" size="24" />
           </a>
         </li>
       </ul>
     </nav>
-    <!-- <div class="logout" @click="logout">
-        <span class="icon-button">
-          <Icon name="logout" size="24" />
-        </span>
-    </div>-->
   </div>
 </template>
 
@@ -75,25 +70,26 @@ export default class SideBar extends Vue {
     height: 80px;
     justify-content: center;
     align-items: center;
-    color: #6286ed;
+    color: var(--accent);
   }
 
   .nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     &__item {
       cursor: pointer;
       padding: 1.25rem 0;
+      margin: 0.5rem 0;
       text-align: center;
 
-      .icon {
-        color: #718096;
-      }
+      &.active {
+        box-shadow: inset -2px 0px var(--accent);
 
-      &.active{
-        background: #edf2f7;
-        box-shadow: inset 3px 0px #2B6CB0;
+        .icon {
+          color: var(--accent);
+        }
       }
 
       &:last-child {
@@ -103,7 +99,7 @@ export default class SideBar extends Vue {
 
     &__link {
       .icon {
-        color: #cbd5e0;
+        color: #a0aec0;
       }
     }
   }
