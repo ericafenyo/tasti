@@ -2,16 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap');
 
-:root {
-    /** == font family == **/
-    --heading-font: 'Poppins', sans-serif;
-    --body-font: 'Roboto', sans-serif;
-
-    /** == utility colors == **/
-    --white: #ffffff;
-    --black: #000000;
-}
-
 
 /** == alpha states == **/
 $alpha-active: 0.87;
@@ -57,8 +47,8 @@ $color-tertiary-text: #9ea0a5;
 $color-border: #e2e8f0;
 
 /** == theme colors == **/
-$color-surface: #F7FAFC;
-$color-accent: #6286ED;
+// $color-surface: #f7f7f7;
+$color-surface: #EFF3F6;
 
 /** == break points == **/
 $phone-width: 360px;

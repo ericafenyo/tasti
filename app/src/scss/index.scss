@@ -1,6 +1,15 @@
-/** == css colors vars == **/
 :root {
-    --grey: red;
+  /** == font family == **/
+  --heading-font: 'Poppins', sans-serif;
+  --body-font: 'Roboto', sans-serif;
+
+  /** == utility colors == **/
+  --white: #ffffff;
+  --black: #000000;
+
+  /** == utility colors == **/
+  --accent: #4299e1;
+  --surface: #eff3f6;
 }
 
 @import './mixins';

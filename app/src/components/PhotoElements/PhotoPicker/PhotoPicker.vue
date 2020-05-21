@@ -158,7 +158,7 @@ export default class PhotoPicker extends Vue {
 
   &:focus,
   &:active {
-    border-color: $color-accent;
+    border-color: var(--accent);
   }
 
   &:hover {
@@ -202,7 +202,7 @@ export default class PhotoPicker extends Vue {
   width: 60px;
   height: 60px;
   border-radius: 18.9px;
-  background-color: rgba($color-accent, 0.1);
+  background-color: rgba(var(--accent), 0.1);
 }
 
 .label-text {

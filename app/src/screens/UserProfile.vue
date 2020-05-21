@@ -163,9 +163,9 @@ export default class UserProfile extends Vue {
     .tab {
       flex: 1;
       text-align: center;
-      color: rgba($color-accent, 0.4);
+      color: rgba(var(--accent), 0.4);
       &-active {
-        color: $color-accent;
+        color: var(--accent);
         @include lead;
       }
     }

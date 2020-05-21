@@ -126,8 +126,8 @@ export default class Button extends Vue {
 
   // Button types
   &--primary {
-    background-color: $color-accent;
-    border-color: $color-accent;
+    background-color: var(--accent);
+    border-color: var(--accent);
     color: var(--white);
   }
 
