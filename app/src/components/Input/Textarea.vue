@@ -43,7 +43,7 @@ export default class Textarea extends BaseInput {
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
 .textarea {
-  font-family: $roboto;
+  font-family: var(--heading-font);
   background-color: rgba($color-surface, 0.2);
   font-size: 0.875rem;
   line-height: 1.5;
@@ -66,9 +66,9 @@ export default class Textarea extends BaseInput {
   }
 
   &:focus {
-    box-shadow: inset 0 0 0px 1px $color-accent;
-    background-color: $white;
-    border-color: $color-accent;
+    box-shadow: inset 0 0 0px 1px var(--accent);
+    background-color: var(--white);
+    border-color: var(--accent);
   }
 }
 </style>

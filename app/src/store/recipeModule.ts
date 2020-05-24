@@ -30,6 +30,12 @@ const actions = {
   getRecipes() {
     return Recipe.find();
   },
+  addLike(_: any, recipeId: string) {
+    return Recipe.addLike(recipeId);
+  },
+  removeLike(_: any, recipeId: string) {
+    return Recipe.removeLike(recipeId);
+  },
 };
 
 export default { actions };

@@ -10,12 +10,12 @@
           :cols="12"
           :sm="6"
           :md="3"
-          :lg="2"
           tag="li"
           v-for="recipe in recipes"
           :key="recipe.id"
         >
           <RecipeItem
+            :id="recipe.id"
             :image="recipe.imagePath"
             :name="recipe.name"
             :description="recipe.description"
@@ -36,9 +36,6 @@ import { HttpStatus } from "../enums";
 
 @Component({ components: { ExplorerActions, RecipeItem } })
 export default class Explore extends Vue {
-  image =
-    "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2535&q=80";
-
   recipes: any[] = [];
 
   async mounted() {

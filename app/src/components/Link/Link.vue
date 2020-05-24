@@ -48,7 +48,7 @@ export default class Link extends Vue {
   }
 
   &:hover {
-    color: $color-accent;
+    color: var(--accent);
   }
 }
 </style>

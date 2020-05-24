@@ -82,7 +82,7 @@ export default class Notice extends Vue {
 
 .notice {
   position: absolute;
-  background-color: $white;
+  background-color: var(--white);
   max-width: 400px;
   border: 0;
   padding-top: 16px;
@@ -118,12 +118,12 @@ export default class Notice extends Vue {
   &-action-close {
     position: absolute;
     cursor: pointer;
-    color: rgba($black, $alpha-disabled);
+    color: rgba(var(--white), $alpha-disabled);
     right: 12px;
     top: 12px;
 
     &:hover {
-      color: rgba($black, $alpha-inactive);
+      color: rgba(var(--white), $alpha-inactive);
     }
   }
 

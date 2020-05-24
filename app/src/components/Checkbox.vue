@@ -105,8 +105,8 @@ export default {
       opacity: 0;
 
       &:checked ~ .checkbox-inner {
-        background: $color-accent;
-        border-color: $color-accent;
+        background: var(--accent);
+        border-color: var(--accent);
       }
     }
 

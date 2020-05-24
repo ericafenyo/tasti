@@ -1,4 +1,15 @@
-import { Entity, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable
+} from 'typeorm';
 import { User } from '../user/user.entity';
 import { Ingredient } from '../ingredient/ingredient.entity';
 import { Direction } from '../direction/direction.entity';
@@ -12,7 +23,7 @@ export class Recipe {
   @Column()
   name: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   description: string;
 
   @Column({ name: 'image_path' })
@@ -30,16 +41,29 @@ export class Recipe {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.recipes, { nullable: false })
+  @ManyToOne(
+    () => User,
+    user => user.recipes,
+    { nullable: false }
+  )
   @JoinColumn({ name: 'user_id' })
   owner: User;
 
-  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe, { onDelete: 'CASCADE' })
+  @ManyToMany(() => User, user=> user.likedRecipes)
+  likes: User[];
+
+  @OneToMany(() => Ingredient, ingredient => ingredient.recipe, {
+    onDelete: 'CASCADE'
+  })
   ingredients: Ingredient[];
 
-  @OneToMany(() => Direction, (direction) => direction.recipe, { onDelete: 'CASCADE' })
+  @OneToMany(() => Direction, direction => direction.recipe, {
+    onDelete: 'CASCADE'
+  })
   directions: Direction[];
 
-  @OneToMany(() => Photo, (photo) => photo.recipe, { onDelete: 'CASCADE' })
+  @OneToMany(() => Photo, photo => photo.recipe, {
+    onDelete: 'CASCADE'
+  })
   photos: Photo[];
 }

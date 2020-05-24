@@ -205,7 +205,7 @@ export default class SignUp extends Vue {
   height: 100%;
   margin: 0 auto;
   border-radius: 12px;
-  background-color: $white;
+  background-color: var(--white);
   padding: 2rem 1rem;
 
   @include phone {
@@ -215,11 +215,6 @@ export default class SignUp extends Vue {
     height: initial;
   }
 }
-
-// @include phablet {
-//   // background-color: $color-surface;
-//   padding-top: 4rem;
-// }
 
 .account-notice {
   line-height: 48px;

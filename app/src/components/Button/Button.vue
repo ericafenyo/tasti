@@ -82,7 +82,7 @@ export default class Button extends Vue {
 @import "@/scss/_resources.scss";
 
 .button {
-  font-family: $roboto;
+  font-family: var(--heading-font);
   padding: 0 1em;
   min-width: 80px;
   overflow: hidden;
@@ -93,6 +93,7 @@ export default class Button extends Vue {
   font-weight: 500;
   font-size: 1rem;
   border-radius: 1.5px;
+  transition: all 0.2s;
 
   &.block {
     width: 100%;
@@ -126,9 +127,9 @@ export default class Button extends Vue {
 
   // Button types
   &--primary {
-    background-color: $color-accent;
-    border-color: $color-accent;
-    color: $white;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
   }
 
   &--secondary {
@@ -145,7 +146,7 @@ export default class Button extends Vue {
 
   &--confirm {
     background-color: $green;
-    color: $white;
+    color: var(--white);
 
     &:active,
     &:hover,
@@ -155,7 +156,7 @@ export default class Button extends Vue {
   }
 
   &--subtle {
-    background-color: $white;
+    background-color: var(--white);
     color: $grey;
   }
 

@@ -52,7 +52,7 @@ export default class CreateRecipeActions extends Vue {
     text-align: center;
     border: none;
     background-color: $green;
-    color: $white;
+    color: var(--white);
     border-radius: 2px;
   }
 }

@@ -1,21 +1,31 @@
 <template>
-  <a :class="['icon-button', `icon-button--${size}`]" @click="$emit('on-click')">
-    <Icon :name="icon" :size="computeSize" />
+  <a @click="toggleActive" class="icon-button" :class="[classNames, {'active': active}]">
+    <Icon :name="icon" :size="iconSize" />
   </a>
 </template>
 
 <script lang="ts">
-import { Vue, Prop, Emit, Component } from "vue-property-decorator";
+import { Vue, Prop, Emit, Component, Watch } from "vue-property-decorator";
 import { ButtonSize } from "./Button/Button.vue";
+import { IconOption } from "./Icons/Icon.vue";
 
 @Component
 export default class IconButton extends Vue {
+  active: boolean = false;
+
   @Prop({ type: String, default: "small" })
   readonly size!: ButtonSize;
-  @Prop({ type: String })
-  readonly icon!: string;
 
-  get computeSize(): string {
+  @Prop({ type: String, default: "edit" })
+  readonly icon!: IconOption;
+
+  @Prop({ type: Boolean, default: false })
+  readonly auto!: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  readonly isActive!: boolean;
+
+  get iconSize(): string {
     switch (this.size) {
       case "small":
         return "18";
@@ -23,6 +33,29 @@ export default class IconButton extends Vue {
       default:
         return "24";
     }
+  }
+
+  get classNames(): string {
+    const classes = [];
+    const { size } = this;
+    classes.push(`icon-button--${size}`);
+    return classes.join(",");
+  }
+
+  toggleActive() {
+    if (this.auto) {
+      this.active = !this.active;
+    }
+  }
+
+  @Watch("active", { immediate: true })
+  onActiveChanged(bool: boolean) {
+    this.$emit("change", this.active);
+  }
+
+  @Watch("isActive", { immediate: true })
+  onIsActiveChanged(isActive: boolean) {
+    this.active = isActive;
   }
 }
 </script>
@@ -34,9 +67,9 @@ export default class IconButton extends Vue {
   justify-content: center;
   align-items: center;
   border-radius: 16px;
-  background-color: #f7f7f7;
-  color: #8f92a1;
+  color: var(--icon-inactive);
   cursor: pointer;
+  transition: all 0.2s;
 
   &--small {
     width: 32px;
@@ -49,13 +82,15 @@ export default class IconButton extends Vue {
   }
 
   &:hover {
-    background: $indigo;
-    color: $white;
+    background: var(--surface);
   }
 
   &:active {
-    background: $indigo-dark;
-    color: $white;
+    background: #e2e8f0;
+  }
+
+  &.active {
+    color: var(--accent);
   }
 }
 </style>

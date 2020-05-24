@@ -67,7 +67,7 @@ export default class Stepper extends Vue {
       width: 24px;
       height: 24px;
       border: solid 2px grey;
-      background-color: $white;
+      background-color: var(--white);
       border-radius: 50%;
       position: absolute;
       top: 0;

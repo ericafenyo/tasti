@@ -1,6 +1,21 @@
-/** == css colors vars == **/
 :root {
-    --grey: red;
+  /** == font family == **/
+  --heading-font: 'Poppins', sans-serif;
+  --body-font: 'Roboto', sans-serif;
+
+  /** == utility colors == **/
+  --white: #ffffff;
+  --black: #000000;
+
+  /** == utility colors == **/
+  --accent: #4299e1;
+  --surface: #eff3f6;
+  --grey: #718096;
+
+  /** == icon colors == **/
+  --icon-active: #718096;
+  --icon-inactive: #718096;
+  --icon-disabled: #718096;
 }
 
 @import './mixins';

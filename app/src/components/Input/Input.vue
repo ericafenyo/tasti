@@ -106,7 +106,7 @@ export default class Input extends BaseInput {
   }
 
   ::v-deep input {
-    font-family: $roboto;
+    font-family: var(--heading-font);
     height: 42px;
     background-color: rgba($color-surface, 0.2);
     font-size: 0.875rem;
@@ -124,9 +124,9 @@ export default class Input extends BaseInput {
     }
 
     &:focus {
-      box-shadow: inset 0 0 0px 1px $color-accent;
-      border-color: $color-accent;
-      background-color: $white;
+      box-shadow: inset 0 0 0px 1px var(--accent);
+      border-color: var(--accent);
+      background-color: var(--white);
     }
 
     &.input-error {

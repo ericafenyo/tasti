@@ -1,11 +1,11 @@
+//TODO: refactor this class to use custom http config object
+//TODO: add LICENSE
 import { Service } from '../Service';
 import { buildRequest, authHttp, http } from '../ConnectionHelper';
-import { AxiosPromise } from 'axios';
-import { RecipeResponse } from './recipe.model';
 import { Result } from '../Result';
 import { HttpStatus } from '@/enums';
 
-export class RecipeService implements Service {
+export class RecipeService {
   /**
    * Get a single recipe
    *
@@ -51,5 +51,13 @@ export class RecipeService implements Service {
 
   async find(): Promise<Result> {
     return buildRequest(() => http.get('/recipes'));
+  }
+
+  async addLike(recipeId: string): Promise<Result> {
+    return buildRequest(() => authHttp().post(`/recipes/${recipeId}/like`));
+  }
+
+  async removeLike(recipeId: string): Promise<Result> {
+    return buildRequest(() => authHttp().delete(`/recipes/${recipeId}/like`));
   }
 }

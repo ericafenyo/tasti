@@ -37,7 +37,7 @@ export default class Cookbook extends Vue {
 @import "@/scss/_resources.scss";
 
 .cookbook {
-  background: $white;
+  background: var(--white);
   &-thumbnail-wrapper {
     position: relative;
     height: 0;

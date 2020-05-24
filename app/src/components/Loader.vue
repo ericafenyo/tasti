@@ -77,6 +77,6 @@ export default class Loader extends Vue {
 
 svg path,
 svg rect {
-  fill: $white;
+  fill: var(--white);
 }
 </style>

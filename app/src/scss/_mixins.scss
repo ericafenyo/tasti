@@ -82,7 +82,7 @@
 
 @mixin body {
   font-size: 14px;
-  color: $color-accent;
+  color: var(--accent);
 }
 
 /** == BREAK POINTS == **/

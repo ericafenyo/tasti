@@ -32,6 +32,7 @@ export default class Home extends Vue {
 
   .main-content {
     width: 100%;
+    margin-left: 80px;
   }
 }
 </style>

@@ -2,10 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap');
 
-$roboto: 'Roboto',
-sans-serif;
-$poppins: 'Poppins',
-sans-serif;
 
 /** == alpha states == **/
 $alpha-active: 0.87;
@@ -13,8 +9,8 @@ $alpha-inactive: 0.54;
 $alpha-disabled: 0.38;
 
 /** == utility colors == **/
-$white: #ffffff;
-$black: #000000;
+
+
 $black-active: #202020;
 $black-inactive: #727272;
 $black-disabled: #9a9a9a;
@@ -51,8 +47,8 @@ $color-tertiary-text: #9ea0a5;
 $color-border: #e2e8f0;
 
 /** == theme colors == **/
-$color-surface: #F7FAFC;
-$color-accent: #6286ED;
+// $color-surface: #f7f7f7;
+$color-surface: #EFF3F6;
 
 /** == break points == **/
 $phone-width: 360px;

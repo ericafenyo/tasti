@@ -26,13 +26,13 @@ export default class SearchBar extends Vue {}
 
   &:focus-within {
     box-shadow: inset 0 0 0px 1px $color-border;
-    background-color: $white;
+    background-color: var(--white);
   }
 
   &-input {
     background-color: transparent;
     box-sizing: border-box;
-    font-family: $roboto;
+    font-family: var(--heading-font);
     font-size: 1rem;
     color: $color-primary-text;
     border: 0;

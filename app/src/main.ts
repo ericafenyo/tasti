@@ -7,10 +7,8 @@ Vue.use(Vuelidate as any);
 Vue.use(PortalVue);
 
 import router from '@/router';
-
-// Styles
-import '../src/scss/index.scss';
 import './scss/normalize.css';
+import './scss/index.scss';
 
 import App from './App.vue';
 

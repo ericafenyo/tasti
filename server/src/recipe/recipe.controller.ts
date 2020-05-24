@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Put, UseInterceptors, UseGuards, Request, UploadedFiles } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  UseInterceptors,
+  UseGuards,
+  Request,
+  UploadedFiles,
+  Param,
+  Delete
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { RecipeService } from './recipe.service';
@@ -8,7 +20,7 @@ import { CurrentUser, CurrentUserInfo } from '../auth/user.decorator';
 
 @Controller('recipes')
 export class RecipeController {
-  constructor(private recipeService: RecipeService) { }
+  constructor(private recipeService: RecipeService) {}
 
   @Post()
   @UseGuards(AuthGuard(AuthType.JWT))
@@ -41,5 +53,17 @@ export class RecipeController {
     } = request;
     const payload = { ...body, files };
     return await this.recipeService.update(id, payload);
+  }
+
+  @Post(':id/like')
+  @UseGuards(AuthGuard(AuthType.JWT))
+  async addLike(@Param('id') recipeId: string, @CurrentUser() user: CurrentUserInfo) {
+    return await this.recipeService.addLike(user.id, recipeId);
+  }
+
+  @Delete(':id/like')
+  @UseGuards(AuthGuard(AuthType.JWT))
+  async removeLike(@Param('id') recipeId: string, @CurrentUser() user: CurrentUserInfo) {
+    return await this.recipeService.removeLike(user.id, recipeId);
   }
 }
