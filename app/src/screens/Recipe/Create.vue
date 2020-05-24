@@ -59,11 +59,9 @@ import InfoComposite from "./InfoComposite.vue";
 import PhotosComposite from "./PhotosComposite.vue";
 import IngredientComposite from "./IngredientComposite.vue";
 import DirectionComposite from "./DirectionComposite.vue";
-import IconButton from "@/components/IconButton.vue";
 import { Actions } from "../../store/actions";
 import { Validations } from "vuelidate-property-decorators";
 import { required } from "vuelidate/lib/validators";
-import { log } from "util";
 
 type ItemKey = "ingredient" | "direction";
 
@@ -73,7 +71,6 @@ type ItemKey = "ingredient" | "direction";
     PhotosComposite,
     IngredientComposite,
     DirectionComposite,
-    IconButton,
     CreateRecipeActions
   }
 })

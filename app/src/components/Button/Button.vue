@@ -93,6 +93,7 @@ export default class Button extends Vue {
   font-weight: 500;
   font-size: 1rem;
   border-radius: 1.5px;
+  transition: all 0.2s;
 
   &.block {
     width: 100%;
