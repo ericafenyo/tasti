@@ -1,5 +1,5 @@
 # Tasti
-
+![build](https://github.com/ericafenyo/tasti/workflows/build/badge.svg)
 [![GitHub](https://img.shields.io/github/license/ericafenyo/tasti)](LICENSE)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ericafenyo/tasti?label=version)][version]
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fcd47d809a34c0fb86799fc8fab8af5)](https://www.codacy.com/manual/ericafenyo/tasti?utm_source=github.com&utm_medium=referral&utm_content=ericafenyo/tasti&utm_campaign=Badge_Grade)
