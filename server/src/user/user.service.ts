@@ -5,7 +5,6 @@ import {
   ForbiddenException,
   BadRequestException,
   InternalServerErrorException,
-  HttpException,
   NotImplementedException
 } from '@nestjs/common';
 import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
@@ -187,6 +186,13 @@ export class UserService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async findByIds(userId: string) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id=:userId', { userId })
+      .getOne();
   }
 
   async getFollowers(userId: string) {

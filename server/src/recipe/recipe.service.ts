@@ -4,7 +4,8 @@ import {
   HttpException,
   NotImplementedException,
   Logger,
-  BadRequestException
+  BadRequestException,
+  ForbiddenException
 } from '@nestjs/common';
 import { Recipe } from './recipe.entity';
 import { Repository, Connection } from 'typeorm';
@@ -16,7 +17,7 @@ import { Direction } from '../direction/direction.entity';
 import { UserService } from '../user/user.service';
 import { CurrentUserInfo } from '../auth/user.decorator';
 import { Photo } from '../photo/photo.entity';
-import { isArray } from 'class-validator';
+import { isArray, isNotEmptyObject } from 'class-validator';
 
 export interface CreatedResource {
   id: string;
@@ -25,14 +26,13 @@ export interface CreatedResource {
 
 @Injectable()
 export class RecipeService {
-
-  async findById(userId: string) {
+  async findById(recipeId: string) {
     try {
-      const recipe = this.recipeRepository.findOne(userId);
+      const recipe = this.recipeRepository.findOne(recipeId, { relations: ['likes'] });
       if (!recipe) {
         throw new NotFoundException();
       }
-      return;
+      return recipe;
     } catch (error) {
       Logger.log(error);
       throw error;
@@ -44,15 +44,15 @@ export class RecipeService {
     @InjectRepository(Ingredient) private ingredientRepository: Repository<Ingredient>,
     @InjectRepository(Photo) private photoRepository: Repository<Photo>,
     @InjectRepository(Direction) private directionRepository: Repository<Direction>,
-    @InjectConnection() private connection: Connection,
-  ) { }
+    @InjectConnection() private connection: Connection
+  ) {}
 
   /**
    * Creates a new Recipe resource.
    */
   async create(user: CurrentUserInfo, recipeDto: RecipeDto): Promise<any> {
     console.log(user);
-    return this.connection.transaction(async (manager) => {
+    return this.connection.transaction(async manager => {
       try {
         const { ingredients, directions, photos, ...rest } = recipeDto;
         const owner = await this.userService.getCurrentUser(user.id, user.email);
@@ -65,10 +65,12 @@ export class RecipeService {
         await manager.save(photosEntities);
 
         // Build recipe ingredients
-        const rawIngredients = isArray(ingredients) ? ingredients.map(ingredient => ({ name: ingredient, recipe })) : [];
+        const rawIngredients = isArray(ingredients)
+          ? ingredients.map(ingredient => ({ name: ingredient, recipe }))
+          : [];
         const ingredientEntities = this.ingredientRepository.create(rawIngredients);
         await manager.save(ingredientEntities);
-        
+
         // Build recipe directions
         const rawDirections = isArray(directions) ? directions.map(direction => ({ text: direction, recipe })) : [];
         const directionsEntities = this.directionRepository.create(rawDirections);
@@ -79,10 +81,7 @@ export class RecipeService {
         console.log('Error while creating recipe ', error);
         throw HttpException.createBody(error);
       }
-    })
-
-
-
+    });
 
     // const user = await this.userRepository.findOne({ id: userId });
     // if (!user) {
@@ -115,13 +114,13 @@ export class RecipeService {
   }
 
   /**
-   * 
-   * @param id 
-   * @param payload 
+   *
+   * @param id
+   * @param payload
    */
   async update(id: string, payload: any) {
     const { files, ...rest } = payload;
-    return this.connection.transaction(async (manager) => {
+    return this.connection.transaction(async manager => {
       try {
         const recipe = await this.recipeRepository.findOne({
           where: { id },
@@ -134,12 +133,14 @@ export class RecipeService {
 
         // Manage Ingredients
         const rawIngredients = payload.ingredients || [];
-        const ingredientList: IngredientDto[] = rawIngredients.map((ingredient) => ({
-          ...ingredient, recipe
+        const ingredientList: IngredientDto[] = rawIngredients.map(ingredient => ({
+          ...ingredient,
+          recipe
         }));
 
         const ingredients = this.ingredientRepository.create(ingredientList);
-        this.connection.manager.createQueryBuilder()
+        this.connection.manager
+          .createQueryBuilder()
           .insert()
           .into(Ingredient)
           .values(ingredients)
@@ -148,19 +149,21 @@ export class RecipeService {
 
         // Manage Directions
         const rawDirections = payload.directions || [];
-        const directionList: IngredientDto[] = rawDirections.map((direction) => ({
-          ...direction, recipe
+        const directionList: IngredientDto[] = rawDirections.map(direction => ({
+          ...direction,
+          recipe
         }));
 
         const directions = this.directionRepository.create(directionList);
-        this.connection.manager.createQueryBuilder()
+        this.connection.manager
+          .createQueryBuilder()
           .insert()
           .into(Direction)
           .values(directions)
           .orUpdate({ conflict_target: 'id', overwrite: ['text'] })
           .execute();
 
-        return { updated: "azerty" };
+        return { updated: 'azerty' };
       } catch (error) {
         console.log('Error while updating recipe ', error);
         throw new BadRequestException();
@@ -168,8 +171,29 @@ export class RecipeService {
     });
   }
 
+  async addLike(userId: string, recipeId: string) {
+    const user = await this.userService.findByIds(userId);
+    const recipe = await this.recipeRepository.findOne(recipeId, { relations: ['likes'] });
+    if (!recipe) {
+      throw new ForbiddenException('recipe not found');
+    }
+    recipe.likes = [...recipe.likes, user];
+    this.recipeRepository.save(recipe);
+    return recipe;
+  }
+
+  async removeLike(userId: string, recipeId: string) {
+    const user = await this.userService.findByIds(userId);
+    const recipe = await this.recipeRepository.findOne(recipeId, { relations: ['likes'] });
+    if (!recipe) {
+      throw new ForbiddenException('recipe not found');
+    }
+    recipe.likes = recipe.likes.filter(like => like.id != userId);
+    this.recipeRepository.save(recipe);
+    return recipe;
+  }
+
   async delete(id: string) {
     throw new NotImplementedException();
   }
 }
-

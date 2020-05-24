@@ -10,5 +10,7 @@ export const Actions = {
   GET_RECIPES: 'getRecipes',
   GET_FOLLOWING: 'getFollowing',
   CREATE_RECIPE: 'addRecipe',
-  GET_RECIPE: 'getRecipe'
+  GET_RECIPE: 'getRecipe',
+  LIKE_RECIPE: 'addLike',
+  DISLIKE_RECIPE: 'removeLike'
 };
