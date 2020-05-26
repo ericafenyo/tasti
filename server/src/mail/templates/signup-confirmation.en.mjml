@@ -1,0 +1,11 @@
+<mjml>
+  <mj-body background-color="#eff3f6">
+    <mj-section background-color="#718096">
+      <mj-column background-color="#FF0000" width="600px">
+        <mj-image src="https://res.cloudinary.com/dheck1ubc/image/upload/v1544156968/Email/Images/AnnouncementOffset/header-bottom.png" width="600px" alt="" padding="0" href="https://google.com" />
+      </mj-column>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+
+</mjml>
