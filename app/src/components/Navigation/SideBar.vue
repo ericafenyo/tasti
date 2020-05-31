@@ -9,7 +9,7 @@
           v-for="(menu, index) in menuItems"
           :key="index"
           :class="['nav__item',{'active': (active === index)}]"
-          @click="active = index"
+          @click="setActive({...menu, index})"
         >
           <a class="nav__link">
             <Icon :name="menu.icon" size="24" />
@@ -35,7 +35,8 @@ export default class SideBar extends Vue {
       icon: "chat"
     },
     {
-      icon: "person"
+      icon: "person",
+      route: "profile"
     },
     {
       icon: "settings"
@@ -44,6 +45,11 @@ export default class SideBar extends Vue {
       icon: "logout"
     }
   ];
+
+  setActive(props: any) {
+    this.$router.push({ name: props.route });
+    this.active = props.index;
+  }
 
   logout() {
     this.$store.dispatch(Actions.LOGOUT_USER);

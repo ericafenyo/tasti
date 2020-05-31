@@ -8,11 +8,11 @@ import { ProfileDto } from 'src/profile/profile.dto';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   @Get()
   @UseGuards(AuthGuard(AuthType.JWT))
-  async getProfile(@CurrentUser('id') userId: string) {
+  async profile(@CurrentUser('id') userId: string) {
     return await this.userService.findById(userId);
   }
 
@@ -46,8 +46,8 @@ export class UserController {
   }
 
   @Patch(':id/recipes')
-  updateRecipes(@Param('id') userId: string) { }
+  updateRecipes(@Param('id') userId: string) {}
 
   @Delete(':id/recipes')
-  deleteRecipes(@Param('id') userId: string) { }
+  deleteRecipes(@Param('id') userId: string) {}
 }

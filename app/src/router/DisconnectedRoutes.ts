@@ -5,6 +5,7 @@ import RequestPasswordReset from '@/screens/Auth/RequestPasswordReset.vue';
 import ResetPassword from '@/screens/Auth/ResetPassword.vue';
 import CreateRecipe from '@/screens/Recipe/Create.vue';
 import Explore from '@/screens/Explore.vue';
+import MyProfile from '@/screens/Profile/MyProfile.vue'
 
 export default [
   {
@@ -23,6 +24,13 @@ export default [
         component: CreateRecipe,
         meta: { requiresAuth: true },
       },
+      {
+        path: '/account/profile',
+        name: 'profile',
+        component: MyProfile,
+        meta: { requiresAuth: true },
+      },
+
     ],
   },
   {

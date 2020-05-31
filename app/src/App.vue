@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <v-app>
     <router-view />
     <portal-target name="notification-outlet"></portal-target>
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">

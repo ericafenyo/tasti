@@ -8,7 +8,8 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  RelationCount
 } from 'typeorm';
 import { Recipe } from '../recipe/recipe.entity';
 import { Profile } from '../profile/profile.entity';
@@ -50,6 +51,12 @@ export class User {
     cascade: true, onDelete: 'CASCADE'
   })
   recipes: Recipe[];
+
+  @RelationCount((user: User) => user.recipes)
+  recipeCount: number;
+
+  @RelationCount((user: User) => user.likedRecipes)
+  favoriteCount: number;
 
   @OneToOne(() => Profile, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'profile_id' })

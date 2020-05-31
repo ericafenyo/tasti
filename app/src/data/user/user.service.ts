@@ -37,7 +37,7 @@ export interface UserService {
 
   authenticate: (username: string, password: string) => Promise<Result>;
 
-  profile: () => AxiosPromise<any>;
+  profile: () => Promise<Result>;
 
   /**
    * 
@@ -55,8 +55,8 @@ export class UserServiceImpl implements UserService {
     return buildRequest(() => http.post('/auth/password/reset', request, config));
   }
 
-  profile() {
-    return authHttp().get('users');
+  profile(): Promise<Result> {
+    return buildRequest(() => authHttp().get('users'));
   }
 
   followers(userId: string) {
