@@ -18,7 +18,7 @@ import SideBar from "@/components/Navigation/SideBar.vue";
 @Component({ components: { Header, SideBar } })
 export default class Home extends Vue {
   mounted() {
-    this.$router.replace({ name: "explore" });
+    // this.$router.replace({ name: "explore" });
   }
 }
 </script>
