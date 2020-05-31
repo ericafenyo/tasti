@@ -3,24 +3,50 @@
     <template v-if="isLoading">
       <Loader class="h-full" />
     </template>
-    <div v-if="!isLoading" class="layout h-full">
-      <aside class="aside-content">
-        <ProfileStats :args="profile" class="m-4" />
-      </aside>
-      <main class="main-content">
-        <div class="m-4">
-          <Tabs :items="$t('profile-tabs')" @on-change="loadData" />
+    <template v-else>
+      <v-container>
+        <div class="flex">
+          <v-avatar class="border-4 mr-4" height="96" width="96" tile color="var(--grey-dark)">
+            <img v-if="profile.avatarPath" :src="avatarUrl" alt="avatar" />
+            <span v-else class="avatar-text">EA</span>
+          </v-avatar>
+          <div class="about-me">
+            <h3 class="user--name">{{ profile.name }}</h3>
+            <span v-if="profile.occupation" class="text-primary">Chef</span>
+            <div class="d-flex caption mt-4">
+              <div>
+                <span class="mr-1 font-semibold">{{ profile.recipeCount }}</span>
+                <span>{{$t('profile.recipes')}}</span>
+              </div>
+              <v-divider class="mx-4" vertical></v-divider>
+              <div>
+                <span class="mr-1 font-semibold">{{ profile.favoriteCount}}</span>
+                <span>{{$t('profile.favorites')}}</span>
+              </div>
+              <v-divider class="mx-4" vertical></v-divider>
+              <div>
+                <span class="mr-1 font-semibold">{{ profile.followersCount }}</span>
+                <span>{{$t('profile.followers')}}</span>
+              </div>
+              <v-divider class="mx-4" vertical></v-divider>
+              <div>
+                <span class="mr-1 font-semibold">{{ profile.followingCount }}</span>
+                <span>{{$t('profile.following')}}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div></div>
-      </main>
-    </div>
+        <div class="my-6">
+          <Tabs :items="$t('profile-tabs')" />
+          <div :style="{minHeight: '400px'}"></div>
+        </div>
+      </v-container>
+    </template>
   </section>
 </template>
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import ProfileStats from "../../components/ProfileStats/ProfileStats.vue";
-import Cookbook from "@/components/Cookbook/Cookbook.vue";
 import EditProfile from "@/components/EditProfile/EditProfile.vue";
 import Loader from "../../components/Loader.vue";
 
@@ -32,20 +58,27 @@ import { IconOption } from "../../components/Icons/Icon.vue";
 import { Actions } from "../../store/actions";
 import { Observable } from "rxjs";
 import { Result, Status } from "../../data/Result";
+import { HttpStatus } from "../../enums";
+import { buildImageUrl } from "../../utils";
 
 @Component({
   components: {
-    ProfileStats,
     Tabs,
-    Cookbook,
     ContextMenu,
     EditProfile,
     Loader
   }
 })
 export default class Profile extends Vue {
-  isLoading = false;
-  profile = {};
+  isLoading = true;
+  profile: any = {};
+
+  get avatarUrl() {
+    console.log(this.profile);
+      console.log(buildImageUrl(this.profile.avatarPath));
+      
+    return buildImageUrl(this.profile.avatarPath);
+  }
 
   showLoading(bool = true) {
     this.isLoading = bool;
@@ -59,14 +92,19 @@ export default class Profile extends Vue {
     this.showLoading(false);
   }
 
-  // async loadData({ key }) {
-  //   const response = await this.$store.dispatch(Actions.GET_FOLLOWERS);
-  //   console.log(response);
-  // }
-
   async mounted() {
-    const response = await this.$store.dispatch(Actions.GET_PROFILE);
-    this.profile = response.data;
+    this.loadProfile();
+  }
+
+  async loadProfile() {
+    const response: Result = await this.$store.dispatch(Actions.GET_PROFILE);
+    if (response.status === HttpStatus.OK) {
+      this.profile = response.data;
+      this.isLoading = false;
+    } else {
+      this.isLoading = false;
+      console.error(response);
+    }
   }
 
   addRecipe = false;
@@ -85,15 +123,18 @@ export default class Profile extends Vue {
 
   createNewRecipe() {}
 
-  // active(value) {
-  //   console.log(value);
-  // }
   onMenuItemClick() {}
 }
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/_resources.scss";
+
+.user--name {
+  font-size: 24px;
+  font-family: var(--heading-font);
+}
+
 .layout {
   max-width: 1328px;
   display: grid;
@@ -102,68 +143,16 @@ export default class Profile extends Vue {
 
 .profile {
   height: 100%;
-  .container {
-    padding: 0;
-  }
-  max-width: 1328px;
+  max-width: 960px;
   margin: 0 auto;
   .aside-content {
     width: 290px;
     border-right: 1px solid rgb(230, 236, 241);
   }
-
-  .main-content {
-    background-color: var(--white);
-    height: 100%;
-  }
-
-  .stats-wrapper {
-    //   display: inline-block;
-    background: var(--white);
-    // margin: 8px;
-    border-radius: 3px;
-  }
-
-  &-stats {
-    display: flex;
-    margin: 24px 16px;
-    border-bottom: 1px solid #000;
-  }
-}
-
-.cookbooks {
-  padding: 24px 0 0 0;
 }
 
 .tabs-wrapper {
   margin-top: 24px;
   border-bottom: 1px solid #e6e6e6;
-
-  .tabs {
-    position: relative;
-    display: flex;
-    line-height: 2;
-    &::after {
-      content: "";
-      position: absolute;
-    }
-    .tab {
-      flex: 1;
-      text-align: center;
-      color: rgba(var(--accent), 0.4);
-      &-active {
-        color: var(--accent);
-        @include lead;
-      }
-    }
-  }
-}
-
-.tab-indicator {
-  height: 3px;
-  width: calc(100% / 3);
-  background-color: $green;
-  border-radius: 1px;
-  transform: translate3d(0px, 0px, 0px);
 }
 </style>

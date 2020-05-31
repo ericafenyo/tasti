@@ -90,5 +90,11 @@
     "confirm-password": "Confirm password",
     "first-name": "First Name",
     "last-name": "Last Name"
+  },
+  "profile": {
+    "recipes": "Recipes",
+    "followers": "Followers",
+    "following": "Following",
+    "favorites": "Favorites"
   }
 }
