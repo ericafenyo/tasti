@@ -6,11 +6,12 @@ export const Actions = {
   REQUEST_PASSWORD_RESET: 'user/requestPasswordReset',
   LOGOUT_USER: 'user/logout',
   GET_PROFILE: 'user/getProfile',
+  GET_USER_RECIPES: 'user/findRecipes',
 
   GET_RECIPES: 'getRecipes',
   GET_FOLLOWING: 'getFollowing',
   CREATE_RECIPE: 'addRecipe',
   GET_RECIPE: 'getRecipe',
   LIKE_RECIPE: 'addLike',
-  DISLIKE_RECIPE: 'removeLike'
+  DISLIKE_RECIPE: 'removeLike',
 };

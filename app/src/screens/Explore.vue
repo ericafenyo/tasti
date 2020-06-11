@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import ExplorerActions from "@/components/Navigation/ExplorerActions.vue";
-import RecipeItem from "@/screens/Recipe/RecipeItem.vue";
+import RecipeItem from "@/components/Recipe/Item.vue";
 import { Actions } from "../store/actions";
 import { Result } from "../data/Result";
 import { HttpStatus } from "../enums";

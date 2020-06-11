@@ -47,8 +47,9 @@ import { HttpStatus } from "../../enums";
 })
 export default class RecipeItem extends Vue {
   active: boolean = false;
+
   @Prop({ type: String, default: "" })
-  readonly image!: string;
+  readonly id!: string;
 
   @Prop({ type: String, default: "" })
   readonly name!: string;
@@ -57,7 +58,7 @@ export default class RecipeItem extends Vue {
   readonly description!: string;
 
   @Prop({ type: String, default: "" })
-  readonly id!: string;
+  readonly image!: string;
 
   setLike() {
     if (!this.active) {

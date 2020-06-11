@@ -11,11 +11,12 @@ import { InjectRepository, InjectConnection } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository, Connection } from 'typeorm';
 import { UserDto } from './user.dto';
-import { Profile } from 'src/profile/profile.entity';
-import { ProfileDto } from 'src/profile/profile.dto';
+import { Profile } from '../profile/profile.entity';
+import { ProfileDto } from '../profile/profile.dto';
 import { isNotEmptyObject, isEmpty } from 'class-validator';
-import { MysqlError } from 'src/enums/mysql.error.enum';
-import { Credential } from 'src/auth/credential.entity';
+import { MysqlError } from '../enums/mysql.error.enum';
+import { Credential } from '../auth/credential.entity';
+import { Recipe } from '../recipe/recipe.entity';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 14;
@@ -26,6 +27,7 @@ export class UserService {
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
     @InjectRepository(Credential) private credentialRepository: Repository<Credential>,
+    @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectConnection() private connection: Connection
   ) {}
 
@@ -235,6 +237,11 @@ export class UserService {
 
   async find() {
     return this.userRepository.find();
+  }
+
+  async findRecipes(userId: string) {
+    return this.userRepository.createQueryBuilder('user')
+      .getMany();
   }
 
   /**

@@ -45,6 +45,10 @@ export default {
       return User.followers(state.userId);
     },
 
+    findRecipes() {
+      return User.recipes();
+    },
+
     requestPasswordReset(_: any, request: any) {
       return User.requestPasswordReset(request);
     },

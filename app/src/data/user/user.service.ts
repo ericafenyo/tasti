@@ -33,18 +33,18 @@ import { HttpStatus } from '@/enums';
 export interface UserService {
   resetPassword(request: any, email: string, token: string): Promise<Result>;
 
+  requestPasswordReset: (userEmail: string) => Promise<Result>;
+
   create: (user: any) => Promise<Result>;
 
   authenticate: (username: string, password: string) => Promise<Result>;
 
   profile: () => Promise<Result>;
 
-  /**
-   * 
-   */
+  recipes: () => Promise<Result>;
+
   followers: (userId: string) => AxiosPromise<any>;
 
-  requestPasswordReset: (userEmail: string) => Promise<Result>;
 }
 
 export class UserServiceImpl implements UserService {
@@ -57,6 +57,10 @@ export class UserServiceImpl implements UserService {
 
   profile(): Promise<Result> {
     return buildRequest(() => authHttp().get('users'));
+  }
+
+  recipes(): Promise<Result> {
+    return buildRequest(() => authHttp().get('users/recipes'));
   }
 
   followers(userId: string) {

@@ -38,7 +38,11 @@
         </div>
         <div class="my-6">
           <Tabs :items="$t('profile-tabs')" />
-          <div :style="{minHeight: '400px'}"></div>
+          <div :style="{minHeight: '400px'}">
+            <keep-alive>
+              <component :is="tabComponent" />
+            </keep-alive>
+          </div>
         </div>
       </v-container>
     </template>
@@ -48,35 +52,32 @@
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import EditProfile from "@/components/EditProfile/EditProfile.vue";
-import Loader from "../../components/Loader.vue";
+import RecipeList from "@/components/Recipe/List.vue";
 
 import ContextMenu, {
   ContextMenuItemOption
-} from "../../components/ContextMenu/ContextMenu.vue";
-import Tabs from "../../components/Tabs/Tabs.vue";
-import { IconOption } from "../../components/Icons/Icon.vue";
-import { Actions } from "../../store/actions";
-import { Observable } from "rxjs";
-import { Result, Status } from "../../data/Result";
-import { HttpStatus } from "../../enums";
-import { buildImageUrl } from "../../utils";
+} from "@/components/ContextMenu/ContextMenu.vue";
+import Tabs from "@/components/Tabs/Tabs.vue";
+import { IconOption } from "@/components/Icons/Icon.vue";
+import { Actions } from "@/store/actions";
+import { Result } from "@/data/Result";
+import { HttpStatus } from "@/enums";
+import { buildImageUrl } from "@/utils";
 
 @Component({
   components: {
     Tabs,
     ContextMenu,
     EditProfile,
-    Loader
+    RecipeList
   }
 })
 export default class Profile extends Vue {
   isLoading = true;
   profile: any = {};
+  tabComponent = "RecipeList";
 
   get avatarUrl() {
-    console.log(this.profile);
-      console.log(buildImageUrl(this.profile.avatarPath));
-      
     return buildImageUrl(this.profile.avatarPath);
   }
 
