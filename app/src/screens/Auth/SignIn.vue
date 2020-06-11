@@ -1,7 +1,7 @@
 <template>
   <section class="section-no-header background-surface">
     <div class="wrapper">
-      <div class="sign-in">
+      <div class="sign-in shadow">
         <Headline text="Login To Your Account" :level="2" class="mb-8" />
         <Alert
           :visible="options.visible"
@@ -11,37 +11,26 @@
           @on-dismiss="showAlert({ visible: false })"
         />
         <form @submit.prevent="onSubmit" novalidate="true">
-          <div class="form-item">
-            <Input
-              type="text"
-              name="email"
-              :placeholder="$t('email-placeholder')"
-              :label="$t('label.email')"
-              :className="[{'input-error': $v.email.$error}]"
-              :value="email"
-              v-model="email"
-            />
-          </div>
-          <div class="form-item">
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              :placeholder="$t('password-placeholder')"
-              :hasAction="true"
-              :actionText="$t('forgot-password')"
-              :actionRoute="'/auth/password/request-reset'"
-              :className="[{'input-error': $v.password.$error}]"
-              v-model="password"
-            />
-          </div>
-          <Button
-            size="large"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
-            :block="true"
-            :text="$t('login')"
+          <v-text-field
+            name="email"
+            v-model="email"
+            value="email"
+            id="email"
+            :label="$t('label.email')"
+            required
+            outlined
           />
+          <v-text-field
+            name="password"
+            v-model="password"
+            type="password"
+            value="password"
+            id="password"
+            :label="$t('label.password')"
+           
+            outlined
+          />
+          <v-btn color="primary" depressed x-large :loading="isLoading" block>{{$t('login')}}</v-btn>
           <div class="mt-3 text-center">
             <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
             <Link :text="$t('sign-up')" to="/auth/sign-up" />
