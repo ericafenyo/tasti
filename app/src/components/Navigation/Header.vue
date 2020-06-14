@@ -11,12 +11,30 @@
           </button>
           <div class="navbar__profile">
             <div class="flex items-center">
-              <Avatar size="x-small" :src="user.avatarUrl" />
+              <v-avatar size="32">
+                <v-img aspect-ratio="1/1" :src="user.avatarUrl" />
+              </v-avatar>
               <span class="navbar__profile-name">{{user.name}}</span>
             </div>
-            <div role="button" class="navbar__profile-more">
+            <!-- <v-btn icon class="ml-2">
               <Icon class="navbar__profile-more-icon" name="more-ver" />
-            </div>
+            </v-btn>-->
+            <v-menu nudge-bottom="42" nudge-left="110">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn class="ml-2" icon v-bind="attrs" v-on="on">
+                  <Icon name="more-ver" />
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in items"
+                  :key="index"
+                  @click="toDestination(item)"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </div>
         </div>
       </template>
@@ -63,6 +81,33 @@ export type NavbarTheme = "light" | "transparent";
   }
 })
 export default class Header extends Vue {
+  items = [
+    {
+      id: "action-explore",
+      title: "Explore"
+    },
+    {
+      id: "action-profile",
+      title: "Profile"
+    },
+    {
+      id: "action-chats",
+      title: "Chats"
+    },
+    {
+      id: "action-settings",
+      title: "Account Settings"
+    },
+    {
+      id: "action-logout",
+      title: "Log out"
+    }
+  ];
+
+  toDestination(item: any) {
+    console.log(item);
+  }
+
   @Prop({ type: String, default: "transparent" })
   theme!: NavbarTheme;
 
@@ -94,8 +139,8 @@ export default class Header extends Vue {
 
     &-notification,
     &-search {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       background-color: var(--white);
       border: none;
       display: inline-flex;
@@ -110,7 +155,7 @@ export default class Header extends Vue {
   }
 
   &__profile {
-    height: 40px;
+    height: 42px;
     background-color: var(--white);
     display: inline-flex;
     align-items: center;

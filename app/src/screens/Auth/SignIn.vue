@@ -10,13 +10,17 @@
           :message="options.message"
           @on-dismiss="showAlert({ visible: false })"
         />
-        <form @submit.prevent="onSubmit" novalidate="true">
+        <v-form ref="form" @submit.prevent="onSubmit" v-model="valid">
           <v-text-field
+            class="mb-2"
             name="email"
             v-model="email"
             value="email"
             id="email"
+            :validate-on-blur="false"
+            :rules="emailRule"
             :label="$t('label.email')"
+            autofocus
             required
             outlined
           />
@@ -26,16 +30,24 @@
             type="password"
             value="password"
             id="password"
+            :rules="passwordRule"
             :label="$t('label.password')"
-           
             outlined
           />
-          <v-btn color="primary" depressed x-large :loading="isLoading" block>{{$t('login')}}</v-btn>
+          <v-btn
+          class="mt-6"
+            type="submit"
+            color="primary"
+            depressed
+            x-large
+            :loading="isLoading"
+            block
+          >{{$t('login')}}</v-btn>
           <div class="mt-3 text-center">
             <span class="text-body mr-2">{{$t('no-account-create-one')}}</span>
             <Link :text="$t('sign-up')" to="/auth/sign-up" />
           </div>
-        </form>
+        </v-form>
       </div>
     </div>
   </section>
@@ -43,8 +55,8 @@
 
 <script lang="ts">
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
-import { Validate, Validations } from "vuelidate-property-decorators";
-import { required } from "vuelidate/lib/validators";
+import { required, password, email } from "@/utils/validators";
+
 import isEmpty from "lodash/isEmpty";
 
 import Input from "@/components/Input/Input.vue";
@@ -57,19 +69,22 @@ import {
   NotificationType
 } from "@/components/Notification";
 
-@Component
+@Component({
+  computed: {
+    emailRule: email,
+    passwordRule: password,
+    required
+  }
+})
 export default class SignIn extends Vue {
+  valid: boolean = true;
   isLoading: boolean = false;
   options: NotificationOptions = {};
 
+  rules = { required, password, email };
+
   email: string = "";
   password: string = "";
-
-  @Validations()
-  validations = {
-    email: { required },
-    password: { required }
-  };
 
   @Prop({ type: String, default: "" })
   readonly notificationKey!: string;
@@ -87,8 +102,8 @@ export default class SignIn extends Vue {
   }
 
   async onSubmit() {
-    const { $invalid } = this.$v;
-    if (!$invalid) {
+    this.$refs.form.validate();
+    if (this.valid) {
       // Start with loading a state
       this.isLoading = true;
       const response: Result = await this.$store.dispatch(
