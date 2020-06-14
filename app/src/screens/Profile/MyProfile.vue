@@ -38,7 +38,26 @@
         </div>
         <div class="my-6">
           <Tabs :items="$t('profile-tabs')" />
-          <div :style="{minHeight: '400px'}"></div>
+          <div :style="{minHeight: '400px'}">
+            <v-row class="pa-0" tag="ul">
+              <v-col
+                v-for="recipe in recipes"
+                :key="recipe.id"
+                :cols="12"
+                :sm="6"
+                :md="4"
+                tag="li"
+                class="col-5"
+              >
+                <RecipeItem
+                  :id="recipe.id"
+                  :image="recipe.imagePath"
+                  :name="recipe.name"
+                  :description="recipe.description"
+                />
+              </v-col>
+            </v-row>
+          </div>
         </div>
       </v-container>
     </template>
@@ -49,6 +68,7 @@
 import { Vue, Prop, Emit, Component } from "vue-property-decorator";
 import EditProfile from "@/components/EditProfile/EditProfile.vue";
 import Loader from "../../components/Loader.vue";
+import RecipeItem from "@/screens/Recipe/RecipeItem.vue";
 
 import ContextMenu, {
   ContextMenuItemOption
@@ -66,17 +86,16 @@ import { buildImageUrl } from "../../utils";
     Tabs,
     ContextMenu,
     EditProfile,
-    Loader
+    Loader,
+    RecipeItem
   }
 })
 export default class Profile extends Vue {
   isLoading = true;
   profile: any = {};
+  recipes = [];
 
   get avatarUrl() {
-    console.log(this.profile);
-      console.log(buildImageUrl(this.profile.avatarPath));
-      
     return buildImageUrl(this.profile.avatarPath);
   }
 
@@ -94,6 +113,7 @@ export default class Profile extends Vue {
 
   async mounted() {
     this.loadProfile();
+    this.loadRecipes();
   }
 
   async loadProfile() {
@@ -105,6 +125,12 @@ export default class Profile extends Vue {
       this.isLoading = false;
       console.error(response);
     }
+  }
+
+  async loadRecipes() {
+    const recipes = await this.$store.dispatch(Actions.GET_USER_RECIPES);
+    console.log(recipes.data);
+    this.recipes = recipes.data;
   }
 
   addRecipe = false;

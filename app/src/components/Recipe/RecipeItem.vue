@@ -62,7 +62,6 @@ export default class RecipeItem extends Vue {
       }
       svg {
         width: 20px;
-        
       }
 
       span {

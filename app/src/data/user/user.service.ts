@@ -39,24 +39,29 @@ export interface UserService {
 
   profile: () => Promise<Result>;
 
-  /**
-   * 
-   */
   followers: (userId: string) => AxiosPromise<any>;
 
   requestPasswordReset: (userEmail: string) => Promise<Result>;
+
+  recipes: () => Promise<Result>;
 }
 
 export class UserServiceImpl implements UserService {
   resetPassword(request: any, email: string, token: string) {
     const config: AxiosRequestConfig = {
-      params: { token, email }
-    }
-    return buildRequest(() => http.post('/auth/password/reset', request, config));
+      params: { token, email },
+    };
+    return buildRequest(() =>
+      http.post('/auth/password/reset', request, config)
+    );
   }
 
   profile(): Promise<Result> {
     return buildRequest(() => authHttp().get('users'));
+  }
+
+  recipes(): Promise<Result> {
+    return buildRequest(() => authHttp().get('users/recipes'));
   }
 
   followers(userId: string) {
@@ -68,18 +73,22 @@ export class UserServiceImpl implements UserService {
 
   /**
    * Creates a new user account
-   * @param user a javaScript object containing user related resources 
+   * @param user a javaScript object containing user related resources
    */
   create(user: any): Promise<Result> {
     return buildRequest(() => http.post('/users/create', user));
   }
 
   authenticate(username: string, password: string): Promise<Result> {
-    const result = buildRequest(() => http.post('/auth/token', { username, password }));
+    const result = buildRequest(() =>
+      http.post('/auth/token', { username, password })
+    );
     return result;
   }
 
   requestPasswordReset(email: string): Promise<Result> {
-    return buildRequest(() => http.post('/auth/password/request-reset', { email }));
+    return buildRequest(() =>
+      http.post('/auth/password/request-reset', { email })
+    );
   }
 }

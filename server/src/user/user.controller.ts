@@ -45,6 +45,12 @@ export class UserController {
     return await this.userService.create(user);
   }
 
+  @Get('recipes')
+  @UseGuards(AuthGuard(AuthType.JWT))
+  findRecipes(@CurrentUser('id') userId: string) {
+    return this.userService.findRecipes(userId);
+  }
+
   @Patch(':id/recipes')
   updateRecipes(@Param('id') userId: string) {}
 

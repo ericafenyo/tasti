@@ -52,6 +52,10 @@ export default {
     resetPassword(_: any, { request, token, email }: any) {
       return User.resetPassword(request, email, token);
     },
+
+    recipes() {
+      return User.recipes();
+    },
   },
 
   getters: {
@@ -79,7 +83,7 @@ export default {
           };
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return {};
       }
     },

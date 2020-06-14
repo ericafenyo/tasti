@@ -188,6 +188,16 @@ export class UserService {
     }
   }
 
+  async findRecipes(userId: string) {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .select(['user.id'])
+      .where('user.id = :userId', { userId })
+      .leftJoinAndSelect('user.recipes', 'recipes')
+      .getOne();
+    return user.recipes;
+  }
+
   async findByIds(userId: string) {
     return await this.userRepository
       .createQueryBuilder('user')
